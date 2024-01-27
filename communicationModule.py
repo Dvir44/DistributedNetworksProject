@@ -14,7 +14,7 @@ class Communication:
     
     def receive_message(self, source: Computer, parameters: dict):
         if (not source.queue.empty):
-            pass
+            pass 
 
 
 def main():
