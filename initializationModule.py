@@ -9,8 +9,8 @@ class Initialization:
     '''
     #Defualt constructor
     def __init__(self):
-        self.topologyType = ""
         self.numberOfComputers = 0
+        self.topologyType = ""
         self.IdType = ""
         self.connectedComputers = []
         self.delayType = ""

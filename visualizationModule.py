@@ -2,16 +2,18 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
+from initializationModule import Initialization
+
 
 class DistributedSimulatorApp(QMainWindow):
     def __init__(self):
         super().__init__()
         # Dictionary to store checkbox values with default values
         self.checkbox_values = {
-            "Choose Number of Computers": "0",
-            "Choose Topology": "Random",
-            "Choose ID Type": "Uniform",
-            "Enable Delay": "0",
+            "Number of Computers": "0",
+            "Topology": "Random",
+            "ID Type": "Sequential",
+            "Delay": "0",
             "Algorithm": ""  # Algorithm text box value
         }
 
@@ -46,17 +48,25 @@ class DistributedSimulatorApp(QMainWindow):
         submit_algorithm_button.setGeometry(50, 370, 150, 30)
         submit_algorithm_button.clicked.connect(lambda: self.on_submit_algorithm(algorithm_textbox))
 
+
+        # Adding a final confirmation button
+        confirm_button = QPushButton("Confirm", self)
+        confirm_button.setGeometry(550,700,150,30)
+        confirm_button.setStyleSheet("background-color: rgb(102,255,102)")
+        confirm_button.clicked.connect(lambda: self.on_submit_all(algorithm_textbox))
+
+
         # Adding checkboxes
         checkbox_layout = QVBoxLayout()
 
-        self.add_line_edit_button(checkbox_layout, "Choose Number of Computers",
-                                  self.checkbox_values["Choose Number of Computers"], "Number of Computers:")
+        self.add_line_edit_button(checkbox_layout, "Change Number of Computers",
+                                  self.checkbox_values["Number of Computers"], "Default = 0", "Chosen Number of Computers")
         self.add_line_edit_button(checkbox_layout, "Choose Topology",
-                                  self.checkbox_values["Choose Topology"], "Topology:")
+                                  self.checkbox_values["Topology"], "Type R for random, C for Clique, L for line", "Chosen Topology")
         self.add_line_edit_button(checkbox_layout, "Choose ID Type",
-                                  self.checkbox_values["Choose ID Type"], "ID Type:")
+                                  self.checkbox_values["ID Type"], "Type R for random, S for sequential", "Chosen ID Type")
         self.add_line_edit_button(checkbox_layout, "Enable Delay",
-                                  self.checkbox_values["Enable Delay"], "Delay:")
+                                  self.checkbox_values["Delay"], "Delay", "Chosen Delay")
 
         checkbox_layout.setSpacing(20)  # Set spacing between checkboxes
 
@@ -64,10 +74,10 @@ class DistributedSimulatorApp(QMainWindow):
         checkbox_widget.setLayout(checkbox_layout)
         checkbox_widget.setGeometry(800, 100, 500, 500)  # Increase the width to accommodate larger checkboxes
 
-    def add_line_edit_button(self, layout, label_text, default_value, placeholder_text):
+    def add_line_edit_button(self, layout, label_text, default_value, placeholder_text, checkbox_label):
         checkbox = QCheckBox(label_text, self)
         checkbox_font = QFont()
-        checkbox_font.setPointSize(16)  # Set larger font size for checkboxes
+        checkbox_font.setPointSize(12)  # Set larger font size for checkboxes
         checkbox.setFont(checkbox_font)
 
         line_edit = QLineEdit(self)
@@ -91,8 +101,8 @@ class DistributedSimulatorApp(QMainWindow):
 
         def on_submit():
             value = line_edit.text() if line_edit.isVisible() else default_value
-            print(f"{label_text}: {value}")
-            self.checkbox_values[label_text] = value  # Save the value to the dictionary
+            print(f"{checkbox_label}: {value}")
+            self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
 
         submit_button.clicked.connect(on_submit)
 
@@ -104,6 +114,12 @@ class DistributedSimulatorApp(QMainWindow):
         algorithm = algorithm_textbox.toPlainText()
         print(f"Submitted Algorithm: {algorithm}")
         self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
+        
+    def on_submit_all(self, algorithm_textbox):
+        algorithm = algorithm_textbox.toPlainText()
+        self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
+        for key, value in self.checkbox_values.items():
+            print(f"{key}: {value}")
 
 
 def main():
