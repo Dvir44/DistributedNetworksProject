@@ -49,7 +49,6 @@ class DistributedSimulatorApp(QMainWindow):
         submit_algorithm_button.setGeometry(50, 370, 150, 30)
         submit_algorithm_button.clicked.connect(lambda: self.on_submit_algorithm(algorithm_textbox))
 
-
         # Adding a final confirmation button
         confirm_button = QPushButton("Confirm", self)
         confirm_button.setGeometry(550,700,150,30)
@@ -119,11 +118,7 @@ class DistributedSimulatorApp(QMainWindow):
     def on_submit_all(self, algorithm_textbox):
         algorithm = algorithm_textbox.toPlainText()
         self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
-        for key, value in self.checkbox_values.items():
-            print(f"{key}: {value}")
-
         json_data = json.dumps(self.checkbox_values, indent=4)
-    
         with open("network_variables.json", "w") as json_file:
             json_file.write(json_data)
 
