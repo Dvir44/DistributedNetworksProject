@@ -4,30 +4,32 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import threading
+from initializationModule import Initialization
 from visualizationModule import DistributedSimulatorApp
 
 class Simulator:
     def __init__(self):
         pass
 
-def run_visualization():
+def visualize():
+    t1= threading.Thread(target=run_visualization_window)
+    t1.start()
+    t1.join()
+    with open('network_variables.json', 'r') as f: # fill json file
+        data = json.load(f)
+        print("Info received from visualization:")
+        for key, value in data.items():
+            print(f"{key}: {value}")
+
+def run_visualization_window():
     app = QApplication(sys.argv)
     main_window = DistributedSimulatorApp()
     main_window.show()
     sys.exit(app.exec_())
     
-    
-
-
 def main():
-    t1= threading.Thread(target=run_visualization)
-    t1.start()
-    t1.join()
-    print("reading from json file:")
-    with open('network_variables.json', 'r') as f:
-        data = json.load(f)
-        for key, value in data.items():
-            print(f"{key}: {value}")
+    visualize()
+    network= Initialization()
 
 if __name__=="__main__":
     main()

@@ -1,3 +1,4 @@
+import json
 import random
 import numpy
 import computer
@@ -9,20 +10,13 @@ class Initialization:
     '''
     #Defualt constructor
     def __init__(self):
-        self.numberOfComputers = 0
-        self.topologyType = ""
-        self.IdType = ""
+        with open('network_variables.json', 'r') as f:
+            data = json.load(f)
+        self.numberOfComputers = data.get('Number of Computers',0)
+        self.topologyType = data.get('Topology',0)
+        self.IdType = data.get('ID Type',0)
         self.connectedComputers = []
-        self.delayType = ""
-    
-    #Parameterized constructor
-    def __init__(self, numberOfComputers, topologyType, idType, delayType):
-        self.topologyType = topologyType
-        self.numberOfComputers = numberOfComputers
-        self.idType = idType
-        self.delayType = delayType
-        self.connectedComputersCreation()
-        self.createDelays()
+        self.delayType = data.get('Delay',0)
     
     #Getters
     def getNumberOfComputers(self):
