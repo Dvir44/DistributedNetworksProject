@@ -1,3 +1,4 @@
+import json
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -60,13 +61,13 @@ class DistributedSimulatorApp(QMainWindow):
         checkbox_layout = QVBoxLayout()
 
         self.add_line_edit_button(checkbox_layout, "Change Number of Computers",
-                                  self.checkbox_values["Number of Computers"], "Default = 0", "Chosen Number of Computers")
+                                  self.checkbox_values["Number of Computers"], "Default = 0", "Number of Computers")
         self.add_line_edit_button(checkbox_layout, "Choose Topology",
-                                  self.checkbox_values["Topology"], "Type R for random, C for Clique, L for line", "Chosen Topology")
+                                  self.checkbox_values["Topology"], "Type R for random, C for Clique, L for line", "Topology")
         self.add_line_edit_button(checkbox_layout, "Choose ID Type",
-                                  self.checkbox_values["ID Type"], "Type R for random, S for sequential", "Chosen ID Type")
+                                  self.checkbox_values["ID Type"], "Type R for random, S for sequential", "ID Type")
         self.add_line_edit_button(checkbox_layout, "Enable Delay",
-                                  self.checkbox_values["Delay"], "Delay", "Chosen Delay")
+                                  self.checkbox_values["Delay"], "Delay", "Delay")
 
         checkbox_layout.setSpacing(20)  # Set spacing between checkboxes
 
@@ -101,7 +102,7 @@ class DistributedSimulatorApp(QMainWindow):
 
         def on_submit():
             value = line_edit.text() if line_edit.isVisible() else default_value
-            print(f"{checkbox_label}: {value}")
+            print("Chosen " f"{checkbox_label}: {value}")
             self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
 
         submit_button.clicked.connect(on_submit)
@@ -120,6 +121,14 @@ class DistributedSimulatorApp(QMainWindow):
         self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
         for key, value in self.checkbox_values.items():
             print(f"{key}: {value}")
+
+        json_data = json.dumps(self.checkbox_values, indent=4)
+    
+        with open("network_variables.json", "w") as json_file:
+            json_file.write(json_data)
+
+        self.close()
+        
 
 
 def main():
