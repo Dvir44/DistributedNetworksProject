@@ -17,14 +17,9 @@ class Computer:
         self.sendMessages = queue.Queue()
         self.receiveMessages = queue.Queue()
 
-    #Parameterized constructor
-    def __init__(self, id, connectedEdges, delays):
-        self.id = id
-        self.connectedEdges = connectedEdges
-        self.delays = delays
-        self.sendMessages = queue.Queue()
-        self.recieveMessages = queue.Queue()
-
+    def __str__(self):
+        return f"id {self.id}\n, connected edges = \n {self.connectedEdges}\n, delays \n {self.delays}"
+    
     #Getters
     def getId(self):
         return self.id

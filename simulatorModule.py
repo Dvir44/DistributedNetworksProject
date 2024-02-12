@@ -4,8 +4,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import threading
-from initializationModule import Initialization
-from visualizationModule import DistributedSimulatorApp
+import initializationModule
+import visualizationModule
 
 class Simulator:
     def __init__(self):
@@ -23,13 +23,13 @@ def visualize():
 
 def run_visualization_window():
     app = QApplication(sys.argv)
-    main_window = DistributedSimulatorApp()
+    main_window =visualizationModule.DistributedSimulatorApp()
     main_window.show()
     sys.exit(app.exec_())
     
 def main():
     visualize()
-    network= Initialization()
+    network= initializationModule.Initialization()
 
 if __name__=="__main__":
     main()

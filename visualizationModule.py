@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
-from initializationModule import Initialization
+import initializationModule
 
 
 class DistributedSimulatorApp(QMainWindow):

@@ -12,12 +12,21 @@ class Initialization:
     def __init__(self):
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
-        self.numberOfComputers = data.get('Number of Computers',0)
-        self.topologyType = data.get('Topology',0)
-        self.IdType = data.get('ID Type',0)
+        self.numberOfComputers = int(data.get('Number of Computers',0))
+        self.topologyType = data.get('Topology','Random')
+        self.IdType = data.get('ID Type','Sequential')
         self.connectedComputers = []
-        self.delayType = data.get('Delay',0)
+        self.delayType = data.get('Delay','no delay')
+        self.connectedComputersCreation()
     
+    def toString(self):
+        print(self.numberOfComputers)
+        print(self.topologyType)
+        print(self.IdType)
+        for computer in self.connectedComputers:
+            print(computer)
+        print(self.delayType)
+
     #Getters
     def getNumberOfComputers(self):
         return self.numberOfComputers
@@ -49,6 +58,8 @@ class Initialization:
             self.createRandomTopology()
         elif (self.topologyType == "Line"):
             self.createLineTopology()
+        
+        self.createDelays()
         return
     
     # Create computer IDs based on the IdType
@@ -98,7 +109,8 @@ class Initialization:
 
 
 def main():
-    pass
+    init = Initialization()
+    init.toString()
 
 if __name__=="__main__":
     main()
