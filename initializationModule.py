@@ -1,3 +1,4 @@
+import importlib
 import json
 import random
 import numpy
@@ -18,7 +19,10 @@ class Initialization:
         self.connectedComputers = []
         self.delayType = data.get('Delay','no delay')
         self.connectedComputersCreation()
-    
+        self.createComputersIds()
+        algorithms = data.get('Algorithm', 'someAlgorithm')
+        self.loadAlgorithms(algorithms)
+
     def toString(self):
         print(self.numberOfComputers)
         print(self.topologyType)
@@ -66,8 +70,8 @@ class Initialization:
     def createComputersIds(self):
         if self.IdType == "Random":
             self.createRandomIds()
-        elif self.IdType == "Uniform":
-            self.createUniformIds()
+        elif self.IdType == "Sequential":
+            self.createSequentialIds()
 
     # Create random computer IDs (ensuring uniqueness)
     def createRandomIds(self):
@@ -80,7 +84,7 @@ class Initialization:
             used_ids.add(comp_id)
 
     # Create uniform computer IDs
-    def createUniformIds(self):
+    def createSequentialIds(self):
         for i, comp in enumerate(self.connectedComputers):
             comp.id = i
 
@@ -88,7 +92,6 @@ class Initialization:
         for i, comp in enumerate(self.connectedComputers):
             # Determine a random number of edges (between 1 and numberOfComputers - 1)
             num_edges = random.randint(1, self.numberOfComputers - 1)
-            
             # Choose num_edges unique vertices (excluding i)
             connected_to_vertices = random.sample([j for j in range(self.numberOfComputers) if j != i], num_edges)
 
@@ -99,14 +102,40 @@ class Initialization:
             for connected_to in connected_to_vertices:
                 self.connectedComputers[connected_to].connectedEdges.append(i)
 
+        # removing duplicates
+        for comp in self.connectedComputers:
+            comp.connectedEdges=list(set(comp.connectedEdges))
+
     def createLineTopology(self):
         for i in range(self.numberOfComputers - 1):
             # Connect each computer to the next one in line
             self.connectedComputers[i].connectedEdges.append(i + 1)
             self.connectedComputers[i + 1].connectedEdges.append(i)  # Ensure bi-directional connection
 
+    def loadAlgorithms(self, algorithm_names):
+        algorithm_module = importlib.import_module(algorithm_names)
+        algorithm_function = getattr(algorithm_module, 'runAlgorithm', None)
+        for comp in self.connectedComputers:
+            if callable(algorithm_function):
+                comp.algorithm=algorithm_function
+            else:
+                print(f"Error: Function 'runAlgorithm' not found in {algorithm_names}.py")
+                return None
 
 
+    def loadAlgorithm(self, algorithm_module_name):
+        try:
+            algorithm_module = importlib.import_module(algorithm_module_name)
+            # Assuming the algorithm module has a function named 'run_algorithm'
+            algorithm_function = getattr(algorithm_module, 'runAlgorithm', None)
+            if callable(algorithm_function):
+                algorithm_function()
+            else:
+                print(f"Error: Function 'runAlgorithm' not found in {algorithm_module_name}.py")
+                return None
+        except ImportError:
+            print(f"Error: Unable to import {algorithm_module_name}.py")
+            return None
 
 def main():
     init = Initialization()

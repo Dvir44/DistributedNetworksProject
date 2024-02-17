@@ -1,7 +1,7 @@
 {
-    "Number of Computers": "5",
+    "Number of Computers": "3",
     "Topology": "Random",
     "ID Type": "Sequential",
-    "Delay": "no delay",
-    "Algorithm": "Please enter your algorithm here"
+    "Delay": "0",
+    "Algorithm": "someAlgorithm"
 }

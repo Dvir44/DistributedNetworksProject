@@ -16,10 +16,7 @@ def visualize():
     t1.start()
     t1.join()
     with open('network_variables.json', 'r') as f: # fill json file
-        data = json.load(f)
-        print("Info received from visualization:")
-        for key, value in data.items():
-            print(f"{key}: {value}")
+        json.load(f)
 
 def run_visualization_window():
     app = QApplication(sys.argv)
@@ -30,6 +27,8 @@ def run_visualization_window():
 def main():
     visualize()
     network= initializationModule.Initialization()
-
+    network.toString()
+    for comp in network.connectedComputers:
+        comp.run()
 if __name__=="__main__":
     main()

@@ -41,7 +41,7 @@ class DistributedSimulatorApp(QMainWindow):
         # Adding a text box
         algorithm_textbox = QTextEdit(self)
         algorithm_textbox.setGeometry(50, 150, 400, 200)
-        algorithm_textbox.setPlainText("Please enter your algorithm here")  # Set initial text if needed
+        algorithm_textbox.setPlainText("someAlgorithm")  # Set initial text if needed
         # How to change the font to be bigger in the text box
 
         # Adding a button to submit the algorithm

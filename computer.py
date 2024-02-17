@@ -16,9 +16,10 @@ class Computer:
         self.delays = []
         self.sendMessages = queue.Queue()
         self.receiveMessages = queue.Queue()
+        self.algorithm=None
 
     def __str__(self):
-        return f"id {self.id}\n, connected edges = \n {self.connectedEdges}\n, delays \n {self.delays}"
+        return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
     
     #Getters
     def getId(self):
@@ -28,6 +29,8 @@ class Computer:
     def getDelays(self):
         return self.delays
 
+    def run(self):
+        self.algorithm()
 def main():
     pass
 
