@@ -3,8 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
-import initializationModule
-
+import os
 
 class DistributedSimulatorApp(QMainWindow):
     def __init__(self):
@@ -15,7 +14,6 @@ class DistributedSimulatorApp(QMainWindow):
             "Topology": "Random",
             "ID Type": "Sequential",
             "Delay": "0",
-            "Algorithm": ""  # Algorithm text box value
         }
 
         self.setGeometry(0, 0, 1500, 900)
@@ -33,28 +31,21 @@ class DistributedSimulatorApp(QMainWindow):
 
         # Adding another label under the title
         info_label = QLabel(self)
-        info_label.setText("Please enter your algorithm in the next text box:")
+        info_label.setText("Please upload your Python algorithm file:")
         info_label.move(50, 100)
         info_label.setFont(QFont("Times font", 16))
         info_label.resize(650, 50)
 
-        # Adding a text box
-        algorithm_textbox = QTextEdit(self)
-        algorithm_textbox.setGeometry(50, 150, 400, 200)
-        algorithm_textbox.setPlainText("someAlgorithm")  # Set initial text if needed
-        # How to change the font to be bigger in the text box
-
-        # Adding a button to submit the algorithm
-        submit_algorithm_button = QPushButton("Submit Algorithm", self)
-        submit_algorithm_button.setGeometry(50, 370, 150, 30)
-        submit_algorithm_button.clicked.connect(lambda: self.on_submit_algorithm(algorithm_textbox))
+        # Adding a button to upload a file for the algorithm
+        upload_file_button = QPushButton("Upload Python File", self)
+        upload_file_button.setGeometry(50, 150, 200, 30)
+        upload_file_button.clicked.connect(lambda: self.on_upload_algorithm())
 
         # Adding a final confirmation button
         confirm_button = QPushButton("Confirm", self)
-        confirm_button.setGeometry(550,700,150,30)
+        confirm_button.setGeometry(550, 700, 150, 30)
         confirm_button.setStyleSheet("background-color: rgb(102,255,102)")
-        confirm_button.clicked.connect(lambda: self.on_submit_all(algorithm_textbox))
-
+        confirm_button.clicked.connect(lambda: self.on_submit_all())
 
         # Adding checkboxes
         checkbox_layout = QVBoxLayout()
@@ -101,7 +92,7 @@ class DistributedSimulatorApp(QMainWindow):
 
         def on_submit():
             value = line_edit.text() if line_edit.isVisible() else default_value
-            print("Chosen " f"{checkbox_label}: {value}")
+            print(f"Chosen {checkbox_label}: {value}")
             self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
 
         submit_button.clicked.connect(on_submit)
@@ -110,28 +101,31 @@ class DistributedSimulatorApp(QMainWindow):
         line_edit.setVisible(state == 2)  # 2 means checked
         submit_button.setVisible(state == 2)  # Show the line edit and submit button when checked
 
-    def on_submit_algorithm(self, algorithm_textbox):
-        algorithm = algorithm_textbox.toPlainText()
-        print(f"Submitted Algorithm: {algorithm}")
-        self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
-        
-    def on_submit_all(self, algorithm_textbox):
-        algorithm = algorithm_textbox.toPlainText()
-        self.checkbox_values["Algorithm"] = algorithm  # Save the algorithm value
+    def on_upload_algorithm(self):
+        fname, _ = QFileDialog.getOpenFileName(self, 'Upload Python File', '/home', "Python Files (*.py)")
+
+        if fname:
+            _, file_extension = os.path.splitext(fname)
+            if file_extension.lower() == '.py':
+                print(f'Selected Python file: {fname}')
+                with open(fname, 'r') as file:
+                    algorithm_content = file.read()
+                    self.checkbox_values["Algorithm"] = algorithm_content
+            else:
+                QMessageBox.warning(self, 'Error', 'Please select a Python file (.py)', QMessageBox.Ok)
+
+    def on_submit_all(self):
         json_data = json.dumps(self.checkbox_values, indent=4)
         with open("network_variables.json", "w") as json_file:
             json_file.write(json_data)
 
         self.close()
-        
-
 
 def main():
     app = QApplication(sys.argv)
     main_window = DistributedSimulatorApp()
     main_window.show()
     sys.exit(app.exec_())
-    
 
 if __name__ == "__main__":
     main()

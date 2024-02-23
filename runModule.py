@@ -1,6 +1,6 @@
 import numpy
 
-class Translator:
+class Run:
     def __init__(self):
         pass
 
