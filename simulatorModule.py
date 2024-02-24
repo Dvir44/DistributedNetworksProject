@@ -6,6 +6,7 @@ import sys
 import threading
 import initializationModule
 import visualizationModule
+import runModule
 
 class Simulator:
     def __init__(self):
@@ -26,9 +27,7 @@ def run_visualization_window():
     
 def main():
     visualize()
-    network= initializationModule.Initialization()
-    network.toString()
-    for comp in network.connectedComputers:
-        comp.run(network)
+    runModule.initiateRun()
+    
 if __name__=="__main__":
     main()

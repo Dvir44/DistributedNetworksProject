@@ -14,8 +14,7 @@ class Computer:
         self.id = None
         self.connectedEdges = []
         self.delays = []
-        self.sendMessages = queue.Queue()
-        self.receiveMessages = queue.Queue()
+        self.messageQueue = queue.Queue()
         self.algorithm=None
         self.state = 0
         self.root = 0

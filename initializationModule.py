@@ -14,7 +14,7 @@ class Initialization:
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
         self.numberOfComputers = int(data.get('Number of Computers',0))
-        self.topologyType = data.get('Topology','Random')
+        self.topologyType = data.get('Topology','Line')
         self.IdType = data.get('ID Type','Sequential')
         self.connectedComputers = []
         self.delayType = data.get('Delay','no delay')
