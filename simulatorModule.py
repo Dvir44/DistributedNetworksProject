@@ -29,6 +29,6 @@ def main():
     network= initializationModule.Initialization()
     network.toString()
     for comp in network.connectedComputers:
-        comp.run()
+        comp.run(network)
 if __name__=="__main__":
     main()

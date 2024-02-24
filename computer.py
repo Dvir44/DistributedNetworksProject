@@ -17,6 +17,8 @@ class Computer:
         self.sendMessages = queue.Queue()
         self.receiveMessages = queue.Queue()
         self.algorithm=None
+        self.state = 0
+        self.root = 0
 
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
@@ -28,9 +30,16 @@ class Computer:
         return self.connectedEdges
     def getDelays(self):
         return self.delays
-
-    def run(self):
-        self.algorithm()
+    def getState(self):
+        return self.state
+    def getRoot(self):
+        return self.root
+    
+    def setState(self, num: int):
+        self.state=num
+    
+    def run(self, network):
+        self.algorithm(self, network)
 def main():
     pass
 
