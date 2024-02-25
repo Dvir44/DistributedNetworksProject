@@ -1,6 +1,8 @@
 import importlib
 import json
+import os
 import random
+import sys
 import numpy
 import computer
 
@@ -20,7 +22,7 @@ class Initialization:
         self.delayType = data.get('Delay','no delay')
         self.connectedComputersCreation()
         self.createComputersIds()
-        algorithms = data.get('Algorithm', 'someAlgorithm')
+        algorithms = data.get('Algorithm', 'no_alg_provided')
         self.loadAlgorithms(algorithms)
 
     def toString(self):
@@ -112,29 +114,27 @@ class Initialization:
             self.connectedComputers[i].connectedEdges.append(i + 1)
             self.connectedComputers[i + 1].connectedEdges.append(i)  # Ensure bi-directional connection
 
-    def loadAlgorithms(self, algorithm_names):
-        algorithm_module = importlib.import_module(algorithm_names)
-        algorithm_function = getattr(algorithm_module, 'runAlgorithm', None)
-        for comp in self.connectedComputers:
-            if callable(algorithm_function):
-                comp.algorithm=algorithm_function
-            else:
-                print(f"Error: Function 'runAlgorithm' not found in {algorithm_names}.py")
-                return None
-
-
-    def loadAlgorithm(self, algorithm_module_name):
+    def loadAlgorithms(self, algorithm_module_path):
+        if algorithm_module_path == 'no_alg_provided':
+            print("No algorithm was provided")
+            exit()
         try:
-            algorithm_module = importlib.import_module(algorithm_module_name)
+            directory, file_name = os.path.split(algorithm_module_path)
+            base_file_name, _ = os.path.splitext(file_name)
+            sys.path.insert(0,directory)
+
+            algorithm_module = importlib.import_module(base_file_name)
             # Assuming the algorithm module has a function named 'run_algorithm'
             algorithm_function = getattr(algorithm_module, 'runAlgorithm', None)
-            if callable(algorithm_function):
-                algorithm_function()
-            else:
-                print(f"Error: Function 'runAlgorithm' not found in {algorithm_module_name}.py")
-                return None
+            print(algorithm_function)
+            for comp in self.connectedComputers:
+                if callable(algorithm_function): # add the algorithm to each computer
+                    comp.algorithm=algorithm_function
+                else:
+                    print(f"Error: Function 'runAlgorithm' not found in {algorithm_module_path}.py")
+                    return None
         except ImportError:
-            print(f"Error: Unable to import {algorithm_module_name}.py")
+            print(f"Error: Unable to import {base_file_name}.py")
             return None
 
 def main():

@@ -103,14 +103,13 @@ class DistributedSimulatorApp(QMainWindow):
 
     def on_upload_algorithm(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Upload Python File', '/home', "Python Files (*.py)")
-
         if fname:
             _, file_extension = os.path.splitext(fname)
             if file_extension.lower() == '.py':
-                print(f'Selected Python file: {fname}')
                 with open(fname, 'r') as file:
                     algorithm_content = file.read()
-                    self.checkbox_values["Algorithm"] = algorithm_content
+                    #print("bbbbbbbbb", algorithm_content)
+                    self.checkbox_values["Algorithm"] = fname
             else:
                 QMessageBox.warning(self, 'Error', 'Please select a Python file (.py)', QMessageBox.Ok)
 

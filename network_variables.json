@@ -2,5 +2,6 @@
     "Number of Computers": "5",
     "Topology": "Random",
     "ID Type": "Sequential",
-    "Delay": "0"
+    "Delay": "0",
+    "Algorithm": "C:/test_file.py"
 }

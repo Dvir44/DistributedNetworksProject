@@ -39,6 +39,7 @@ class Computer:
     
     def run(self, network):
         self.algorithm(self, network)
+        
 def main():
     pass
 
