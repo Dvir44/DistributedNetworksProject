@@ -5,6 +5,12 @@ from PyQt5.QtWidgets import *
 import sys
 import os
 
+class SimulationInProgressWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setGeometry(0, 0, 800, 600)
+        self.setWindowTitle("Simulation In Process")
+
 class DistributedSimulatorApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -42,7 +48,7 @@ class DistributedSimulatorApp(QMainWindow):
         upload_file_button.clicked.connect(lambda: self.on_upload_algorithm())
 
         # Adding a final confirmation button
-        confirm_button = QPushButton("Confirm", self)
+        confirm_button = QPushButton("Submit", self)
         confirm_button.setGeometry(550, 700, 150, 30)
         confirm_button.setStyleSheet("background-color: rgb(102,255,102)")
         confirm_button.clicked.connect(lambda: self.on_submit_all())
@@ -108,17 +114,30 @@ class DistributedSimulatorApp(QMainWindow):
             if file_extension.lower() == '.py':
                 with open(fname, 'r') as file:
                     algorithm_content = file.read()
-                    #print("bbbbbbbbb", algorithm_content)
                     self.checkbox_values["Algorithm"] = fname
             else:
                 QMessageBox.warning(self, 'Error', 'Please select a Python file (.py)', QMessageBox.Ok)
 
     def on_submit_all(self):
+        # Hide the main window
+        self.hide()
+
+        # Create an instance of SimulationInProgressWindow
+        simulation_window = SimulationInProgressWindow()
+        simulation_window.show()
+
+        # Simulate some processing time (you can replace this with your actual simulation logic)
+        import time
+        time.sleep(3)
+
+        # After simulation, close the simulation window and save the JSON file
+        simulation_window.close()
+
         json_data = json.dumps(self.checkbox_values, indent=4)
         with open("network_variables.json", "w") as json_file:
             json_file.write(json_data)
 
-        self.close()
+        sys.exit()
 
 def main():
     app = QApplication(sys.argv)
