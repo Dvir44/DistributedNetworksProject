@@ -1,7 +1,7 @@
 {
-    "Number of Computers": "8",
+    "Number of Computers": "5",
     "Topology": "Random",
     "ID Type": "Sequential",
     "Delay": "0",
-    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/someAlgorithm.py"
+    "Algorithm": "C:/someAlgorithm.py"
 }

@@ -119,25 +119,12 @@ class DistributedSimulatorApp(QMainWindow):
                 QMessageBox.warning(self, 'Error', 'Please select a Python file (.py)', QMessageBox.Ok)
 
     def on_submit_all(self):
-        # Hide the main window
-        self.hide()
-
-        # Create an instance of SimulationInProgressWindow
-        simulation_window = SimulationInProgressWindow()
-        simulation_window.show()
-
-        # Simulate some processing time (you can replace this with your actual simulation logic)
-        import time
-        time.sleep(3)
-
-        # After simulation, close the simulation window and save the JSON file
-        simulation_window.close()
-
         json_data = json.dumps(self.checkbox_values, indent=4)
         with open("network_variables.json", "w") as json_file:
             json_file.write(json_data)
 
-        sys.exit()
+        self.close()
+
 
 def main():
     app = QApplication(sys.argv)
