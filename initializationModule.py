@@ -1,10 +1,20 @@
 import importlib
 import json
 import os
+import queue
 import random
 import sys
 import numpy
 import computer
+
+# a custom priority queue, which puts according to message_format[4] which is the arrival time
+class CustomPriorityQueue(queue.PriorityQueue):
+    def put(self, message_format):
+        super().put((message_format[5], message_format))
+    # retrieves the message, without the priority part of the tuple
+    def get(self):
+        priority, message_format = super().get()
+        return message_format
 
 class Initialization:
     '''
@@ -24,6 +34,7 @@ class Initialization:
         self.createComputersIds()
         algorithms = data.get('Algorithm', 'no_alg_provided')
         self.loadAlgorithms(algorithms)
+        self.networkMessageQueue = CustomPriorityQueue()
 
     def toString(self):
         print(self.numberOfComputers)
@@ -124,15 +135,10 @@ class Initialization:
             sys.path.insert(0,directory)
 
             algorithm_module = importlib.import_module(base_file_name)
-            # Assuming the algorithm module has a function named 'run_algorithm'
-            algorithm_function = getattr(algorithm_module, 'runAlgorithm', None)
-            print(algorithm_function)
             for comp in self.connectedComputers:
-                if callable(algorithm_function): # add the algorithm to each computer
-                    comp.algorithm=algorithm_function
-                else:
-                    print(f"Error: Function 'runAlgorithm' not found in {algorithm_module_path}.py")
-                    return None
+                comp.algorithmFile = algorithm_module
+                print(comp.algorithmFile)
+
         except ImportError:
             print(f"Error: Unable to import {base_file_name}.py")
             return None

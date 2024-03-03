@@ -15,7 +15,7 @@ class Computer:
         self.connectedEdges = []
         self.delays = []
         self.messageQueue = queue.Queue()
-        self.algorithm=None
+        self.algorithmFile=None
         self.state = 0
         self.root = 0
 
@@ -36,10 +36,7 @@ class Computer:
     
     def setState(self, num: int):
         self.state=num
-    
-    def run(self, network):
-        self.algorithm(self, network)
-        
+
 def main():
     pass
 

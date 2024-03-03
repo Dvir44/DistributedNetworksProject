@@ -7,6 +7,7 @@ import threading
 import initializationModule
 import visualizationModule
 import runModule
+import time
 
 class Simulator:
     def __init__(self):
@@ -26,8 +27,10 @@ def run_visualization_window():
     sys.exit(app.exec_())
     
 def main():
+
     visualize()
+    start_time = time.time()
     runModule.initiateRun()
-    
+    print("--- %s seconds ---" % (time.time() - start_time))
 if __name__=="__main__":
     main()
