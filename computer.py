@@ -7,7 +7,11 @@ class Computer:
     Computer Class - create a vertex in the full topology with the next members:
     ID - the id of the computer
     ConnectedEdges - who the computer is connected to
+    Delays - the delay to each edge in the same order as ConnectedEdges list
     Messages - a messages queue that the commputer have
+    Algorithm - the algorithm that the computer needs to run from the user
+    State - the state of the computer in the algorithm
+    root - a member that tells if the computer is the root that starts the run
     '''
     # Default constructor
     def __init__(self):

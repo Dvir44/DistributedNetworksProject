@@ -26,10 +26,10 @@ class Initialization:
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
         self.numberOfComputers = int(data.get('Number of Computers',0))
-        self.topologyType = data.get('Topology','Line')
-        self.IdType = data.get('ID Type','Sequential')
+        self.topologyType = data.get('Topology','L')
+        self.IdType = data.get('ID Type','S')
         self.connectedComputers = []
-        self.delayType = data.get('Delay','no delay')
+        self.delayType = data.get('Delay','0')
         self.connectedComputersCreation()
         self.createComputersIds()
         algorithms = data.get('Algorithm', 'no_alg_provided')
@@ -54,16 +54,8 @@ class Initialization:
     
     # Create the delays that the computer has according to what he choose
     def createDelays(self):
-        if self.delayType == "no delay":
-            for comp in self.connectedComputers:
-                comp.delays = {connected_to: 0 for connected_to in comp.connectedEdges}
-        elif "constant" in self.delayType:
-            # Extract the constant value from the delayType
-            constant_delay = float(self.delayType.split()[1])  # The delayType is in the format "constant x"
-            
-            for comp in self.connectedComputers:
-                comp.delays = {connected_to: constant_delay for connected_to in comp.connectedEdges}
-        # Need to add a delay that's not constant (to ask Ran how to determine it)
+        for comp in self.connectedComputers:
+            comp.delays = {connected_to: self.delayType for connected_to in comp.connectedEdges}
         return
 
     #Creates the connectedComputers list
@@ -71,19 +63,24 @@ class Initialization:
         self.connectedComputers = [computer.Computer() for _ in range(self.numberOfComputers)] 
         self.createComputersIds() #Fill the Id's according to the user choice
         
-        if (self.topologyType == "Random"):
+        if (self.topologyType == "R"):
             self.createRandomTopology()
-        elif (self.topologyType == "Line"):
+        elif (self.topologyType == "L"):
             self.createLineTopology()
-        
+        elif (self.topologyType == "C"):
+            self.createCliqueTopology()
         self.createDelays()
         return
     
+    # Create the clique topology for the network
+    def createCliqueTopology():
+        pass 
+
     # Create computer IDs based on the IdType
     def createComputersIds(self):
-        if self.IdType == "Random":
+        if self.IdType == "R":
             self.createRandomIds()
-        elif self.IdType == "Sequential":
+        elif self.IdType == "S":
             self.createSequentialIds()
 
     # Create random computer IDs (ensuring uniqueness)
