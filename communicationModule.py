@@ -4,14 +4,14 @@ import numpy
 from computer import Computer
 
 import initializationModule
-
+import runModule
 
 class CommunicationModule:
     # message format: specified in "Message Format.docx"
     def __init__(self):
-        self.network = initializationModule.Initialization()
+        self.network = runModule.network
         self.message = {'source_id':None, 'dest_id':None, 'arrival_time':0, 'delay_time':None,
-                        'message_content':""}
+                        'message_content':"", 'state':None}
     
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, delay, message_info):
@@ -24,17 +24,19 @@ class CommunicationModule:
         self.message['arrival_time'] += 1+delay
         self.message['message_content'] = message_info
         self.network.networkMessageQueue.put(self.message)
-        print("message added no network queue: ", self.message)
+        self.message['state']=1
+        print("message added to network queue: ", self.message)
 
     def send_to_all(self, source, delay, message_info):
+        self.network.networkMessageQueue.put(self.message)
         for current_computer in self.network.connectedComputers:
                 if (source == current_computer.getId()): # finding the current computer
                     break
-
         for connected_computers in current_computer.connectedEdges:
-            self.send_message(self, connected_computers, delay, message_info)
+            self.send_message(source, connected_computers, delay, message_info)
+            
 
-    def recieve_message(self):
+    def receive_message(self):
         print("message being worked on: ", self.message)
         current_id = self.message['dest_id']
 

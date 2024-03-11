@@ -10,8 +10,9 @@ def mainAlgorithm(self: computer.Computer, communication):
     else:
         print(self.getId(), end=" ")
         print("H")
-        communication.send_to_all(self.getId, 2, "running a broadcast")
         self.setState(1)
+        print("setting state")
+        communication.send_to_all(self.getId(), 2, "running a broadcast")
 
 def init(self: computer.Computer, communication):
     if (self.getId()==3):
@@ -19,7 +20,8 @@ def init(self: computer.Computer, communication):
     if (self.getRoot()==1):
         print(self.getId(), end=" ")
         print("N")
-        communication.send_to_all(self.getId(), 1, "running a broadcast")
+        self.setState(1)
+        communication.send_to_all(int(self.getId()), 1, "running a broadcast")
 
 def main():
     pass

@@ -8,17 +8,14 @@ import numpy
 import computer
 import heapq
 
-class CustomMinHeap:
-    def __init__(self):
-        self.heap = []
-
-    def push(self, message_format):
-        heapq.heappush(self.heap, (message_format['arrival_time'], message_format))
-
-    def pop(self):
-        priority, message_format = heapq.heappop(self.heap)
+class CustomMinHeap(queue.PriorityQueue):
+    # a custom priority queue, which puts according to message_format[4] which is the arrival time
+    def put(self, message_format):
+        super().put((message_format['arrival_time'], message_format))
+    # retrieves the message, without the priority part of the tuple
+    def get(self):
+        priority, message_format = super().get()
         return message_format
-    
 
 class Initialization:
     '''

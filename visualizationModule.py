@@ -17,8 +17,8 @@ class DistributedSimulatorApp(QMainWindow):
         # Dictionary to store checkbox values with default values
         self.checkbox_values = {
             "Number of Computers": "5",
-            "Topology": "Random",
-            "ID Type": "Sequential",
+            "Topology": "L",
+            "ID Type": "S",
             "Delay": "0",
         }
 
