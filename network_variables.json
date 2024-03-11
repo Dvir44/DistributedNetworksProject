@@ -1,7 +1,7 @@
 {
-    "Number of Computers": "10",
+    "Number of Computers": "7",
     "Topology": "L",
     "ID Type": "S",
-    "Delay": "1",
+    "Delay": "0",
     "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/someAlgorithm.py"
 }

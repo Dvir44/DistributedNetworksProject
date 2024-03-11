@@ -6,15 +6,19 @@ import random
 import sys
 import numpy
 import computer
+import heapq
 
-# a custom priority queue, which puts according to message_format[4] which is the arrival time
-class CustomPriorityQueue(queue.PriorityQueue):
-    def put(self, message_format):
-        super().put((message_format[5], message_format))
-    # retrieves the message, without the priority part of the tuple
-    def get(self):
-        priority, message_format = super().get()
+class CustomMinHeap:
+    def __init__(self):
+        self.heap = []
+
+    def push(self, message_format):
+        heapq.heappush(self.heap, (message_format['arrival_time'], message_format))
+
+    def pop(self):
+        priority, message_format = heapq.heappop(self.heap)
         return message_format
+    
 
 class Initialization:
     '''
@@ -25,16 +29,15 @@ class Initialization:
     def __init__(self):
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
-        self.numberOfComputers = int(data.get('Number of Computers',0))
+        self.numberOfComputers = int(data.get('Number of Computers',5))
         self.topologyType = data.get('Topology','L')
         self.IdType = data.get('ID Type','S')
         self.connectedComputers = []
-        self.delayType = data.get('Delay','0')
         self.connectedComputersCreation()
         self.createComputersIds()
         algorithms = data.get('Algorithm', 'no_alg_provided')
         self.loadAlgorithms(algorithms)
-        self.networkMessageQueue = CustomPriorityQueue()
+        self.networkMessageQueue = CustomMinHeap()
 
     def toString(self):
         print(self.numberOfComputers)
@@ -42,7 +45,6 @@ class Initialization:
         print(self.IdType)
         for computer in self.connectedComputers:
             print(computer)
-        print(self.delayType)
 
     #Getters
     def getNumberOfComputers(self):
@@ -51,12 +53,6 @@ class Initialization:
         return self.topologyType
     def getConnectedComputers(self):
         return self.connectedComputers
-    
-    # Create the delays that the computer has according to what he choose
-    def createDelays(self):
-        for comp in self.connectedComputers:
-            comp.delays = {connected_to: self.delayType for connected_to in comp.connectedEdges}
-        return
 
     #Creates the connectedComputers list
     def connectedComputersCreation(self):
@@ -69,12 +65,20 @@ class Initialization:
             self.createLineTopology()
         elif (self.topologyType == "C"):
             self.createCliqueTopology()
-        self.createDelays()
         return
     
     # Create the clique topology for the network
-    def createCliqueTopology():
-        pass 
+    def createCliqueTopology(self):        
+        # Connect each computer to every other computer
+        for i in range(self.numberOfComputers):
+            for j in range(i + 1, self.numberOfComputers):
+                # Ensure bi-directional connection
+                self.connectedComputers[i].connectedEdges.append(j)
+                self.connectedComputers[j].connectedEdges.append(i)
+
+        # Removing duplicates
+        for comp in self.connectedComputers:
+            comp.connectedEdges = list(set(comp.connectedEdges)) 
 
     # Create computer IDs based on the IdType
     def createComputersIds(self):

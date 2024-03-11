@@ -9,9 +9,10 @@ def initiateRun():
     # running init() for every computer which must be defined, and puting messages into the network queue
     for comp in network.connectedComputers:
         algorithm_function = getattr(comp.algorithmFile, 'init', None)
+        print(algorithm_function)
         #comp.algorithm = algorithm_function
         if callable(algorithm_function): # add the algorithm to each computer
-            algorithm_function(comp)
+            algorithm_function(comp, communicationModule.CommunicationModule())
             #comp.runInit(algorithm_function)
             if not comp.messageQueue.empty():
                 message = comp.messageQueue.get()
