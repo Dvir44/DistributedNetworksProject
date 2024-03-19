@@ -1,27 +1,20 @@
-import queue
 import computer
 import communicationModule
 
 ''' user implemented code that runs a broadcast algorithm'''
 
-def mainAlgorithm(self: computer.Computer, communication):
-    if self.state == 1:
-        self.messageQueue.queue.clear()
-    else:
-        print(self.getId(), end=" ")
-        print("H")
-        self.setState(1)
-        print("setting state")
+def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule):
+    if  self.state != "terminated":
         communication.send_to_all(self.getId(), 2, "running a broadcast")
+        self.setState("terminated")
 
-def init(self: computer.Computer, communication):
-    if (self.getId()==3):
+
+def init(self: computer.Computer, communication : communicationModule.CommunicationModule):
+    if (self.getId()==1):
         self.root=1
     if (self.getRoot()==1):
-        print(self.getId(), end=" ")
-        print("N")
-        self.setState(1)
-        communication.send_to_all(int(self.getId()), 1, "running a broadcast")
+        communication.send_to_all(self.getId(), 1, "running a broadcast")
+        self.setState("terminated")
 
 def main():
     pass
