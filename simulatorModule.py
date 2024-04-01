@@ -6,31 +6,41 @@ import sys
 import threading
 import initializationModule
 import visualizationModule
+import communicationModule
 import runModule
 import time
+
+import networkVisualization
+
 
 class Simulator:
     def __init__(self):
         pass
 
-def visualize():
-    t1= threading.Thread(target=run_visualization_window)
-    t1.start()
-    t1.join()
-    with open('network_variables.json', 'r') as f: # fill json file
-        json.load(f)
-
-def run_visualization_window():
-    app = QApplication(sys.argv)
-    main_window =visualizationModule.DistributedSimulatorApp()
+def run_visualization_window(app):
+    main_window = visualizationModule.DistributedSimulatorApp()
     main_window.show()
-    sys.exit(app.exec_())
-    
-def main():
+    app.exec_()
 
-    visualize()
+
+def main():
+    app = QApplication(sys.argv)
+    run_visualization_window(app)
+    
     start_time = time.time()
-    runModule.initiateRun()
+    
+    network= initializationModule.Initialization()
+    network.toString()
+    
+    comm = communicationModule.CommunicationModule(network)
+    runModule.initiateRun(network, comm)
     print("--- %s seconds ---" % (time.time() - start_time))
+
+    networkVisualization.visualize_network(network)
+    
+    
+  
+    
+    
 if __name__=="__main__":
     main()

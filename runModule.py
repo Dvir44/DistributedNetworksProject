@@ -2,10 +2,7 @@ import numpy
 import initializationModule
 import communicationModule
 
-def initiateRun():
-    network= initializationModule.Initialization()
-    network.toString()
-    comm = communicationModule.CommunicationModule(network)
+def initiateRun(network: initializationModule.Initialization, comm : communicationModule.CommunicationModule):
     # running init() for every computer which must be defined, and puting messages into the network queue
     for comp in network.connectedComputers:
         algorithm_function = getattr(comp.algorithmFile, 'init', None)
