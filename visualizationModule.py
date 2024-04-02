@@ -20,6 +20,7 @@ class DistributedSimulatorApp(QMainWindow):
             "Topology": "L",
             "ID Type": "S",
             "Delay": "0",
+            "Display": "G"
         }
 
         self.setGeometry(0, 0, 1500, 900)
@@ -64,6 +65,8 @@ class DistributedSimulatorApp(QMainWindow):
                                   self.checkbox_values["ID Type"], "Type R for random, S for sequential", "ID Type")
         self.add_line_edit_button(checkbox_layout, "Enable Delay",
                                   self.checkbox_values["Delay"], "Delay", "Delay")
+        self.add_line_edit_button(checkbox_layout, "Choose Display Type",
+                                  self.checkbox_values["Display"], "Type T for Text, G for Graph", "Display")
 
         checkbox_layout.setSpacing(20)  # Set spacing between checkboxes
 

@@ -3,16 +3,15 @@ import numpy
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
-import threading
 import initializationModule
 import visualizationModule
-import communicationModule
 import runModule
+
+import communicationModule
+import graphCommunication
 import time
 
-import networkVisualization
-
-
+import graphVisualization
 class Simulator:
     def __init__(self):
         pass
@@ -32,11 +31,16 @@ def main():
     network= initializationModule.Initialization()
     network.toString()
     
-    comm = communicationModule.CommunicationModule(network)
-    runModule.initiateRun(network, comm)
-    print("--- %s seconds ---" % (time.time() - start_time))
+    with open('network_variables.json', 'r') as f:
+        data = json.load(f)
+    if data['Display']=="T":
+        comm = communicationModule.CommunicationModule(network)
+        runModule.initiateRun(network, comm)
+    elif data['Display']=="G":
+        comm = graphCommunication.CommunicationModule(network)
+        graphVisualization.visualize_network(network, comm)
 
-    networkVisualization.visualize_network(network)
+    print("--- %s seconds ---" % (time.time() - start_time))
     
     
   

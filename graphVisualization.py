@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt
 import networkx as nx
 
+
+
 # node class
 class Node(QGraphicsObject):
     def __init__(self, name: str, num_nodes: int, parent=None):
@@ -161,14 +163,18 @@ class GraphView(QGraphicsView):
             source = self.nodes_map[a]
             dest = self.nodes_map[b]
             self.scene.addItem(Edge(source, dest))
-
+            
+        
+        
         
 class MainWindow(QWidget):
-    def __init__(self, network, parent=None):
+    def __init__(self, network, comm, parent=None):
         super().__init__(parent)
         self.network = network
+        self.comm = comm
         self.graph = nx.DiGraph()
-
+        self.first_entry=True
+        
         num_computers = self.network.getNumberOfComputers()
         vertex_names = [str(i) for i in range(1, num_computers)]
         self.graph.add_nodes_from(vertex_names) # adding nodes
@@ -181,15 +187,50 @@ class MainWindow(QWidget):
         self.view = GraphView(self.graph)
         self.choice_combo = QComboBox()
         self.choice_combo.addItems(self.view.get_nx_layouts())
+        self.next_phase_button = QPushButton("Next Phase")
+        self.next_phase_button.clicked.connect(self.next_phase_action)
+        
         v_layout = QVBoxLayout(self)
         v_layout.addWidget(self.choice_combo)
         v_layout.addWidget(self.view)
+        v_layout.addWidget(self.next_phase_button)  # Add the button to the layout
         self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
         
 
-def visualize_network(network):
+            
+    # space key pressed, same as clicking on next phase button
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Space:
+            self.next_phase_action()
+        else:
+            super().keyPressEvent(event)    
+        
+    # continue to the next "receive_message" run
+    def next_phase_action(self):
+        if self.first_entry:
+            for comp in self.network.connectedComputers:
+                algorithm_function = getattr(comp.algorithmFile, 'init', None)
+                if callable(algorithm_function): # add the algorithm to each computer
+                    algorithm_function(comp, self.comm)
+                else:
+                    print(f"Error: Function 'init' not found in {comp.algorithmFile}.py")
+                    return None
+            self.first_entry=False
+        else:
+            if not self.network.networkMessageQueue.empty():
+                self.comm.receive_message(self.network.networkMessageQueue.pop(), self.comm, self)
+    
+    
+    # from communication, change node color request
+    def change_node_color(self, node_name, new_color):
+        if node_name in self.graph.nodes:
+            node_item = self.view.nodes_map[node_name]
+            node_item.color = new_color
+            node_item.update()
+
+def visualize_network(network, comm):
     app = QApplication(sys.argv)    
-    widget = MainWindow(network)
+    widget = MainWindow(network, comm)
     widget.show()
     widget.resize(800, 600)
     sys.exit(app.exec())

@@ -3,5 +3,6 @@
     "Topology": "L",
     "ID Type": "S",
     "Delay": "0",
-    "Algorithm": "C:/Users/danie/Desktop/DistributedNetworksProject/someAlgorithm.py"
+    "Display": "G",
+    "Algorithm": "C:/Users/User/Desktop/DistributedNetworksProject/someAlgorithm.py"
 }
