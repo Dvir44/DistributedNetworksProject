@@ -1,5 +1,6 @@
 import math
 import sys
+import initializationModule
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -166,9 +167,8 @@ class GraphView(QGraphicsView):
             
         
         
-        
 class MainWindow(QWidget):
-    def __init__(self, network, comm, parent=None):
+    def __init__(self, network: initializationModule.Initialization, comm, parent=None):
         super().__init__(parent)
         self.network = network
         self.comm = comm
@@ -187,8 +187,9 @@ class MainWindow(QWidget):
         self.view = GraphView(self.graph)
         self.choice_combo = QComboBox()
         self.choice_combo.addItems(self.view.get_nx_layouts())
+        
         self.next_phase_button = QPushButton("Next Phase")
-        self.next_phase_button.clicked.connect(self.next_phase_action)
+        self.next_phase_button.clicked.connect(self.change_node_color)
         
         v_layout = QVBoxLayout(self)
         v_layout.addWidget(self.choice_combo)
@@ -196,8 +197,6 @@ class MainWindow(QWidget):
         v_layout.addWidget(self.next_phase_button)  # Add the button to the layout
         self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
         
-
-            
     # space key pressed, same as clicking on next phase button
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Space:
@@ -205,30 +204,17 @@ class MainWindow(QWidget):
         else:
             super().keyPressEvent(event)    
         
-    # continue to the next "receive_message" run
-    def next_phase_action(self):
-        if self.first_entry:
-            for comp in self.network.connectedComputers:
-                algorithm_function = getattr(comp.algorithmFile, 'init', None)
-                if callable(algorithm_function): # add the algorithm to each computer
-                    algorithm_function(comp, self.comm)
-                else:
-                    print(f"Error: Function 'init' not found in {comp.algorithmFile}.py")
-                    return None
-            self.first_entry=False
-        else:
-            if not self.network.networkMessageQueue.empty():
-                self.comm.receive_message(self.network.networkMessageQueue.pop(), self.comm, self)
-    
-    
-    # from communication, change node color request
-    def change_node_color(self, node_name, new_color):
-        if node_name in self.graph.nodes:
-            node_item = self.view.nodes_map[node_name]
-            node_item.color = new_color
-            node_item.update()
+    # accessed only when button/space is clicked, gates first value from the dictionary and changes its color
+    def change_node_color(self): 
+        if self.network.node_color_dict:
+            node_name, new_color = self.network.node_color_dict.popitem(last=False)  # get and remove the first item from the OrderedDict
+            if node_name in self.graph.nodes:
+                node_item = self.view.nodes_map[node_name]
+                node_item.color = new_color
+                node_item.update()
 
-def visualize_network(network, comm):
+
+def visualize_network(network: initializationModule.Initialization, comm):
     app = QApplication(sys.argv)    
     widget = MainWindow(network, comm)
     widget.show()

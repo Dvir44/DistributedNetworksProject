@@ -7,6 +7,11 @@ import sys
 import numpy
 import computer
 import heapq
+from collections import OrderedDict
+
+
+
+
 
 
 class CustomMinHeap:
@@ -24,14 +29,7 @@ class CustomMinHeap:
     def empty(self):
         return len(self.heap) == 0
 
-""" class CustomMinHeap(queue.PriorityQueue):
-    # a custom priority queue, which puts according to message_format[4] which is the arrival time
-    def put(self, message_format):
-        super().put((message_format['arrival_time'], message_format))
-    # retrieves the message, without the priority part of the tuple
-    def get(self):
-        priority, message_format = super().get()
-        return message_format """
+
 
 class Initialization:
     '''
@@ -45,6 +43,7 @@ class Initialization:
         self.numberOfComputers = int(data.get('Number of Computers',5))
         self.topologyType = data.get('Topology','L')
         self.IdType = data.get('ID Type','S')
+        self.displayType = data.get('Display','T')
         self.connectedComputers = []
         self.connectedComputersCreation()
         self.createComputersIds()
@@ -52,10 +51,15 @@ class Initialization:
         self.loadAlgorithms(algorithms)
         self.networkMessageQueue = CustomMinHeap()
 
+        if self.displayType=="G":
+            self.node_color_dict = OrderedDict()
+
+
     def toString(self):
         print(self.numberOfComputers)
         print(self.topologyType)
         print(self.IdType)
+        print(self.displayType)
         for computer in self.connectedComputers:
             print(computer)
 

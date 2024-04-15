@@ -20,7 +20,7 @@ class DistributedSimulatorApp(QMainWindow):
             "Topology": "L",
             "ID Type": "S",
             "Delay": "0",
-            "Display": "G"
+            "Display": "T"
         }
 
         self.setGeometry(0, 0, 1500, 900)
@@ -60,14 +60,14 @@ class DistributedSimulatorApp(QMainWindow):
         self.add_line_edit_button(checkbox_layout, "Change Number of Computers",
                                   self.checkbox_values["Number of Computers"], "Default = 0", "Number of Computers")
         self.add_line_edit_button(checkbox_layout, "Choose Topology",
-                                  self.checkbox_values["Topology"], "Type R for random, C for Clique, L for line", "Topology")
+                                  self.checkbox_values["Topology"], "Random, Clique, Line", "Topology")
         self.add_line_edit_button(checkbox_layout, "Choose ID Type",
-                                  self.checkbox_values["ID Type"], "Type R for random, S for sequential", "ID Type")
+                                  self.checkbox_values["ID Type"], "Random, Sequential", "ID Type")
         self.add_line_edit_button(checkbox_layout, "Enable Delay",
                                   self.checkbox_values["Delay"], "Delay", "Delay")
         self.add_line_edit_button(checkbox_layout, "Choose Display Type",
-                                  self.checkbox_values["Display"], "Type T for Text, G for Graph", "Display")
-
+                                  self.checkbox_values["Display"], "Text, Graph", "Display")
+        
         checkbox_layout.setSpacing(20)  # Set spacing between checkboxes
 
         checkbox_widget = QWidget(self)
@@ -75,6 +75,30 @@ class DistributedSimulatorApp(QMainWindow):
         checkbox_widget.setGeometry(800, 100, 500, 500)  # Increase the width to accommodate larger checkboxes
 
     def add_line_edit_button(self, layout, label_text, default_value, placeholder_text, checkbox_label):
+        
+        comboBox_list=["Topology", "ID Type", "Display"] # add here the fields that need to be a comboBox
+        
+        if checkbox_label in comboBox_list:
+            combo_label = QLabel(label_text, self)
+            combo_label.setFont(QFont("Times font", 12))
+            layout.addWidget(combo_label)
+            
+            items_list = placeholder_text.split(", ")
+            items_list.insert(0, "")  # add empty string as the first item
+            combo_box = QComboBox(self)
+            combo_box.addItems(items_list)
+            combo_box.setCurrentText(default_value)
+            layout.addWidget(combo_box)
+            
+            def print_selected_value(value):
+                if not value=="":
+                    print(f"Chosen {checkbox_label}: {value}")
+                    self.checkbox_values[checkbox_label] = value[0]  # Save the value to the dictionary
+                
+            combo_box.currentTextChanged.connect(print_selected_value)
+            return
+            
+        # anything that isnt a comboBox
         checkbox = QCheckBox(label_text, self)
         checkbox_font = QFont()
         checkbox_font.setPointSize(12)  # Set larger font size for checkboxes
@@ -88,7 +112,7 @@ class DistributedSimulatorApp(QMainWindow):
         submit_button.setVisible(False)  # Initially, hide the submit button
 
         checkbox.stateChanged.connect(lambda state, le=line_edit, sb=submit_button, text=label_text:
-                                      self.on_checkbox_state_changed(state, le, sb, text))
+                                    self.on_checkbox_state_changed(state, le, sb, text))
 
         layout.addWidget(checkbox)
 
@@ -105,10 +129,13 @@ class DistributedSimulatorApp(QMainWindow):
             self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
 
         submit_button.clicked.connect(on_submit)
-
+            
+        
+        
     def on_checkbox_state_changed(self, state, line_edit, submit_button, label_text):
         line_edit.setVisible(state == 2)  # 2 means checked
         submit_button.setVisible(state == 2)  # Show the line edit and submit button when checked
+
 
     def on_upload_algorithm(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Upload Python File', '/home', "Python Files (*.py)")
@@ -127,6 +154,8 @@ class DistributedSimulatorApp(QMainWindow):
             json_file.write(json_data)
 
         self.close()
+
+
 
 
 def main():

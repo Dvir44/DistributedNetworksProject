@@ -8,10 +8,9 @@ import visualizationModule
 import runModule
 
 import communicationModule
-import graphCommunication
 import time
 
-import graphVisualization
+import graphVisualization   
 class Simulator:
     def __init__(self):
         pass
@@ -33,14 +32,15 @@ def main():
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
-    if data['Display']=="T":
-        comm = communicationModule.CommunicationModule(network)
-        runModule.initiateRun(network, comm)
-    elif data['Display']=="G":
-        comm = graphCommunication.CommunicationModule(network)
+        
+    comm = communicationModule.CommunicationModule(network, data['Display'])
+    runModule.initiateRun(network, comm)
+    print("--- %s seconds ---" % (time.time() - start_time))
+    
+    if data['Display']=="G":
         graphVisualization.visualize_network(network, comm)
 
-    print("--- %s seconds ---" % (time.time() - start_time))
+
     
     
   
