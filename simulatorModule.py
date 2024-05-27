@@ -1,32 +1,23 @@
 import json
-import numpy
+import os
+import threading
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import initializationModule
-import visualizationModule
+import visualizations.visualizationModule as visualizationModule
 import runModule
-
 import communicationModule
 import time
+import visualizations.graphVisualization as graphVisualization
 
-import graphVisualization   
 class Simulator:
     def __init__(self):
         pass
 
-def run_visualization_window(app):
-    main_window = visualizationModule.DistributedSimulatorApp()
-    main_window.show()
-    app.exec_()
-
-
 def main():
-    app = QApplication(sys.argv)
-    run_visualization_window(app)
-    
+    visualizationModule.menu()
     start_time = time.time()
-    
     network= initializationModule.Initialization()
     network.toString()
     
@@ -34,17 +25,23 @@ def main():
         data = json.load(f)
         
     comm = communicationModule.CommunicationModule(network, data['Display'])
-    runModule.initiateRun(network, comm)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    
-    if data['Display']=="G":
+
+    if data['Display'] == "Graph":
+        app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
 
+        thread = threading.Thread(target=lambda: runModule.initiateRun(network, comm))
+        thread.start()
+        thread.join()  # Wait for the thread to finish
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+        sys.exit(app.exec_())
+    else:
+        runModule.initiateRun(network, comm)
+        print("--- %s seconds ---" % (time.time() - start_time))
 
     
-    
-  
-    
-    
+
+
 if __name__=="__main__":
     main()

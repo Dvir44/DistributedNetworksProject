@@ -1,17 +1,16 @@
 import queue
-import random
-import numpy
 
 class Computer:
     '''
     Computer Class - create a vertex in the full topology with the next members:
     ID - the id of the computer
-    ConnectedEdges - who the computer is connected to
+    ConnectedEdges - computer ids that the computer is connected to (int type)
     Delays - the delay to each edge in the same order as ConnectedEdges list
-    Messages - a messages queue that the commputer have
-    Algorithm - the algorithm that the computer needs to run from the user
-    State - the state of the computer in the algorithm
-    root - a member that tells if the computer is the root that starts the run
+    Messages - a messages queue that the computer has
+    Algorithm - the algorithm the computer runs
+    State - computer state
+    root - whether the computer is a root
+    color - computer color
     '''
     # Default constructor
     def __init__(self):
@@ -20,9 +19,10 @@ class Computer:
         self.delays = []
         self.messageQueue = queue.Queue()
         self.algorithmFile=None
-        self.state = 0
-        self.root = 0
-
+        self.state = None
+        self.root = False
+        self.color = None
+        
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\n"
     
@@ -37,9 +37,16 @@ class Computer:
         return self.state
     def getRoot(self):
         return self.root
+    def getColor(self):
+        return self.color
+    
+    
     
     def setState(self, num: int):
         self.state=num
+        
+    def setColor(self, new_color: str):
+        self.color=new_color
 
 def main():
     pass

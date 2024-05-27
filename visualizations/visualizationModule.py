@@ -11,16 +11,17 @@ class SimulationInProgressWindow(QMainWindow):
         self.setGeometry(0, 0, 800, 600)
         self.setWindowTitle("Simulation In Process")
 
-class DistributedSimulatorApp(QMainWindow):
+class MenuWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # Dictionary to store checkbox values with default values
         self.checkbox_values = {
-            "Number of Computers": "5",
-            "Topology": "L",
-            "ID Type": "S",
+            "Number of Computers": "11",
+            "Topology": "Random",
+            "ID Type": "Random",
             "Delay": "0",
-            "Display": "T"
+            "Display": "Graph",
+            "Root": "Random"
         }
 
         self.setGeometry(0, 0, 1500, 900)
@@ -28,7 +29,37 @@ class DistributedSimulatorApp(QMainWindow):
 
         self.start_window()
 
+
+    
+    def update_label_value(self, key, value):
+        # Update the value of the specified label
+        if key in self.label_values:
+            self.label_values[key].setText(f"{key}: {value}")
+
+
     def start_window(self):
+        self.label_values = {}
+        y_offset = 200  # Adjust the vertical position of label
+        for key, value in self.checkbox_values.items():
+            label = QLabel(f"{key}: {value}", self)
+            label.setGeometry(50, y_offset, 500, 30)  # Set position and size of label
+            y_offset += 30  # Increase vertical position for the next label
+            self.label_values[key] = label  # Store label reference
+
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         # Creating the title label
         title_label = QLabel(self)
         title_label.setText("Distributed Simulator Project")
@@ -51,7 +82,6 @@ class DistributedSimulatorApp(QMainWindow):
         # Adding a final confirmation button
         confirm_button = QPushButton("Submit", self)
         confirm_button.setGeometry(550, 700, 150, 30)
-        confirm_button.setStyleSheet("background-color: rgb(102,255,102)")
         confirm_button.clicked.connect(lambda: self.on_submit_all())
 
         # Adding checkboxes
@@ -67,6 +97,8 @@ class DistributedSimulatorApp(QMainWindow):
                                   self.checkbox_values["Delay"], "Delay", "Delay")
         self.add_line_edit_button(checkbox_layout, "Choose Display Type",
                                   self.checkbox_values["Display"], "Text, Graph", "Display")
+        self.add_line_edit_button(checkbox_layout, "Root Selection",
+                                  self.checkbox_values["Root"], "No Root, Min ID, Random", "Root")
         
         checkbox_layout.setSpacing(20)  # Set spacing between checkboxes
 
@@ -76,7 +108,7 @@ class DistributedSimulatorApp(QMainWindow):
 
     def add_line_edit_button(self, layout, label_text, default_value, placeholder_text, checkbox_label):
         
-        comboBox_list=["Topology", "ID Type", "Display"] # add here the fields that need to be a comboBox
+        comboBox_list=["Topology", "ID Type", "Display", "Root"] # add here the fields that need to be a comboBox
         
         if checkbox_label in comboBox_list:
             combo_label = QLabel(label_text, self)
@@ -87,14 +119,15 @@ class DistributedSimulatorApp(QMainWindow):
             items_list.insert(0, "")  # add empty string as the first item
             combo_box = QComboBox(self)
             combo_box.addItems(items_list)
-            combo_box.setCurrentText(default_value)
+            combo_box.setCurrentText("")
             layout.addWidget(combo_box)
             
             def print_selected_value(value):
                 if not value=="":
                     print(f"Chosen {checkbox_label}: {value}")
-                    self.checkbox_values[checkbox_label] = value[0]  # Save the value to the dictionary
-                
+                    self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
+                    self.update_label_value(checkbox_label, value) # update real time shown value
+
             combo_box.currentTextChanged.connect(print_selected_value)
             return
             
@@ -127,7 +160,7 @@ class DistributedSimulatorApp(QMainWindow):
             value = line_edit.text() if line_edit.isVisible() else default_value
             print(f"Chosen {checkbox_label}: {value}")
             self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
-
+            self.update_label_value(checkbox_label, value) # update real time shown value
         submit_button.clicked.connect(on_submit)
             
         
@@ -156,13 +189,14 @@ class DistributedSimulatorApp(QMainWindow):
         self.close()
 
 
-
-
-def main():
+def menu():
     app = QApplication(sys.argv)
-    main_window = DistributedSimulatorApp()
-    main_window.show()
-    sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()
+    menu_window = MenuWindow()
+    
+    stylesheet_file = os.path.join('./extra_files', 'main_window.qss')
+    with open(stylesheet_file, 'r') as f:
+        menu_window.setStyleSheet(f.read())
+    
+    menu_window.show()
+    
+    app.exec_()

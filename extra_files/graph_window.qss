@@ -1,0 +1,28 @@
+* {
+    background-color: #d7d6d5 ;
+    color: #000000;
+    font-family: Georgia;
+}          
+
+
+QLabel{
+    color: #2e8d93;
+    font-size: 19px;
+}
+
+QPushButton {
+    background-color: #2e8d93;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    font: 14px;
+    min-width: 5em;
+}
+
+QPushButton:pressed {
+    font: 11px;
+}
+
+QComboBox {
+    font-size: 14px;
+}

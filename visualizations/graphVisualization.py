@@ -1,4 +1,5 @@
 import math
+import os
 import sys
 import initializationModule
 
@@ -8,10 +9,35 @@ from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt
 import networkx as nx
 
 
+class NodeInfoWindow(QWidget):
+    def __init__(self, node, parent=None):
+        super().__init__(parent)
+        stylesheet_file = os.path.join('./extra_files', 'graph_window.qss')
+        with open(stylesheet_file, 'r') as f:
+            self.setStyleSheet(f.read())
+                
+        values = node.values
+        self.setWindowTitle(f"Node {values['id']}")
+      
+        text_content = (
+            f"Id : {values['id']}\n"
+            f"Color : {values['color']}\n"
+            f"Root : {values['root']}\n"
+            f"State : {values['state']}\n"
+        )
+        layout = QVBoxLayout(self)
+        text_edit = QTextEdit(self)
+        text_edit.setReadOnly(True)
+        text_edit.setText(text_content)
+        
+        layout.addWidget(text_edit)
+        self.resize(350, 300)
+
+
 
 # node class
 class Node(QGraphicsObject):
-    def __init__(self, name: str, num_nodes: int, parent=None):
+    def __init__(self, name: str, num_nodes: int, network: initializationModule.Initialization, parent=None):
         super().__init__(parent)
         self.name = name
         self.edges = []
@@ -20,11 +46,24 @@ class Node(QGraphicsObject):
         self.radius = self.calculate_radius()
         self.rect = QRectF(0, 0, self.radius * 2, self.radius * 2)
         
+        self.info_window = None  # reference to the node info window
+        
+        for comp in network.connectedComputers:
+            if self.name==str(comp.getId()):
+                self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState()}
+        
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
         
-        
+
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.LeftButton:        
+            self.info_window = NodeInfoWindow(self)
+            self.info_window.show()
+        super().mouseDoubleClickEvent(event)
+
+
     def calculate_radius(self):
         max_radius = 60  # maximum allowed radius
         min_radius = 2  # minimum allowed radius
@@ -41,6 +80,7 @@ class Node(QGraphicsObject):
             for edge in self.edges:
                 edge.adjust()
         return super().itemChange(change, value)
+    
     
     def boundingRect(self) -> QRectF:
         return self.rect
@@ -106,7 +146,7 @@ class Edge(QGraphicsItem):
 
 
 class GraphView(QGraphicsView):
-    def __init__(self, graph: nx.DiGraph, parent=None):
+    def __init__(self, graph: nx.DiGraph, network: initializationModule.Initialization, parent=None):
         super().__init__()
         self.graph = graph
         self.scene = QGraphicsScene()
@@ -120,16 +160,24 @@ class GraphView(QGraphicsView):
 
         self.nx_layout = {
             "circular": nx.circular_layout,
-            "planar": nx.planar_layout,
             "random": nx.random_layout,
-            "shell_layout": nx.shell_layout,
-            "kamada_kawai_layout": nx.kamada_kawai_layout,
-            "spring_layout": nx.spring_layout,
-            "spiral_layout": nx.spiral_layout,
         }
 
-        self.load_graph()
+        self.load_graph(network)
         self.set_nx_layout("circular")
+
+        self.zoom_factor = 1.15
+        self.zoom_step = 1.1
+
+    def wheelEvent(self, event):
+        # zoom in/out on wheel event
+        if event.angleDelta().y() > 0:
+            # zoom in
+            self.scale(self.zoom_factor, self.zoom_factor)
+        else:
+            # zoom out
+            self.scale(1 / self.zoom_factor, 1 / self.zoom_factor)
+
 
     def get_nx_layouts(self) -> list:
         return self.nx_layout.keys()
@@ -147,7 +195,7 @@ class GraphView(QGraphicsView):
                 item = self.nodes_map[node]
                 item.setPos(QPointF(x, y))
 
-    def load_graph(self):
+    def load_graph(self, network: initializationModule.Initialization):
         # Load graph into QGraphicsScene using Node class and Edge class
 
         self.scene.clear()
@@ -155,7 +203,7 @@ class GraphView(QGraphicsView):
 
         # add nodes
         for node in self.graph:
-            item = Node(node, self.num_nodes)
+            item = Node(node, self.num_nodes, network)
             self.scene.addItem(item)
             self.nodes_map[node] = item
 
@@ -175,48 +223,70 @@ class MainWindow(QWidget):
         self.graph = nx.DiGraph()
         self.first_entry=True
         
-        num_computers = self.network.getNumberOfComputers()
-        vertex_names = [str(i) for i in range(1, num_computers)]
-        self.graph.add_nodes_from(vertex_names) # adding nodes
+        # adding node names
+        vertex_names=[]
+        for comp in self.network.connectedComputers:
+            vertex_names.append(str(comp.getId()))
+        self.graph.add_nodes_from(vertex_names)
 
-        for comp in self.network.connectedComputers: # adding edges
+        # adding edges
+        for comp in self.network.connectedComputers:
             for connected in comp.connectedEdges:
-                self.graph.add_edge(str(comp.id), str(connected))
+                self.graph.add_edge(str(comp.getId()), str(connected))
+                
 
-
-        self.view = GraphView(self.graph)
+        self.view = GraphView(self.graph, self.network)
         self.choice_combo = QComboBox()
         self.choice_combo.addItems(self.view.get_nx_layouts())
         
         self.next_phase_button = QPushButton("Next Phase")
-        self.next_phase_button.clicked.connect(self.change_node_color)
+        self.next_phase_button.clicked.connect(lambda: self.change_node_color(1))
+        self.next_5_phase_button = QPushButton("Next 5 Phases")
+        self.next_5_phase_button.clicked.connect(lambda: self.change_node_color(5))
         
-        v_layout = QVBoxLayout(self)
-        v_layout.addWidget(self.choice_combo)
-        v_layout.addWidget(self.view)
-        v_layout.addWidget(self.next_phase_button)  # Add the button to the layout
+        main_layout = QVBoxLayout(self)
+        main_layout.addWidget(self.choice_combo)
+        main_layout.addWidget(self.view)
+        
+        h_layout = QHBoxLayout()
+        h_layout.addWidget(self.next_phase_button)
+        h_layout.addWidget(self.next_5_phase_button)
         self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
+
+        # Add the horizontal layout to the main layout
+        main_layout.addLayout(h_layout)
+
         
     # space key pressed, same as clicking on next phase button
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Space:
-            self.next_phase_action()
+            self.next_phase_button(1)
         else:
             super().keyPressEvent(event)    
         
     # accessed only when button/space is clicked, gates first value from the dictionary and changes its color
-    def change_node_color(self): 
-        if self.network.node_color_dict:
-            node_name, new_color = self.network.node_color_dict.popitem(last=False)  # get and remove the first item from the OrderedDict
-            if node_name in self.graph.nodes:
-                node_item = self.view.nodes_map[node_name]
+    def change_node_color(self, times):
+        for _ in range(times):
+            if self.network.node_color_dict:
+                node_name = self.network.node_color_dict[0][0]
+                new_color = self.network.node_color_dict[0][1]
+                
+                node_item = self.view.nodes_map[node_name]            
                 node_item.color = new_color
+                
+                node_item.values['id']=self.network.node_color_dict[0][0]
+                node_item.values['color']=self.network.node_color_dict[0][1]
+                node_item.values['root']=self.network.node_color_dict[0][2]
+                node_item.values['state']=self.network.node_color_dict[0][3]
+
                 node_item.update()
+                self.network.node_color_dict.pop(0)  # Removes the first item
 
 
 def visualize_network(network: initializationModule.Initialization, comm):
-    app = QApplication(sys.argv)    
-    widget = MainWindow(network, comm)
-    widget.show()
-    widget.resize(800, 600)
-    sys.exit(app.exec())
+    graph_window = MainWindow(network, comm)
+    stylesheet_file = os.path.join('./extra_files', 'graph_window.qss')
+    with open(stylesheet_file, 'r') as f:
+        graph_window.setStyleSheet(f.read())
+    graph_window.show()
+    graph_window.resize(800, 600)
