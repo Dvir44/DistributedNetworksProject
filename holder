@@ -1,9 +1,6 @@
 import math
 import os
-import random
 import sys
-
-import numpy as np
 import initializationModule
 
 from PyQt5.QtGui import *
@@ -29,7 +26,6 @@ class NodeInfoWindow(QSplitter):
             f"Color : {values['color']}\n"
             f"Root : {values['root']}\n"
             f"State : {values['state']}\n"
-            f"last received from : {values['source']}\n"
         )
         layout = QVBoxLayout(self)
         text_edit = QTextEdit(self)
@@ -56,7 +52,7 @@ class Node(QGraphicsObject):
         
         for comp in network.connectedComputers:
             if self.name==str(comp.getId()):
-                self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
+                self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState()}
         
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
@@ -194,56 +190,14 @@ class GraphView(QGraphicsView):
         if name in self.nx_layout:
             self.nx_layout_function = self.nx_layout[name]
 
-            for value in self.nodes_map.values():
-                if value:
-                    threshold_distance = 3*value.radius/self.graph_scale
-                    break
-
-
             # compute node position from layout function
             positions = self.nx_layout_function(self.graph)
-            locations =[]
-            
             for node, pos in positions.items():
                 x, y = pos
-                locations.append((x,y))
-
-            changed=True
-            while changed:
-                changed=False
-                for node, pos in positions.items():
-                    x, y = pos
-                    # adjust position if it overlaps with existing nodes
-                    for loc in locations:
-                        x2, y2 = loc
-                        distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
-                        if distance < threshold_distance and x!=x2 and y!=y2:
-                            angle = math.atan2(y2 - y, x2 - x)
-                            x += 5*threshold_distance* math.cos(angle)
-                            y += 5*threshold_distance* math.sin(angle)
-                            distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
-                            changed=True
-                            break
-                            
-                    locations[int(node)]=(x,y)
-                    # scale x,y
-                    x *= self.graph_scale
-                    y *= self.graph_scale
-                    # set the position for the node
-                    item = self.nodes_map[node]
-                    item.setPos(QPointF(x, y))
-                    
-                    # update positions
-                    for node, (x, y) in positions.items():
-                        new_x, new_y = locations[int(node)]
-                        positions[node] = (new_x, new_y)
-                    if changed:
-                        break
-                
-
-
-                
-                
+                x *= self.graph_scale
+                y *= self.graph_scale   
+                item = self.nodes_map[node]
+                item.setPos(QPointF(x, y))
 
     def load_graph(self, network: initializationModule.Initialization):
         # Load graph into QGraphicsScene using Node class and Edge class
@@ -294,24 +248,25 @@ class MainWindow(QWidget):
     def layoutCreation(self):
         self.choice_combo = QComboBox()
         self.choice_combo.addItems(self.view.get_nx_layouts())
-        self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
-
-        self.regenarate_button = QPushButton("regenarate")
-        self.regenarate_button.clicked.connect(self.regenarate_clicked)
-
+        
+        self.next_phase_button = QPushButton("Next Phase")
+        self.next_phase_button.clicked.connect(lambda: self.change_node_color(1))
+        self.next_5_phase_button = QPushButton("Next 5 Phases")
+        self.next_5_phase_button.clicked.connect(lambda: self.change_node_color(5))
+        
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(self.choice_combo)
-        main_layout.addWidget(self.regenarate_button)
         main_layout.addWidget(self.view)
+    
     
         slider_h_layout = QHBoxLayout()
 
         self.slider = QSlider(Qt.Horizontal)
-        self.slider.setRange(-2000, -500)
-        self.slider.setValue(-1000)
+        self.slider.setRange(1, 2000)
+        self.slider.setValue(1000)
         self.slider.valueChanged.connect(self.update_timer_interval)
         
-        self.slider_label = QLabel(f"{abs(self.slider.value()/1000)} seconds per tick")
+        self.slider_label = QLabel(f"{self.slider.value()/1000} ticks per second")
         self.slider.valueChanged.connect(self.update_slider_label)
 
         self.timer = QTimer(self)
@@ -324,45 +279,35 @@ class MainWindow(QWidget):
         slider_h_layout.addWidget(run_label)
         slider_h_layout.addWidget(self.slider)
 
-
-
+        
         phases_h_layout = QHBoxLayout()
-        
-        self.next_phase_button = QPushButton("Next Phase")
-        self.next_phase_button.clicked.connect(lambda: self.change_node_color(1))
-        self.next_5_phase_button = QPushButton("Next 5 Phases")
-        self.next_5_phase_button.clicked.connect(lambda: self.change_node_color(5))
-        
         phases_h_layout.addWidget(self.next_phase_button)
         phases_h_layout.addWidget(self.next_5_phase_button)
-        
+        self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
+
         
         # Add the horizontal layouts to the main layout
         main_layout.addLayout(slider_h_layout)
         phases_h_layout.addWidget(self.slider_label)
         main_layout.addLayout(phases_h_layout)
         
-        
-    # generate a new layout if the current choice is "random"
-    def regenarate_clicked(self):
-        if self.choice_combo.currentText() == "random":
-            self.view.set_nx_layout("random")
     
+        
     # toggles timer based on the QCheckBox run_checkbox
     def toggle_timer(self):
         if self.run_checkbox.isChecked():
-            self.timer.start(abs(self.slider.value()))
+            self.timer.start(2000 - self.slider.value())
         else:
             self.timer.stop()
         
     # update the timer interval
     def update_timer_interval(self):
         new_interval = self.slider.value()
-        self.timer.setInterval(abs(new_interval))
+        self.timer.setInterval(2000 - new_interval)
  
  
     def update_slider_label(self):
-        self.slider_label.setText(f"{abs(self.slider.value()/1000)} seconds per tick")
+        self.slider_label.setText(f"{self.slider.value()/1000} ticks per second")
         
     # accessed only when button is clicked, gets first value from the dictionary and changes its color
     def change_node_color(self, times):
@@ -378,7 +323,6 @@ class MainWindow(QWidget):
                 node_item.values['color']=self.network.node_values_change[0][1]
                 node_item.values['root']=self.network.node_values_change[0][2]
                 node_item.values['state']=self.network.node_values_change[0][3]
-                node_item.values['source']=self.network.node_values_change[0][4]
 
                 node_item.update()
                 self.network.node_values_change.pop(0)  # Removes the first item

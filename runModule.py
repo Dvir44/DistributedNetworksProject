@@ -12,7 +12,7 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
                 algorithm_function(comp, comm)
 
                 if network.displayType=="Graph" and comp.getColor()!=curr_color: # if display is graph then update color
-                    network.node_color_dict.append([str(comp.getId()), str(comp.getColor()), str(comp.getRoot()), str(comp.getState())])
+                    network.node_values_change.append([str(comp.getId()), str(comp.getColor()), str(comp.getRoot()), str(comp.getState()), str(comp.getReceivedFrom())])
 
                     #network.node_color_dict.append([str(comp.getId()), str(comp.getColor())])
             else:

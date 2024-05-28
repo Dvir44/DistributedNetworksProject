@@ -23,6 +23,40 @@ QPushButton:pressed {
     font: 11px;
 }
 
+QPushButton:hover {
+    background: #267288;
+}
+
+
 QComboBox {
     font-size: 14px;
 }
+
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 10px; /* Increased height */
+}
+
+QSlider::handle:horizontal {
+    background: #2e8d93;
+    width: 20px; /* Increased width */
+    height: 20px; /* Added height */
+    margin: -5px 0; /* Adjusted margin to center the handle */
+    border-radius: 10px; /* Increased border-radius for a rounder handle */
+    border: 1px solid #000000;
+}
+
+
+QSlider::add-page:horizontal {
+    background: #ffffff;
+}
+
+QSlider::sub-page:horizontal {
+    background: #2e8d93;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #267288;
+}
+

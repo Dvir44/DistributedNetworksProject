@@ -29,7 +29,6 @@ def main():
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
-
         thread = threading.Thread(target=lambda: runModule.initiateRun(network, comm))
         thread.start()
         thread.join()  # Wait for the thread to finish

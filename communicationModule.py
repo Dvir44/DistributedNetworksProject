@@ -51,25 +51,31 @@ class CommunicationModule:
     def receive_message(self, message : dict, comm):
         if self.displayType=="Text":
             print("message being worked on: ", message)
+            
         current_id = message['dest_id']
+        source_id = message['source_id']
         
-
         for current_computer in self.network.connectedComputers:
             if current_computer.getId()==current_id: # finding the current computer
-                algorithm_function = getattr(current_computer.algorithmFile, 'mainAlgorithm', None)
-                
-                values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState())]
+                break
+            
+        current_computer.receivedFrom = source_id
 
-                if callable(algorithm_function):
-                    algorithm_function(current_computer, comm) # run mainAlgorithm
-                    if self.displayType=="Graph":
-                        new_values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState())]
-                        if values!=new_values: # if some values have changed then append to the change list for the graph
-                            self.network.node_color_dict.append(new_values)
-                    
-                else:
-                    print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithmFile}.py")
-                    return None
+        algorithm_function = getattr(current_computer.algorithmFile, 'mainAlgorithm', None)
+        
+        values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
+
+        if callable(algorithm_function):
+            algorithm_function(current_computer, comm) # run mainAlgorithm
+            if self.displayType=="Graph":
+                new_values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # updated values
+                if values!=new_values: # if some values have changed then append to the change list for the graph display
+                    self.network.node_values_change.append(new_values)
+            
+        else:
+            print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithmFile}.py")
+            return None
+           
 
 
 def main():

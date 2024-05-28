@@ -1,9 +1,8 @@
 {
-    "Number of Computers": "30",
-    "Topology": "Line",
+    "Number of Computers": "11",
+    "Topology": "Random",
     "ID Type": "Sequential",
     "Delay": "0",
     "Display": "Graph",
-    "Root": "Random",
-    "Algorithm": "C:/Users/danie/Desktop/project/proj/New folder/DistributedNetworksProject/someAlgorithm.py"
+    "Root": "Random"
 }

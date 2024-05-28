@@ -23,6 +23,8 @@ class Computer:
         self.root = False
         self.color = None
         
+        self.receivedFrom = None
+        
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\n"
     
@@ -39,14 +41,17 @@ class Computer:
         return self.root
     def getColor(self):
         return self.color
+    def getReceivedFrom(self):
+        return self.receivedFrom
     
-    
-    
-    def setState(self, num: int):
-        self.state=num
+    def setState(self, newState: int):
+        self.state=newState
         
     def setColor(self, new_color: str):
         self.color=new_color
+        
+    def setReceivedFrom(self, newReceivedFrom: str):
+        self.receivedFrom=newReceivedFrom
 
 def main():
     pass

@@ -6,7 +6,6 @@ import sys
 import computer
 import heapq
 import math
-from collections import OrderedDict
 
 class CustomMinHeap:
     def __init__(self):
@@ -22,6 +21,7 @@ class CustomMinHeap:
         
     def empty(self):
         return len(self.heap) == 0
+
 
 class Initialization:
     '''
@@ -43,7 +43,7 @@ class Initialization:
         self.loadAlgorithms(algorithms)
         self.networkMessageQueue = CustomMinHeap()
         if self.displayType=="Graph":
-            self.node_color_dict = []
+            self.node_values_change = []
         self.rootType = data.get('Root','Random')
         self.rootSelection()
         self.delay = data.get('Delay', 'Random')
@@ -173,7 +173,15 @@ class Initialization:
     def loadAlgorithms(self, algorithm_module_path):
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
-            exit()
+            #exit()
+            
+            directory, file_name = os.path.split("./someAlgorithm.py")
+            base_file_name, _ = os.path.splitext(file_name)
+            sys.path.insert(0,directory)
+
+            algorithm_module = importlib.import_module(base_file_name)
+            for comp in self.connectedComputers:
+                comp.algorithmFile = algorithm_module
         try:
             directory, file_name = os.path.split(algorithm_module_path)
             base_file_name, _ = os.path.splitext(file_name)

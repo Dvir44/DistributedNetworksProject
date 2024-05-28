@@ -16,8 +16,8 @@ class MenuWindow(QMainWindow):
         super().__init__()
         # Dictionary to store checkbox values with default values
         self.checkbox_values = {
-            "Number of Computers": "30",
-            "Topology": "Line",
+            "Number of Computers": "11",
+            "Topology": "Random",
             "ID Type": "Sequential",
             "Delay": "0",
             "Display": "Graph",
@@ -25,7 +25,7 @@ class MenuWindow(QMainWindow):
         }
 
         self.setGeometry(0, 0, 1500, 900)
-        self.setWindowTitle("Distributed Simulator Project")
+        self.setWindowTitle("Simulator for Distributed Networks")
 
         self.start_window()
 
@@ -192,7 +192,7 @@ class MenuWindow(QMainWindow):
 def menu():
     app = QApplication(sys.argv)
     menu_window = MenuWindow()
-    
+    menu_window.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
     stylesheet_file = os.path.join('./extra_files', 'main_window.qss')
     with open(stylesheet_file, 'r') as f:
         menu_window.setStyleSheet(f.read())
