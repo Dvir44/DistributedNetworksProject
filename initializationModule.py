@@ -70,18 +70,25 @@ class Initialization:
             self.randomDelay()
         else:
             self.constantDelay()
-
+            
+    '''
+    ***********************************************************************************
+        need to change to be bi-directional!!!
+    ***********************************************************************************
+    '''
     def randomDelay(self):
         for comp in self.connectedComputers:
-            for i in range(comp.connectedEdges):
-                random_num = random.randint(1,5)
+            comp.delays = [None]*len(comp.connectedEdges)
+
+            for i in range(len(comp.connectedEdges)):
+                random_num = random.randint(1,30)
                 comp.delays[i]=random_num
+
 
     def constantDelay(self):
         for comp in self.connectedComputers:
             comp.delays = [None]*len(comp.connectedEdges)
             for i in range(len(comp.connectedEdges)):
-                print("BBBBBB", i)
                 comp.delays[i]=5
 
     #Creates the connectedComputers list

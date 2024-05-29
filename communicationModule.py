@@ -57,10 +57,17 @@ class CommunicationModule:
         
         for current_computer in self.network.connectedComputers:
             if current_computer.getId()==current_id: # finding the current computer
+                for index, connected in enumerate(current_computer.connectedEdges):
+                    if connected == source_id:
+                        delay = current_computer.delays[index]
+                        print("AAAAA", delay)
+                        break
                 break
-            
-        current_computer.receivedFrom = source_id
+        
+                
 
+        current_computer.receivedFrom = source_id
+        
         algorithm_function = getattr(current_computer.algorithmFile, 'mainAlgorithm', None)
         
         values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
