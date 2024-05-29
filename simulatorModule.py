@@ -20,8 +20,7 @@ def main():
     start_time = time.time()
     network= initializationModule.Initialization()
     network.toString()
-    for comp in network.connectedComputers:
-        print(comp.delays)
+    
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
         

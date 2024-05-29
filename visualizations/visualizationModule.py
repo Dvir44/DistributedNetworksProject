@@ -16,10 +16,10 @@ class MenuWindow(QMainWindow):
         super().__init__()
         # Dictionary to store checkbox values with default values
         self.checkbox_values = {
-            "Number of Computers": "5",
+            "Number of Computers": "8",
             "Topology": "Line",
             "ID Type": "Sequential",
-            "Delay": "0",
+            "Delay": "Random",
             "Display": "Text",
             "Root": "Random"
         }

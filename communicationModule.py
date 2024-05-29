@@ -16,7 +16,6 @@ class CommunicationModule:
             if (source == current_computer.getId()): # finding the current computer
                 break
             
-        
         # creating a new message, which will be put into the queue
         if not current_computer.state=="terminated":
             message = {'source_id':None, 'dest_id':None, 'arrival_time':0, 'delay_time':None,
@@ -34,6 +33,11 @@ class CommunicationModule:
          # if display is text, print
             if self.displayType=="Text":
                 print("message added to network queue: ",message)
+           
+           
+            edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
+            delay = self.network.edgesDelays.get(edge_tuple, None)
+            print("LLLLL", delay)
            
 
     def send_to_all(self, source, delay, message_info):
@@ -57,15 +61,8 @@ class CommunicationModule:
         
         for current_computer in self.network.connectedComputers:
             if current_computer.getId()==current_id: # finding the current computer
-                for index, connected in enumerate(current_computer.connectedEdges):
-                    if connected == source_id:
-                        delay = current_computer.delays[index]
-                        print("AAAAA", delay)
-                        break
                 break
         
-                
-
         current_computer.receivedFrom = source_id
         
         algorithm_function = getattr(current_computer.algorithmFile, 'mainAlgorithm', None)
@@ -84,6 +81,10 @@ class CommunicationModule:
             return None
            
 
+
+
+    def init_computation(self, message:dict, comm):
+        pass
 
 def main():
     pass

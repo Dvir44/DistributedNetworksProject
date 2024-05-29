@@ -46,16 +46,23 @@ class Initialization:
             self.node_values_change = []
         self.rootType = data.get('Root','Random')
         self.rootSelection()
+        
         self.delay = data.get('Delay', 'Random')
+        self.edgesDelays={} # holds the delays of each edge in the graph
         self.delaysCreation()
-
+        
+        
+        
     def toString(self):
-        print(self.numberOfComputers)
-        print(self.topologyType)
-        print(self.IdType)
-        print(self.displayType)
+        print("Computer Number: ", self.numberOfComputers)
+        print("Topology: ",self.topologyType)
+        print("ID Type: ",self.IdType)
+        print("Display Type: ",self.displayType)
+        print("Delays: ",self.edgesDelays)
+        print(f"\nComputers:\n")
         for computer in self.connectedComputers:
             print(computer)
+            
 
     #Getters
     def getNumberOfComputers(self):
@@ -71,20 +78,25 @@ class Initialization:
         else:
             self.constantDelay()
             
+    # Creates random delay for every edge
+    def randomDelay(self):
+        for comp in self.connectedComputers:
+            comp.delays = [None] * len(comp.connectedEdges)
+            for i, connected in enumerate(comp.connectedEdges):
+                edge_tuple = (comp.id, connected) if comp.id < connected else (connected, comp.id) # unique representation of the edge as a tuple
+                
+                if edge_tuple not in self.edgesDelays: # if not already in edgesDelays, generate a random delay, and insert into edgesDelays
+                    random_num = random.randint(1, 30)
+                    self.edgesDelays[edge_tuple] = random_num
+                
+                comp.delays[i] = self.edgesDelays[edge_tuple]
+                
+        
     '''
     ***********************************************************************************
         need to change to be bi-directional!!!
     ***********************************************************************************
     '''
-    def randomDelay(self):
-        for comp in self.connectedComputers:
-            comp.delays = [None]*len(comp.connectedEdges)
-
-            for i in range(len(comp.connectedEdges)):
-                random_num = random.randint(1,30)
-                comp.delays[i]=random_num
-
-
     def constantDelay(self):
         for comp in self.connectedComputers:
             comp.delays = [None]*len(comp.connectedEdges)

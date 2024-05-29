@@ -26,7 +26,7 @@ class Computer:
         self.receivedFrom = None
         
     def __str__(self):
-        return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}"
+        return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
     
     #Getters
     def getId(self):
