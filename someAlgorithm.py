@@ -5,7 +5,7 @@ import communicationModule
 
 def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule):
     if  self.state != "terminated":
-        communication.send_to_all(self.getId(), self.delays, "running a broadcast")
+        communication.send_to_all(self.getId(), "running a broadcast")
         self.setColor("#7427e9")
         self.setState("terminated")
 
@@ -13,7 +13,7 @@ def mainAlgorithm(self: computer.Computer, communication : communicationModule.C
 def init(self: computer.Computer, communication : communicationModule.CommunicationModule):
     if (self.getRoot()):
         print(self.getId(), " is root")
-        communication.send_to_all(self.getId(), 0, "running a broadcast")
+        communication.send_to_all(self.getId(), "running a broadcast")
         self.setColor("#000000")
         self.setState("terminated")
 

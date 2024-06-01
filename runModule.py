@@ -13,19 +13,16 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
 
                 if network.displayType=="Graph" and comp.getColor()!=curr_color: # if display is graph then update color
                     network.node_values_change.append([str(comp.getId()), str(comp.getColor()), str(comp.getRoot()), str(comp.getState()), str(comp.getReceivedFrom())])
-
-                    #network.node_color_dict.append([str(comp.getId()), str(comp.getColor())])
             else:
                 print(f"Error: Function 'init' not found in {comp.algorithmFile}.py")
                 return None
+        print("******************************************")
         
         ## running mainAlgorithm
         while not network.networkMessageQueue.empty():
             mess=network.networkMessageQueue.pop()
             comm.receive_message(mess, comm)
-            if network.displayType=="Text":
-                print("**********************")
-    
+
 def main():
     pass
 

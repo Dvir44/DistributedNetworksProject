@@ -22,6 +22,8 @@ class CustomMinHeap:
     def empty(self):
         return len(self.heap) == 0
 
+    def size(self):
+        return len(self.heap)
 
 class Initialization:
     '''
@@ -86,11 +88,14 @@ class Initialization:
                 edge_tuple = (comp.id, connected) if comp.id < connected else (connected, comp.id) # unique representation of the edge as a tuple
                 
                 if edge_tuple not in self.edgesDelays: # if not already in edgesDelays, generate a random delay, and insert into edgesDelays
-                    random_num = random.randint(1, 30)
+                    random_num = random.randint(1, 10)
                     self.edgesDelays[edge_tuple] = random_num
                 
                 comp.delays[i] = self.edgesDelays[edge_tuple]
                 
+                
+                
+        #self.edgesDelays = {(0, 1): 1, (1, 2): 3, (2, 3): 1, (3, 4): 4}
         
     '''
     ***********************************************************************************

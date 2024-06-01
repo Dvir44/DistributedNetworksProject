@@ -1,6 +1,6 @@
 {
-    "Number of Computers": "8",
-    "Topology": "Line",
+    "Number of Computers": "5",
+    "Topology": "Random",
     "ID Type": "Sequential",
     "Delay": "Random",
     "Display": "Text",

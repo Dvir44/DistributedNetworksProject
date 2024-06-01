@@ -25,6 +25,8 @@ class Computer:
         
         self.receivedFrom = None
         
+        self.internalClock = 0
+        
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
     
@@ -43,16 +45,18 @@ class Computer:
         return self.color
     def getReceivedFrom(self):
         return self.receivedFrom
+    def getInternalClock(self):
+        return self.internalClock
     
     def setState(self, newState: int):
         self.state=newState
-        
     def setColor(self, new_color: str):
         self.color=new_color
-        
     def setReceivedFrom(self, newReceivedFrom: str):
         self.receivedFrom=newReceivedFrom
-
+    def setInternalClock(self, newTime: int):
+        self.internalClock=newTime
+    
 def main():
     pass
 

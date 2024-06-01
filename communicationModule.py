@@ -6,55 +6,63 @@ import initializationModule
 class CommunicationModule:
     def __init__(self, network: initializationModule.Initialization, displayType: str):
         self.network = network
-        self.delayCounter = 0
         self.displayType = displayType
 
-
     # Send a message from the source computer to the destination computer
-    def send_message(self, source, dest, delay, message_info):
+    def send_message(self, source, dest, message_info):
         for current_computer in self.network.connectedComputers:
             if (source == current_computer.getId()): # finding the current computer
                 break
             
+            
+        edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
+        delay = self.network.edgesDelays.get(edge_tuple, 0)        
+        
+
         # creating a new message, which will be put into the queue
         if not current_computer.state=="terminated":
-            message = {'source_id':None, 'dest_id':None, 'arrival_time':0, 'delay_time':None,
-                        'message_content':""}
+                       
+            for destination_computer in self.network.connectedComputers:
+                if (destination_computer.getId()==dest): # finding the current computer
+                    break
+                
+            message = {'source_id':None, 'dest_id':None, 'arrival_time':None, 'message_content':""}
             
+            # updating destination computer clock
+            if destination_computer.internalClock != 0:
+                destination_computer.internalClock = max(0, min(current_computer.internalClock+delay, destination_computer.internalClock))
+            else:
+                destination_computer.internalClock = current_computer.internalClock+delay
+                
+            message['arrival_time'] = current_computer.internalClock+delay
             message['source_id'] = source
             message['dest_id'] = dest
-            message['delay_time'] = delay
-            message['arrival_time'] += delay+self.delayCounter
             message['message_content'] = message_info
-
+    
             self.network.networkMessageQueue.push(message)
-            self.delayCounter+=1
         
-         # if display is text, print
+            # if display is text, print
             if self.displayType=="Text":
-                print("message added to network queue: ",message)
-           
-           
-            edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
-            delay = self.network.edgesDelays.get(edge_tuple, None)
-            print("LLLLL", delay)
+                pass
+                #print("message added to network queue: ",message)
            
 
-    def send_to_all(self, source, delay, message_info):
+           
+           
+    def send_to_all(self, source, message_info):
         for current_computer in self.network.connectedComputers:
                 if (source == current_computer.getId()): # finding the current computer
                     break
         for index, connected_computer_id in enumerate(current_computer.connectedEdges):
-            delay = current_computer.delays[index]
-            self.send_message(source, connected_computer_id, delay, message_info)
+            self.send_message(source, connected_computer_id, message_info)
             
 
 
 
 
     def receive_message(self, message : dict, comm):
-        if self.displayType=="Text":
-            print("message being worked on: ", message)
+        #if self.displayType=="Text":
+        print("message received: ", message)
             
         current_id = message['dest_id']
         source_id = message['source_id']
@@ -83,7 +91,8 @@ class CommunicationModule:
 
 
 
-    def init_computation(self, message:dict, comm):
+    def init_receive_message(self, message:dict, comm):
+        
         pass
 
 def main():

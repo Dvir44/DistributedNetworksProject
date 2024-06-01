@@ -29,7 +29,7 @@ class NodeInfoWindow(QSplitter):
             f"Color : {values['color']}\n"
             f"Root : {values['root']}\n"
             f"State : {values['state']}\n"
-            f"Last received from : {values['source']}\n"
+            f"Received from : {values['source']}\n"
         )
         layout = QVBoxLayout(self)
         text_edit = QTextEdit(self)
