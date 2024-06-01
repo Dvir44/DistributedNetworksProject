@@ -19,7 +19,7 @@ def main():
     visualizationModule.menu()
     start_time = time.time()
     network= initializationModule.Initialization()
-    network.toString()
+    print(network)
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)

@@ -3,6 +3,6 @@
     "Topology": "Random",
     "ID Type": "Sequential",
     "Delay": "Random",
-    "Display": "Text",
+    "Display": "Graph",
     "Root": "Random"
 }

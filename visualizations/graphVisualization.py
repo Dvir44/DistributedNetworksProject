@@ -54,9 +54,8 @@ class Node(QGraphicsObject):
         
         self.info_window = None  # reference to the node info window
         
-        for comp in network.connectedComputers:
-            if self.name==str(comp.getId()):
-                self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
+        comp = network.find_computer(int(self.name))
+        self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
         
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)

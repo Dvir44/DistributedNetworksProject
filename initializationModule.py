@@ -27,53 +27,46 @@ class CustomMinHeap:
 
 class Initialization:
     '''
-    Initialization Class - creates the basic parameters we get from the user in the visualization class
-    and then we create the basic base for the simulation to run on
+    Initialization Class - sets up the network parameters and topology based on user input
     '''
-    #Defualt constructor
     def __init__(self):
-        with open('network_variables.json', 'r') as f:
-            data = json.load(f)
-        self.numberOfComputers = int(data.get('Number of Computers',5))
-        self.topologyType = data.get('Topology','Line')
-        self.IdType = data.get('ID Type','Sequential')
-        self.displayType = data.get('Display','Text')
+        self.load_config()
         self.connectedComputers = []
         self.connectedComputersCreation()
-        #self.createComputersIds()
-        algorithms = data.get('Algorithm', 'no_alg_provided')
-        self.loadAlgorithms(algorithms)
+        self.loadAlgorithms(self.algorithm_path)
         self.networkMessageQueue = CustomMinHeap()
-        if self.displayType=="Graph":
-            self.node_values_change = []
-        self.rootType = data.get('Root','Random')
+        self.node_values_change = [] # for graph
         self.rootSelection()
-        
-        self.delay = data.get('Delay', 'Random')
         self.edgesDelays={} # holds the delays of each edge in the graph
         self.delaysCreation()
         
         
+    def load_config(self):
+        with open('network_variables.json', 'r') as f:
+            data = json.load(f)
+        self.numberOfComputers = int(data.get('Number of Computers', 5))
+        self.topologyType = data.get('Topology', 'Line')
+        self.IdType = data.get('ID Type', 'Sequential')
+        self.displayType = data.get('Display', 'Text')
+        self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
+        self.rootType = data.get('Root', 'Random')
+        self.delay = data.get('Delay', 'Random')
         
-    def toString(self):
-        print("Computer Number: ", self.numberOfComputers)
-        print("Topology: ",self.topologyType)
-        print("ID Type: ",self.IdType)
-        print("Display Type: ",self.displayType)
-        print("Delays: ",self.edgesDelays)
-        print(f"\nComputers:\n")
-        for computer in self.connectedComputers:
-            print(computer)
+        
+        
+        
+    def __str__(self):
+        result = [
+            f"Number of Computers: {self.numberOfComputers}",
+            f"Topology: {self.topologyType}",
+            f"ID Type: {self.IdType}",
+            f"Display Type: {self.displayType}",
+            f"Delays: {self.edgesDelays}",
+            "\nComputers:"
+        ]
+        result.extend(str(comp) for comp in self.connectedComputers)
+        return "\n".join(result)
             
-
-    #Getters
-    def getNumberOfComputers(self):
-        return self.numberOfComputers
-    def getTopologyType(self):
-        return self.topologyType
-    def getConnectedComputers(self):
-        return self.connectedComputers
-
     def delaysCreation(self):
         if self.delay=="Random":
             self.randomDelay()
@@ -92,11 +85,7 @@ class Initialization:
                     self.edgesDelays[edge_tuple] = random_num
                 
                 comp.delays[i] = self.edgesDelays[edge_tuple]
-                
-                
-                
-        #self.edgesDelays = {(0, 1): 1, (1, 2): 3, (2, 3): 1, (3, 4): 4}
-        
+                        
     '''
     ***********************************************************************************
         need to change to be bi-directional!!!
@@ -227,6 +216,14 @@ class Initialization:
             selected_computer = min(self.connectedComputers, key=lambda computer: computer.getId())
             selected_computer.root=True
 
+
+
+
+    def find_computer(self, id: int):
+        for computer in self.connectedComputers:
+            if computer.getId() == id:
+                return computer
+        return None
 
 def main():
     init = Initialization()
