@@ -1,7 +1,11 @@
+import queue
+import sys
 import numpy
 from visualizations.graphVisualization import visualize_network
 import initializationModule
 import communicationModule
+
+exception_queue = queue.Queue()
 
 def initiateRun(network: initializationModule.Initialization, comm : communicationModule.CommunicationModule):
         # running init() for every computer which must be defined, and puting messages into the network queue
@@ -9,8 +13,13 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
             algorithm_function = getattr(comp.algorithm_file, 'init', None)
             if callable(algorithm_function): # add the algorithm to each computer
                 curr_color=comp.getColor()
-                algorithm_function(comp, comm)
-
+                try:
+                    algorithm_function(comp, comm)
+                except BaseException as e:
+                    print("ERROR IN INIT ALGORITHM")
+                    exception_queue.put(e)
+                    exit()
+                
                 if network.display_type=="Graph" and comp.getColor()!=curr_color: # if display is graph then update color
                     network.node_values_change.append([str(comp.id), str(comp.getColor()), str(comp.getRoot()), str(comp.getState()), str(comp.getReceivedFrom())])
             else:

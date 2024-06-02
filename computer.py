@@ -37,7 +37,7 @@ class Computer:
     @id.setter
     def id(self, value):
         if self._id is not None:
-            raise AttributeError("Can't change node ID")
+            raise Exception
         self._id = value
 
     def getConnectedEdges(self):

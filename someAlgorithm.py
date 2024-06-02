@@ -16,7 +16,8 @@ def init(self: computer.Computer, communication : communicationModule.Communicat
         communication.send_to_all(self.id, "running a broadcast")
         self.setColor("#000000")
         self.setState("terminated")
-        self.id=11
+    #if self.id==79:
+    #    self.id=11
 
 
 def main():

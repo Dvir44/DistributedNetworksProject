@@ -11,6 +11,8 @@ import communicationModule
 import time
 import visualizations.graphVisualization as graphVisualization
 
+from runModule import exception_queue
+
 class Simulator:
     def __init__(self):
         pass
@@ -29,15 +31,22 @@ def main():
 
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)
-        graphVisualization.visualize_network(network, comm)
         thread = threading.Thread(target=lambda: runModule.initiateRun(network, comm))
         thread.start()
-        thread.join()  # Wait for the thread to finish
+        graphVisualization.visualize_network(network, comm)
+        thread.join()
+        
         print("--- %s seconds ---" % (time.time() - start_time))
+
+        if not exception_queue.empty():
+            exit()
+            
 
         sys.exit(app.exec_())
     else:
         runModule.initiateRun(network, comm)
+        if not exception_queue.empty():
+            exit()
         print("--- %s seconds ---" % (time.time() - start_time))
 
     
