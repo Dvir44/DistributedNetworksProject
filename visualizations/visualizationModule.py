@@ -20,7 +20,7 @@ class MenuWindow(QMainWindow):
             "Topology": "Random",
             "ID Type": "Sequential",
             "Delay": "Random",
-            "Display": "Text",
+            "Display": "Graph",
             "Root": "Random"
         }
 
@@ -28,7 +28,6 @@ class MenuWindow(QMainWindow):
         self.setWindowTitle("Simulator for Distributed Networks")
 
         self.start_window()
-
 
     
     def update_label_value(self, key, value):
@@ -46,18 +45,6 @@ class MenuWindow(QMainWindow):
             y_offset += 30  # Increase vertical position for the next label
             self.label_values[key] = label  # Store label reference
 
-        
-        
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         # Creating the title label
@@ -107,8 +94,13 @@ class MenuWindow(QMainWindow):
         checkbox_widget.setGeometry(800, 100, 500, 500)  # Increase the width to accommodate larger checkboxes
 
     def add_line_edit_button(self, layout, label_text, default_value, placeholder_text, checkbox_label):
-        
-        comboBox_list=["Topology", "ID Type", "Display", "Root", "Delay"] # add here the fields that need to be a comboBox
+        # add here the fields that need to be a comboBox
+        comboBox_list=["Topology",
+                       "ID Type",
+                       "Display",
+                       "Root",
+                       "Delay",
+                       ]
         
         if checkbox_label in comboBox_list:
             combo_label = QLabel(label_text, self)
@@ -176,7 +168,6 @@ class MenuWindow(QMainWindow):
             _, file_extension = os.path.splitext(fname)
             if file_extension.lower() == '.py':
                 with open(fname, 'r') as file:
-                    algorithm_content = file.read()
                     self.checkbox_values["Algorithm"] = fname
             else:
                 QMessageBox.warning(self, 'Error', 'Please select a Python file (.py)', QMessageBox.Ok)

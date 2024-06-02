@@ -12,27 +12,34 @@ class Computer:
     root - whether the computer is a root
     color - computer color
     '''
-    # Default constructor
     def __init__(self):
-        self.id = None
+        self._id = None
         self.connectedEdges = []
         self.delays = []
         self.messageQueue = queue.Queue()
-        self.algorithmFile=None
+        self.algorithm_file=None
         self.state = None
         self.root = False
         self.color = None
         
         self.receivedFrom = None
         
-        self.internalClock = 0
+        self._internal_clock = 0
         
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
     
-    #Getters
-    def getId(self):
-        return self.id
+ 
+    @property
+    def id(self):
+        return self._id
+    
+    @id.setter
+    def id(self, value):
+        if self._id is not None:
+            raise AttributeError("Can't change node ID")
+        self._id = value
+
     def getConnectedEdges(self):
         return self.connectedEdges
     def getDelays(self):
@@ -45,8 +52,6 @@ class Computer:
         return self.color
     def getReceivedFrom(self):
         return self.receivedFrom
-    def getInternalClock(self):
-        return self.internalClock
     
     def setState(self, newState: int):
         self.state=newState
@@ -54,8 +59,6 @@ class Computer:
         self.color=new_color
     def setReceivedFrom(self, newReceivedFrom: str):
         self.receivedFrom=newReceivedFrom
-    def setInternalClock(self, newTime: int):
-        self.internalClock=newTime
     
 def main():
     pass

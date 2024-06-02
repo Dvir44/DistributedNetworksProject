@@ -18,13 +18,14 @@ class Simulator:
 def main():
     visualizationModule.menu()
     start_time = time.time()
+    
     network= initializationModule.Initialization()
     print(network)
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
         
-    comm = communicationModule.CommunicationModule(network, data['Display'])
+    comm = communicationModule.CommunicationModule(network)
 
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)

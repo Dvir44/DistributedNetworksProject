@@ -55,27 +55,23 @@ class Node(QGraphicsObject):
         self.info_window = None  # reference to the node info window
         
         comp = network.find_computer(int(self.name))
-        self.values = {'id': comp.getId(), 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
+        self.values = {'id': comp.id, 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
         
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
         
-
+    def calculate_radius(self) -> int:
+        max_radius = 60
+        min_radius = 2
+        radius = max(min_radius, max_radius / math.sqrt(self.num_nodes))
+        return radius
+    
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.LeftButton:        
             self.info_window = NodeInfoWindow(self)
             self.info_window.show()
         super().mouseDoubleClickEvent(event)
-
-
-    def calculate_radius(self):
-        max_radius = 60  # maximum allowed radius
-        min_radius = 2  # minimum allowed radius
-        # adjusting radius based on the number of nodes
-        radius = max(min_radius, max_radius / math.sqrt(self.num_nodes))
-        return radius
-        
         
     def add_edge(self, edge):
         self.edges.append(edge)
@@ -85,7 +81,6 @@ class Node(QGraphicsObject):
             for edge in self.edges:
                 edge.adjust()
         return super().itemChange(change, value)
-    
     
     def boundingRect(self) -> QRectF:
         return self.rect
@@ -195,17 +190,17 @@ class GraphView(QGraphicsView):
 
             for value in self.nodes_map.values():
                 if value:
-                    threshold_distance = 3*value.radius/self.graph_scale
+                    threshold_distance = 2*value.radius/self.graph_scale
                     break
 
 
             # compute node position from layout function
             positions = self.nx_layout_function(self.graph)
-            locations =[]
+            locations ={}
             
             for node, pos in positions.items():
                 x, y = pos
-                locations.append((x,y))
+                locations[node]=(x,y)
 
             changed=True
             while changed:
@@ -213,7 +208,7 @@ class GraphView(QGraphicsView):
                 for node, pos in positions.items():
                     x, y = pos
                     # adjust position if it overlaps with existing nodes
-                    for loc in locations:
+                    for _, loc in locations.items():
                         x2, y2 = loc
                         distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
                         if distance < threshold_distance and x!=x2 and y!=y2:
@@ -223,8 +218,9 @@ class GraphView(QGraphicsView):
                             distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
                             changed=True
                             break
-                            
-                    locations[int(node)]=(x,y)
+                    
+                    locations[node]=(x,y)
+                        
                     # scale x,y
                     x *= self.graph_scale
                     y *= self.graph_scale
@@ -233,8 +229,8 @@ class GraphView(QGraphicsView):
                     item.setPos(QPointF(x, y))
                     
                     # update positions
-                    for node, (x, y) in positions.items():
-                        new_x, new_y = locations[int(node)]
+                    for node, (x, y) in positions.items():                        
+                        new_x, new_y = locations[node]
                         positions[node] = (new_x, new_y)
                     if changed:
                         break
@@ -246,7 +242,6 @@ class GraphView(QGraphicsView):
 
     def load_graph(self, network: initializationModule.Initialization):
         # Load graph into QGraphicsScene using Node class and Edge class
-
         self.scene.clear()
         self.nodes_map.clear()
 
@@ -276,14 +271,14 @@ class MainWindow(QWidget):
         
         # adding node names
         vertex_names=[]
-        for comp in self.network.connectedComputers:
-            vertex_names.append(str(comp.getId()))
+        for comp in self.network.connected_computers:
+            vertex_names.append(str(comp.id))
         self.graph.add_nodes_from(vertex_names)
 
         # adding edges
-        for comp in self.network.connectedComputers:
+        for comp in self.network.connected_computers:
             for connected in comp.connectedEdges:
-                self.graph.add_edge(str(comp.getId()), str(connected))
+                self.graph.add_edge(str(comp.id), str(connected))
                 
 
         self.view = GraphView(self.graph, self.network)

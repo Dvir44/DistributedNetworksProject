@@ -1,37 +1,36 @@
 import numpy
 import initializationModule
 
-import usefulFunctions
 
 class CommunicationModule:
-    def __init__(self, network: initializationModule.Initialization, displayType: str):
+    def __init__(self, network: initializationModule.Initialization):
         self.network = network
-        self.displayType = displayType
+        self.displayType = network.display_type
 
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, message_info):
         current_computer = self.network.find_computer(source)
             
         edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
-        delay = self.network.edgesDelays.get(edge_tuple, 0)        
+        delay = self.network.edges_delays.get(edge_tuple, 0)        
         
         # creating a new message which will be put into the queue
-        if not current_computer.state=="terminated":
+        if not current_computer.state == "terminated":
             destination_computer = self.network.find_computer(dest)
                       
             # updating destination computer clock
-            if destination_computer.internalClock != 0:
-                destination_computer.internalClock = max(0, min(current_computer.internalClock+delay, destination_computer.internalClock))
+            if destination_computer._internal_clock != 0:
+                destination_computer._internal_clock = max(0, min(current_computer._internal_clock + delay, destination_computer._internal_clock))
             else:
-                destination_computer.internalClock = current_computer.internalClock+delay
+                destination_computer._internal_clock = current_computer._internal_clock + delay
             
             message = {
             'source_id': source,
             'dest_id': dest,
-            'arrival_time': current_computer.internalClock + delay,
+            'arrival_time': current_computer._internal_clock + delay,
             'content': message_info
             }
-            self.network.networkMessageQueue.push(message)
+            self.network.network_message_queue.push(message)
         
             # if display is text, print
             if self.displayType=="Text":
@@ -53,19 +52,19 @@ class CommunicationModule:
         current_computer = self.network.find_computer(current_id)
         current_computer.receivedFrom = source_id
         
-        algorithm_function = getattr(current_computer.algorithmFile, 'mainAlgorithm', None)
+        algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None)
         
-        values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
+        values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
 
         if callable(algorithm_function):
             algorithm_function(current_computer, comm) # run mainAlgorithm
             if self.displayType=="Graph":
-                new_values = [str(current_computer.getId()), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # updated values
+                new_values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # updated values
                 if values!=new_values: # if some values have changed then append to the change list for the graph display
                     self.network.node_values_change.append(new_values)
             
         else:
-            print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithmFile}.py")
+            print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithm_file}.py")
             return None
  
 def main():

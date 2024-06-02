@@ -3,7 +3,7 @@ import json
 import os
 import random
 import sys
-import computer
+from computer import Computer
 import heapq
 import math
 
@@ -15,15 +15,17 @@ class CustomMinHeap:
     def push(self, message_format):
         heapq.heappush(self.heap, (message_format['arrival_time'], self.counter, message_format))
         self.counter += 1
-    def pop(self):
+        
+    def pop(self) -> dict:
         priority, priority2, message_format = heapq.heappop(self.heap)
         return message_format
         
-    def empty(self):
+    def empty(self) -> bool: 
         return len(self.heap) == 0
 
-    def size(self):
+    def size(self) -> int:
         return len(self.heap)
+
 
 class Initialization:
     '''
@@ -31,159 +33,162 @@ class Initialization:
     '''
     def __init__(self):
         self.load_config()
-        self.connectedComputers = []
-        self.connectedComputersCreation()
-        self.loadAlgorithms(self.algorithm_path)
-        self.networkMessageQueue = CustomMinHeap()
-        self.node_values_change = [] # for graph
-        self.rootSelection()
-        self.edgesDelays={} # holds the delays of each edge in the graph
-        self.delaysCreation()
+        self.connected_computers = [Computer() for _ in range(self.computer_number)]
+        self.network_message_queue = CustomMinHeap()
+        self.node_values_change = [] # for graph display
+        self.edges_delays={} # holds the delays of each edge in the network
+
+        self.create_computer_ids()
+        self.create_connected_computers()
+        self.load_algorithms(self.algorithm_path)
+        self.root_selection()
+        self.delays_creation()
         
         
     def load_config(self):
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
-        self.numberOfComputers = int(data.get('Number of Computers', 5))
+        self.computer_number = int(data.get('Number of Computers', 5))
         self.topologyType = data.get('Topology', 'Line')
-        self.IdType = data.get('ID Type', 'Sequential')
-        self.displayType = data.get('Display', 'Text')
+        self.id_type = data.get('ID Type', 'Sequential')
+        self.display_type = data.get('Display', 'Text')
+        self.root_type = data.get('Root', 'Random')
+        self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
-        self.rootType = data.get('Root', 'Random')
-        self.delay = data.get('Delay', 'Random')
         
         
-        
-        
-    def __str__(self):
+    def __str__(self) -> list:
         result = [
-            f"Number of Computers: {self.numberOfComputers}",
+            f"Number of Computers: {self.computer_number}",
             f"Topology: {self.topologyType}",
-            f"ID Type: {self.IdType}",
-            f"Display Type: {self.displayType}",
-            f"Delays: {self.edgesDelays}",
+            f"ID Type: {self.id_type}",
+            f"Display Type: {self.display_type}",
+            f"Delays: {self.edges_delays}",
             "\nComputers:"
         ]
-        result.extend(str(comp) for comp in self.connectedComputers)
+        result.extend(str(comp) for comp in self.connected_computers)
         return "\n".join(result)
             
-    def delaysCreation(self):
-        if self.delay=="Random":
-            self.randomDelay()
+    def delays_creation(self):
+        if self.delay_type=="Random":
+            self.random_delay()
         else:
-            self.constantDelay()
+            self.constant_delay()
             
     # Creates random delay for every edge
-    def randomDelay(self):
-        for comp in self.connectedComputers:
+    def random_delay(self):
+        for comp in self.connected_computers:
             comp.delays = [None] * len(comp.connectedEdges)
             for i, connected in enumerate(comp.connectedEdges):
                 edge_tuple = (comp.id, connected) if comp.id < connected else (connected, comp.id) # unique representation of the edge as a tuple
                 
-                if edge_tuple not in self.edgesDelays: # if not already in edgesDelays, generate a random delay, and insert into edgesDelays
+                if edge_tuple not in self.edges_delays: # if not already in edgesDelays, generate a random delay, and insert into edgesDelays
                     random_num = random.randint(1, 10)
-                    self.edgesDelays[edge_tuple] = random_num
+                    self.edges_delays[edge_tuple] = random_num
                 
-                comp.delays[i] = self.edgesDelays[edge_tuple]
+                comp.delays[i] = self.edges_delays[edge_tuple]
                         
     '''
     ***********************************************************************************
         need to change to be bi-directional!!!
     ***********************************************************************************
     '''
-    def constantDelay(self):
-        for comp in self.connectedComputers:
+    def constant_delay(self):
+        for comp in self.connected_computers:
             comp.delays = [None]*len(comp.connectedEdges)
             for i in range(len(comp.connectedEdges)):
                 comp.delays[i]=5
 
-    #Creates the connectedComputers list
-    def connectedComputersCreation(self):
-        self.connectedComputers = [computer.Computer() for _ in range(self.numberOfComputers)] 
-        self.createComputersIds() #Fill the Id's according to the user choice
+    #Creates network topology
+    def create_connected_computers(self):
+        topology_functions = {
+            "Random": self.create_random_topology,
+            "Line": self.create_line_topology,
+            "Clique": self.create_clique_topology
+            }
         
-        if (self.topologyType == "Random"):
-            self.createRandomTopology()
-        elif (self.topologyType == "Line"):
-            self.createLineTopology()
-        elif (self.topologyType == "Clique"):
-            self.createCliqueTopology()
-        return
+        topology_function = topology_functions[self.topologyType]
+        topology_function()
+        
     
-
     # Create computer IDs based on the IdType
-    def createComputersIds(self):
-        if self.IdType == "Random":
-            self.createRandomIds()
-        elif self.IdType == "Sequential":
-            self.createSequentialIds()
+    def create_computer_ids(self):
+        id_functions = {
+        "Random": self.create_random_ids,
+        "Sequential": self.create_sequential_ids,
+        }
+        
+        id_function = id_functions[self.id_type]
+        id_function()
+
 
     # Create random computer IDs (ensuring uniqueness)
-    def createRandomIds(self):
+    def create_random_ids(self):
         used_ids = set()
-        for comp in self.connectedComputers:
-            comp_id = random.randint(100, 100 * self.numberOfComputers - 1)
+        for comp in self.connected_computers:
+            comp_id = random.randint(100, 100 * self.computer_number - 1)
             while comp_id in used_ids:
-                comp_id = random.randint(100, 100 * self.numberOfComputers - 1)
+                comp_id = random.randint(100, 100 * self.computer_number - 1)
             comp.id = comp_id
             used_ids.add(comp_id)
 
-    # Create uniform computer IDs
-    def createSequentialIds(self):
-        for i, comp in enumerate(self.connectedComputers):
+    # Create sequential computer IDs
+    def create_sequential_ids(self):
+        for i, comp in enumerate(self.connected_computers):
             comp.id = i
+            
 
     # Create a random topology for the network
-    def createRandomTopology(self):
+    def create_random_topology(self):
         ids_list=[]
-        for comp in self.connectedComputers:
-            ids_list.append(comp.getId())
+        for comp in self.connected_computers:
+            ids_list.append(comp.id)
 
-        for i, comp in enumerate(self.connectedComputers):
-            # Determine a random number of edges (between 1 and numberOfComputers - 1)
-            num_edges = random.randint(1, 2*int(math.log(self.numberOfComputers - 1)))
-            # Choose num_edges unique vertices (excluding  comp.getId())
-            connected_to_vertices = random.sample([j for j in ids_list if j != comp.getId()], num_edges)
+        for i, comp in enumerate(self.connected_computers):
+            # Determine a random number of edges (between 1 and computer_number - 1)
+            num_edges = random.randint(1, 2*int(math.log(self.computer_number - 1)))
+            # Choose num_edges unique vertices (excluding  comp.getId)
+            connected_to_vertices = random.sample([j for j in ids_list if j != comp.id], num_edges)
 
             # Add connections
             comp.connectedEdges.extend(connected_to_vertices)
 
             # Ensure bi-directional connection
             for connected_to_id in connected_to_vertices:
-                for comp in self.connectedComputers:
-                    if comp.getId()==connected_to_id:
-                        comp.connectedEdges.append(self.connectedComputers[i].getId())
+                for comp in self.connected_computers:
+                    if comp.id==connected_to_id:
+                        comp.connectedEdges.append(self.connected_computers[i].id)
                         break
                         
                 
         # removing duplicates
-        for comp in self.connectedComputers:
+        for comp in self.connected_computers:
             comp.connectedEdges=list(set(comp.connectedEdges))
 
     # Create line topology for the network
-    def createLineTopology(self):
-        for i in range(self.numberOfComputers - 1):
+    def create_line_topology(self):
+        for i in range(self.computer_number - 1):
             # Connect each computer to the next one in line
-            self.connectedComputers[i].connectedEdges.append(self.connectedComputers[i+1].getId())
-            self.connectedComputers[i + 1].connectedEdges.append(self.connectedComputers[i].getId())  # Ensure bi-directional connection
+            self.connected_computers[i].connectedEdges.append(self.connected_computers[i+1].id)
+            self.connected_computers[i + 1].connectedEdges.append(self.connected_computers[i].id)  # Ensure bi-directional connection
 
 
     # Create clique topology for the network
-    def createCliqueTopology(self):        
+    def create_clique_topology(self):        
         # Connect each computer to every other computer
-        for i in range(self.numberOfComputers):
-            for j in range(i + 1, self.numberOfComputers):
+        for i in range(self.computer_number):
+            for j in range(i + 1, self.computer_number):
                 # Ensure bi-directional connection
-                self.connectedComputers[i].connectedEdges.append(self.connectedComputers[j].getId())
-                self.connectedComputers[j].connectedEdges.append(self.connectedComputers[i].getId())
+                self.connected_computers[i].connectedEdges.append(self.connected_computers[j].id)
+                self.connected_computers[j].connectedEdges.append(self.connected_computers[i].id)
 
         # Removing duplicates
-        for comp in self.connectedComputers:
+        for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
 
 
 
-    def loadAlgorithms(self, algorithm_module_path):
+    def load_algorithms(self, algorithm_module_path):
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
             #exit()
@@ -193,36 +198,36 @@ class Initialization:
             sys.path.insert(0,directory)
 
             algorithm_module = importlib.import_module(base_file_name)
-            for comp in self.connectedComputers:
-                comp.algorithmFile = algorithm_module
+            for comp in self.connected_computers:
+                comp.algorithm_file = algorithm_module
         try:
             directory, file_name = os.path.split(algorithm_module_path)
             base_file_name, _ = os.path.splitext(file_name)
             sys.path.insert(0,directory)
 
             algorithm_module = importlib.import_module(base_file_name)
-            for comp in self.connectedComputers:
-                comp.algorithmFile = algorithm_module
+            for comp in self.connected_computers:
+                comp.algorithm_file = algorithm_module
 
         except ImportError:
             print(f"Error: Unable to import {base_file_name}.py")
             return None
 
-    def rootSelection(self):
-        if self.rootType == "Random":
-            selected_computer = random.choice(self.connectedComputers)
+    def root_selection(self):
+        if self.root_type == "Random":
+            selected_computer = random.choice(self.connected_computers)
             selected_computer.root=True
-        elif self.rootType=="Min ID":
-            selected_computer = min(self.connectedComputers, key=lambda computer: computer.getId())
+        elif self.root_type=="Min ID":
+            selected_computer = min(self.connected_computers, key=lambda computer: computer.id)
             selected_computer.root=True
 
 
 
 
-    def find_computer(self, id: int):
-        for computer in self.connectedComputers:
-            if computer.getId() == id:
-                return computer
+    def find_computer(self, id: int) -> Computer:
+        for comp in self.connected_computers:
+            if comp.id == id:
+                return comp
         return None
 
 def main():
