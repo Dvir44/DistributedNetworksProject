@@ -1,8 +1,9 @@
 {
-    "Number of Computers": "91",
+    "Number of Computers": "5",
     "Topology": "Random",
     "ID Type": "Sequential",
     "Delay": "Random",
-    "Display": "Text",
-    "Root": "Random"
+    "Display": "Graph",
+    "Root": "Random",
+    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/BFSalgorithm.py"
 }

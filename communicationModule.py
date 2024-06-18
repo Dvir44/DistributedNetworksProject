@@ -35,7 +35,7 @@ class CommunicationModule:
             # if display is text, print
             if self.displayType=="Text":
                 pass
-                #print("message added to network queue: ",message)
+
         
     def send_to_all(self, source_id, message_info):
         source_computer = self.network.find_computer(source_id)
@@ -43,7 +43,6 @@ class CommunicationModule:
             self.send_message(source_id, connected_computer_id, message_info)
             
     def receive_message(self, message : dict, comm):
-        #if self.displayType=="Text":
         print("message received: ", message)
             
         current_id = message['dest_id']
@@ -57,7 +56,7 @@ class CommunicationModule:
         values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
 
         if callable(algorithm_function):
-            algorithm_function(current_computer, comm) # run mainAlgorithm
+            algorithm_function(current_computer, comm, message['content']) # run mainAlgorithm
             if self.displayType=="Graph":
                 new_values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # updated values
                 if values!=new_values: # if some values have changed then append to the change list for the graph display

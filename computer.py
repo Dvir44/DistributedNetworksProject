@@ -10,8 +10,11 @@ class Computer:
     Algorithm - the algorithm the computer runs
     State - computer state
     root - whether the computer is a root
+    dist - distance parameter for algorithms that use distance
+    parent - parameter for algorithms who use parent information (saves the id of the parent)
     color - computer color
     '''
+
     def __init__(self):
         self._id = None
         self.connectedEdges = []
@@ -21,6 +24,8 @@ class Computer:
         self.state = None
         self.root = False
         self.color = None
+        self.dist = float("inf")
+        self.parent = None
         
         self.receivedFrom = None
         
@@ -52,6 +57,12 @@ class Computer:
         return self.color
     def getReceivedFrom(self):
         return self.receivedFrom
+    def getId(self):
+        return self.id
+    def getDistance(self):
+        return self.dist
+    def getParent(self):
+        return self.parent
     
     def setState(self, newState: int):
         self.state=newState
@@ -59,6 +70,10 @@ class Computer:
         self.color=new_color
     def setReceivedFrom(self, newReceivedFrom: str):
         self.receivedFrom=newReceivedFrom
+    def setDistance(self, newDist : int):
+        self.dist = newDist
+    def setParent(self, newParent : int):
+        self.parent = newParent
     
 def main():
     pass

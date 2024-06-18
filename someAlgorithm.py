@@ -3,7 +3,7 @@ import communicationModule
 
 ''' user implemented code that runs a broadcast algorithm'''
 
-def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule):
+def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule, message):
     if  self.state != "terminated":
         communication.send_to_all(self.id, "running a broadcast")
         self.setColor("#7427e9")
@@ -16,8 +16,6 @@ def init(self: computer.Computer, communication : communicationModule.Communicat
         communication.send_to_all(self.id, "running a broadcast")
         self.setColor("#000000")
         self.setState("terminated")
-    #if self.id==79:
-    #    self.id=11
 
 
 def main():
