@@ -62,8 +62,7 @@ class Initialization:
             f"Number of Computers: {self.computer_number}",
             f"Topology: {self.topologyType}",
             f"ID Type: {self.id_type}",
-            f"Display Type: {self.display_type}",
-            f"Delays: {self.edges_delays}",
+             f"Display Type: {self.display_type}",
             "\nComputers:"
         ]
         result.extend(str(comp) for comp in self.connected_computers)
@@ -83,7 +82,7 @@ class Initialization:
                 edge_tuple = (comp.id, connected) if comp.id < connected else (connected, comp.id) # unique representation of the edge as a tuple
                 
                 if edge_tuple not in self.edges_delays: # if not already in edgesDelays, generate a random delay, and insert into edgesDelays
-                    random_num = random.randint(1, 10)
+                    random_num = random.random()
                     self.edges_delays[edge_tuple] = random_num
                 
                 comp.delays[i] = self.edges_delays[edge_tuple]
@@ -94,10 +93,22 @@ class Initialization:
     ***********************************************************************************
     '''
     def constant_delay(self):
+        #for comp in self.connected_computers:
+        #    comp.delays = [None]*len(comp.connectedEdges)
+        #    for i in range(len(comp.connectedEdges)):
+        #        comp.delays[i]=1
+
         for comp in self.connected_computers:
-            comp.delays = [None]*len(comp.connectedEdges)
-            for i in range(len(comp.connectedEdges)):
-                comp.delays[i]=5
+            comp.delays = [None] * len(comp.connectedEdges)
+            for i, connected in enumerate(comp.connectedEdges):
+                edge_tuple = (comp.id, connected) if comp.id < connected else (connected, comp.id) # unique representation of the edge as a tuple
+                
+                if edge_tuple not in self.edges_delays: # if not already in edgesDelays, generate a delay of 1 and insert into edgesDelays
+                    self.edges_delays[edge_tuple] =1
+                
+                comp.delays[i] = self.edges_delays[edge_tuple]
+
+
 
     #Creates network topology
     def create_connected_computers(self):

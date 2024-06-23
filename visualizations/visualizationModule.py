@@ -116,7 +116,7 @@ class MenuWindow(QMainWindow):
             
             def print_selected_value(value):
                 if not value=="":
-                    print(f"Chosen {checkbox_label}: {value}")
+                    #print(f"Chosen {checkbox_label}: {value}")
                     self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
                     self.update_label_value(checkbox_label, value) # update real time shown value
 
@@ -150,7 +150,7 @@ class MenuWindow(QMainWindow):
 
         def on_submit():
             value = line_edit.text() if line_edit.isVisible() else default_value
-            print(f"Chosen {checkbox_label}: {value}")
+            #print(f"Chosen {checkbox_label}: {value}")
             self.checkbox_values[checkbox_label] = value  # Save the value to the dictionary
             self.update_label_value(checkbox_label, value) # update real time shown value
         submit_button.clicked.connect(on_submit)

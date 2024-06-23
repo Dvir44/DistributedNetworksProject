@@ -53,15 +53,15 @@ class CommunicationModule:
         
         algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None)
         
-        values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # current values
+        old_values = current_computer.__dict__.copy()
 
         if callable(algorithm_function):
             algorithm_function(current_computer, comm, message['content']) # run mainAlgorithm
             if self.displayType=="Graph":
-                new_values = [str(current_computer.id), str(current_computer.getColor()), str(current_computer.getRoot()), str(current_computer.getState()), str(current_computer.getReceivedFrom())] # updated values
-                if values!=new_values: # if some values have changed then append to the change list for the graph display
+                new_values = current_computer.__dict__
+                if old_values!=new_values: # if some values have changed then append to the change list for the graph display
                     self.network.node_values_change.append(new_values)
-            
+                
         else:
             print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithm_file}.py")
             return None

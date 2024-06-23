@@ -22,15 +22,17 @@ class NodeInfoWindow(QSplitter):
         self.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
 
         values = node.values
-        self.setWindowTitle(f"Node {values['id']} info")
-      
-        text_content = (
-            f"Id : {values['id']}\n"
-            f"Color : {values['color']}\n"
-            f"Root : {values['root']}\n"
-            f"State : {values['state']}\n"
-            f"Received from : {values['source']}\n"
-        )
+        self.setWindowTitle(f"Node {values['_id']} info")
+        
+        text_content = ""
+        for key, value in values.items():
+            if key=="algorithm_file":
+                path = str(value)
+                filename = os.path.basename(path)
+                text_content += f"{key} : {filename}\n"
+            elif key!="delays" and key!="_internal_clock":
+                text_content += f"{key} : {value}\n"
+        
         layout = QVBoxLayout(self)
         text_edit = QTextEdit(self)
         text_edit.setReadOnly(True)
@@ -55,8 +57,10 @@ class Node(QGraphicsObject):
         self.info_window = None  # reference to the node info window
         
         comp = network.find_computer(int(self.name))
-        self.values = {'id': comp.id, 'color': comp.getColor(), 'root': comp.getRoot(), 'state': comp.getState(), 'source': comp.getReceivedFrom()}
-        
+        self.values = {}
+        for key, value in comp.__dict__.items():
+            self.values[key] = value
+
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
@@ -64,6 +68,7 @@ class Node(QGraphicsObject):
     def calculate_radius(self) -> int:
         max_radius = 60
         min_radius = 2
+        
         radius = max(min_radius, max_radius / math.sqrt(self.num_nodes))
         return radius
     
@@ -164,6 +169,7 @@ class GraphView(QGraphicsView):
         }
 
         self.load_graph(network)
+
         self.set_nx_layout("circular")
 
         self.zoom_factor = 1.15
@@ -193,11 +199,10 @@ class GraphView(QGraphicsView):
                     threshold_distance = 2*value.radius/self.graph_scale
                     break
 
-
             # compute node position from layout function
             positions = self.nx_layout_function(self.graph)
             locations ={}
-            
+
             for node, pos in positions.items():
                 x, y = pos
                 locations[node]=(x,y)
@@ -235,8 +240,6 @@ class GraphView(QGraphicsView):
                     if changed:
                         break
                 
-
-
                 
                 
 
@@ -268,7 +271,6 @@ class MainWindow(QWidget):
         self.comm = comm
         self.graph = nx.DiGraph()
         self.first_entry=True
-        
         # adding node names
         vertex_names=[]
         for comp in self.network.connected_computers:
@@ -280,7 +282,6 @@ class MainWindow(QWidget):
             for connected in comp.connectedEdges:
                 self.graph.add_edge(str(comp.id), str(connected))
                 
-
         self.view = GraphView(self.graph, self.network)
         self.layoutCreation()
 
@@ -362,20 +363,22 @@ class MainWindow(QWidget):
     def change_node_color(self, times):
         for _ in range(times):
             if self.network.node_values_change:
-                node_name = self.network.node_values_change[0][0]
-                new_color = self.network.node_values_change[0][1]
+                values_change_dict = self.network.node_values_change.pop(0)
+                node_name=None
+                for key, value in values_change_dict.items():
+                    if node_name==None:
+                        if key == '_id':
+                            node_name = value
+                            break
+                        
+                node_item = self.view.nodes_map[str(node_name)]            
                 
-                node_item = self.view.nodes_map[node_name]            
-                node_item.color = new_color
-                
-                node_item.values['id']=self.network.node_values_change[0][0]
-                node_item.values['color']=self.network.node_values_change[0][1]
-                node_item.values['root']=self.network.node_values_change[0][2]
-                node_item.values['state']=self.network.node_values_change[0][3]
-                node_item.values['source']=self.network.node_values_change[0][4]
+                for key, value in values_change_dict.items():
+                    node_item.values[key]=value
 
+                node_item.color = node_item.values['color']
+                
                 node_item.update()
-                self.network.node_values_change.pop(0)  # Removes the first item
 
 
 def visualize_network(network: initializationModule.Initialization, comm):
@@ -386,4 +389,5 @@ def visualize_network(network: initializationModule.Initialization, comm):
     graph_window.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
 
     graph_window.show()
+    #graph_window.showMaximized()
     graph_window.resize(800, 600)

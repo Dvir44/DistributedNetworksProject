@@ -18,24 +18,27 @@ class Simulator:
         pass
 
 def main():
+    sys.stdout = open("./output.txt", "w") # change default output
+    
     visualizationModule.menu()
     start_time = time.time()
-    
     network= initializationModule.Initialization()
     print(network)
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
-        
+
+
+
     comm = communicationModule.CommunicationModule(network)
 
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)
-        thread = threading.Thread(target=lambda: runModule.initiateRun(network, comm))
-        thread.start()
         graphVisualization.visualize_network(network, comm)
+        thread = threading.Thread(target=runModule.initiateRun, args=(network, comm))
+        thread.start()
+        #print("here", file=sys.__stdout__)  # Print to the original stdout
         thread.join()
-        
         print("--- %s seconds ---" % (time.time() - start_time))
 
         if not exception_queue.empty():
