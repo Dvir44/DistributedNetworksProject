@@ -1,43 +1,147 @@
-Number of Computers: 5
+Number of Computers: 10
 Topology: Random
 ID Type: Sequential
 Display Type: Graph
 
 Computers:
 id = 0
-connected edges = [2, 4]
-delays = [0.4026222728057306, 0.5693342122006488]
+connected edges = [9, 4, 6]
+delays = [0.4831079823334231, 0.41076952368834274, 0.9337437968154986]
 
 id = 1
-connected edges = [2]
-delays = [0.5918887491978694]
+connected edges = [9, 3, 4, 5]
+delays = [0.2715922442177482, 0.5860152060034908, 0.6181054538266778, 0.2287536598389347]
 
 id = 2
-connected edges = [0, 1, 3]
-delays = [0.4026222728057306, 0.5918887491978694, 0.558131982831438]
+connected edges = [3, 4, 7, 8, 9]
+delays = [0.1350093184798995, 0.19864085373367724, 0.758710646608648, 0.2951834774597941, 0.08178782346319413]
 
 id = 3
-connected edges = [2, 4]
-delays = [0.558131982831438, 0.4121091022973725]
+connected edges = [1, 2, 7, 8, 9]
+delays = [0.5860152060034908, 0.1350093184798995, 0.24316122180579502, 0.10511964242266914, 0.5408549636528917]
 
 id = 4
-connected edges = [0, 3]
-delays = [0.5693342122006488, 0.4121091022973725]
+connected edges = [0, 1, 2, 7]
+delays = [0.41076952368834274, 0.6181054538266778, 0.19864085373367724, 0.6242877796862937]
+
+id = 5
+connected edges = [1, 9]
+delays = [0.2287536598389347, 0.2690476330434105]
+
+id = 6
+connected edges = [0, 9]
+delays = [0.9337437968154986, 0.7424962817511621]
+
+id = 7
+connected edges = [8, 2, 3, 4]
+delays = [0.006177548828165236, 0.758710646608648, 0.24316122180579502, 0.6242877796862937]
+
+id = 8
+connected edges = [9, 2, 3, 7]
+delays = [0.12297301205069067, 0.2951834774597941, 0.10511964242266914, 0.006177548828165236]
+
+id = 9
+connected edges = [0, 1, 2, 3, 5, 6, 8]
+delays = [0.4831079823334231, 0.2715922442177482, 0.08178782346319413, 0.5408549636528917, 0.2690476330434105, 0.7424962817511621, 0.12297301205069067]
 
 0 is the root
 ******************************************
-message received:  {'source_id': 0, 'dest_id': 2, 'arrival_time': 0.4026222728057306, 'content': 'running a BFS with distance 0 from 0'}
+message received:  {'source_id': 0, 'dest_id': 4, 'arrival_time': 0.41076952368834274, 'content': 'running a BFS with distance 0 from 0'}
 ['running', 'a', 'BFS', 'with', 'distance', '0', 'from', '0']
-message received:  {'source_id': 0, 'dest_id': 4, 'arrival_time': 0.5693342122006488, 'content': 'running a BFS with distance 0 from 0'}
+message received:  {'source_id': 0, 'dest_id': 9, 'arrival_time': 0.4831079823334231, 'content': 'running a BFS with distance 0 from 0'}
 ['running', 'a', 'BFS', 'with', 'distance', '0', 'from', '0']
-message received:  {'source_id': 2, 'dest_id': 0, 'arrival_time': 0.8052445456114612, 'content': 'running a BFS with distance inf from 0'}
-['running', 'a', 'BFS', 'with', 'distance', 'inf', 'from', '0']
-message received:  {'source_id': 2, 'dest_id': 3, 'arrival_time': 0.9607542556371685, 'content': 'running a BFS with distance inf from 0'}
-['running', 'a', 'BFS', 'with', 'distance', 'inf', 'from', '0']
-message received:  {'source_id': 4, 'dest_id': 3, 'arrival_time': 0.9814433144980214, 'content': 'running a BFS with distance inf from 0'}
-['running', 'a', 'BFS', 'with', 'distance', 'inf', 'from', '0']
-message received:  {'source_id': 2, 'dest_id': 1, 'arrival_time': 0.9945110220036, 'content': 'running a BFS with distance inf from 0'}
-['running', 'a', 'BFS', 'with', 'distance', 'inf', 'from', '0']
-message received:  {'source_id': 4, 'dest_id': 0, 'arrival_time': 1.1386684244012977, 'content': 'running a BFS with distance inf from 0'}
-['running', 'a', 'BFS', 'with', 'distance', 'inf', 'from', '0']
---- 0.3206303119659424 seconds ---
+message received:  {'source_id': 9, 'dest_id': 2, 'arrival_time': 0.5648958057966172, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 8, 'arrival_time': 0.6060809943841138, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 4, 'dest_id': 2, 'arrival_time': 0.60941037742202, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 8, 'dest_id': 7, 'arrival_time': 0.612258543212279, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 8, 'arrival_time': 0.6184360920404443, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 2, 'dest_id': 9, 'arrival_time': 0.6466836292598114, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 2, 'dest_id': 3, 'arrival_time': 0.6999051242765167, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 8, 'dest_id': 3, 'arrival_time': 0.7112006368067829, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 8, 'dest_id': 9, 'arrival_time': 0.7290540064348044, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 5, 'arrival_time': 0.7521556153768336, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 1, 'arrival_time': 0.7547002265511713, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 2, 'dest_id': 4, 'arrival_time': 0.7635366595302945, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 8, 'arrival_time': 0.8050247666991859, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 4, 'dest_id': 0, 'arrival_time': 0.8215390473766855, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 2, 'arrival_time': 0.8349144427564162, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 3, 'arrival_time': 0.855419765018074, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 2, 'dest_id': 8, 'arrival_time': 0.8600792832564114, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 8, 'dest_id': 2, 'arrival_time': 0.9012644718439079, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 0, 'dest_id': 6, 'arrival_time': 0.9337437968154986, 'content': 'running a BFS with distance 0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 7, 'arrival_time': 0.9430663460823118, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 0, 'arrival_time': 0.9662159646668462, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 5, 'dest_id': 1, 'arrival_time': 0.9809092752157683, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 1, 'dest_id': 5, 'arrival_time': 0.983453886390106, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 5, 'dest_id': 9, 'arrival_time': 1.0212032484202442, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 3, 'arrival_time': 1.0239629459863147, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 8, 'arrival_time': 0.8050247666991859, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 2, 'arrival_time': 0.8349144427564162, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 7, 'arrival_time': 0.9430663460823118, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 1, 'dest_id': 9, 'arrival_time': 1.0262924707689196, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 4, 'dest_id': 1, 'arrival_time': 1.0288749775150206, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 4, 'dest_id': 7, 'arrival_time': 1.0350573033746364, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 8, 'arrival_time': 0.6184360920404443, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 3, 'arrival_time': 0.855419765018074, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 9, 'dest_id': 6, 'arrival_time': 1.2256042640845852, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 4, 'arrival_time': 1.2365463228985727, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 4, 'arrival_time': 1.2365463228985727, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 9, 'arrival_time': 1.2407600879294085, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 9, 'arrival_time': 1.2407600879294085, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 1, 'arrival_time': 1.2859203302800075, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 3, 'dest_id': 1, 'arrival_time': 1.2859203302800075, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 2, 'dest_id': 7, 'arrival_time': 1.323606452405265, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 1, 'dest_id': 3, 'arrival_time': 1.3407154325546622, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 2, 'arrival_time': 1.370969189820927, 'content': 'running a BFS with distance 3.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '3.0', 'from', '0']
+message received:  {'source_id': 7, 'dest_id': 2, 'arrival_time': 1.370969189820927, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 1, 'dest_id': 4, 'arrival_time': 1.3728056803778492, 'content': 'running a BFS with distance 2.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '2.0', 'from', '0']
+message received:  {'source_id': 6, 'dest_id': 9, 'arrival_time': 1.6762400785666607, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+message received:  {'source_id': 6, 'dest_id': 0, 'arrival_time': 1.8674875936309971, 'content': 'running a BFS with distance 1.0 from 0'}
+['running', 'a', 'BFS', 'with', 'distance', '1.0', 'from', '0']
+--- 0.4564030170440674 seconds ---

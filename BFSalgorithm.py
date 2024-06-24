@@ -10,6 +10,8 @@ we have the following data for each computer:
 - distance - the distance that they change during the algorithm 
 '''
 
+colors = ["blue", "red", "green", "yellow", "purple", "pink"]
+
 def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule, message):
     if  self.state != "activated":
         message = message.split(" ")
@@ -20,14 +22,14 @@ def mainAlgorithm(self: computer.Computer, communication : communicationModule.C
         if dist + 1 < self.getDistance():
             self.setState("activated")
             self.setParent(parent)
-            self.setDistance(self.getDistance()+1)
+            self.setDistance(dist+1)
             communication.send_to_all(self.id, f"running a BFS with distance {self.getDistance()} from {self.getParent()}")
-            self.setColor("#7427e9")
+            self.setColor(colors[int(dist)])
             self.setState("deactivated")
 
 
 
-def init(self: computer.Computer, communication : communicationModule.CommunicationModule):
+def init(self: computer.Computer, communication : communicationModule.CommunicationModule, message = None):
     if (self.getRoot()):
         print(f"{self.getId()} is the root")
         self.setParent(self.getId())
