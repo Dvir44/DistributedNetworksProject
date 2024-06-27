@@ -1,33 +1,210 @@
-Number of Computers: 4
+Number of Computers: 20
 Topology: Random
 ID Type: Sequential
 Display Type: Graph
 
 Computers:
 id = 0
-connected edges = [1, 3]
-delays = [0.8171023024250202, 0.3440107839375339]
+connected edges = [3, 10, 11, 7]
+delays = [0.5388373956055735, 0.1875326574699061, 0.447186368696153, 0.00407998913081542]
 
 id = 1
-connected edges = [0, 2, 3]
-delays = [0.8171023024250202, 0.5554008188865271, 0.6132775204595701]
+connected edges = [4, 8, 9, 11, 12, 16]
+delays = [0.042911931336946374, 0.9669891190685035, 0.245632070259586, 0.6440142506945453, 0.07620142313705092, 0.44476104730838073]
 
 id = 2
-connected edges = [1]
-delays = [0.5554008188865271]
+connected edges = [9, 18, 10, 13]
+delays = [0.9060367332819814, 0.5726521536611504, 0.2511138146317877, 0.42389124923961696]
 
 id = 3
-connected edges = [0, 1]
-delays = [0.3440107839375339, 0.6132775204595701]
+connected edges = [0, 8, 6]
+delays = [0.5388373956055735, 0.11455264517792729, 0.6492014520969632]
 
-0  is root
+id = 4
+connected edges = [1, 6, 9]
+delays = [0.042911931336946374, 0.8826663213942648, 0.5206512000661875]
+
+id = 5
+connected edges = [8, 12]
+delays = [0.13914293937293187, 0.8857147706009356]
+
+id = 6
+connected edges = [8, 19, 3, 4]
+delays = [0.5153728478438394, 0.643406274917565, 0.6492014520969632, 0.8826663213942648]
+
+id = 7
+connected edges = [0, 13, 16, 17, 18]
+delays = [0.00407998913081542, 0.3336974470884203, 0.6859594523729058, 0.6570376042177491, 0.43512186542357745]
+
+id = 8
+connected edges = [1, 3, 5, 6, 9, 12]
+delays = [0.9669891190685035, 0.11455264517792729, 0.13914293937293187, 0.5153728478438394, 0.3381554684750372, 0.7544621720685654]
+
+id = 9
+connected edges = [1, 2, 4, 8, 15, 16, 17, 18]
+delays = [0.245632070259586, 0.9060367332819814, 0.5206512000661875, 0.3381554684750372, 0.3764089009269508, 0.07585030716391328, 0.07995544293725287, 0.47557253386287235]
+
+id = 10
+connected edges = [0, 19, 2, 11]
+delays = [0.1875326574699061, 0.2883884651673121, 0.2511138146317877, 0.15611903120097226]
+
+id = 11
+connected edges = [0, 1, 10, 13, 14, 16]
+delays = [0.447186368696153, 0.6440142506945453, 0.15611903120097226, 0.5243545623446432, 0.3757832613885197, 0.6034541072233499]
+
+id = 12
+connected edges = [8, 1, 5, 14]
+delays = [0.7544621720685654, 0.07620142313705092, 0.8857147706009356, 0.7383488892760832]
+
+id = 13
+connected edges = [2, 7, 11, 16, 17, 19]
+delays = [0.42389124923961696, 0.3336974470884203, 0.5243545623446432, 0.7854743411002552, 0.1833989212995275, 0.5660943134519291]
+
+id = 14
+connected edges = [18, 11, 12]
+delays = [0.757420666600587, 0.3757832613885197, 0.7383488892760832]
+
+id = 15
+connected edges = [9]
+delays = [0.3764089009269508]
+
+id = 16
+connected edges = [1, 7, 9, 11, 13, 17]
+delays = [0.44476104730838073, 0.6859594523729058, 0.07585030716391328, 0.6034541072233499, 0.7854743411002552, 0.7474930465143311]
+
+id = 17
+connected edges = [7, 9, 13, 16, 18, 19]
+delays = [0.6570376042177491, 0.07995544293725287, 0.1833989212995275, 0.7474930465143311, 0.4233514825851471, 0.547037079428343]
+
+id = 18
+connected edges = [2, 7, 9, 14, 17]
+delays = [0.5726521536611504, 0.43512186542357745, 0.47557253386287235, 0.757420666600587, 0.4233514825851471]
+
+id = 19
+connected edges = [17, 10, 13, 6]
+delays = [0.547037079428343, 0.2883884651673121, 0.5660943134519291, 0.643406274917565]
+
+18 is the root
 ******************************************
-message received:  {'source_id': 0, 'dest_id': 3, 'arrival_time': 0.3440107839375339, 'content': 'running a broadcast'}
-message received:  {'source_id': 3, 'dest_id': 0, 'arrival_time': 0.6880215678750679, 'content': 'running a broadcast'}
-message received:  {'source_id': 0, 'dest_id': 1, 'arrival_time': 0.8171023024250202, 'content': 'running a broadcast'}
-message received:  {'source_id': 3, 'dest_id': 1, 'arrival_time': 0.957288304397104, 'content': 'running a broadcast'}
-message received:  {'source_id': 1, 'dest_id': 2, 'arrival_time': 1.3725031213115475, 'content': 'running a broadcast'}
-message received:  {'source_id': 1, 'dest_id': 3, 'arrival_time': 1.4303798228845903, 'content': 'running a broadcast'}
-message received:  {'source_id': 1, 'dest_id': 0, 'arrival_time': 1.6342046048500405, 'content': 'running a broadcast'}
-message received:  {'source_id': 2, 'dest_id': 1, 'arrival_time': 1.9279039401980747, 'content': 'running a broadcast'}
---- 0.44266772270202637 seconds ---
+message received:  {'source_id': 18, 'dest_id': 17, 'arrival_time': 0.4233514825851471, 'content': 'running a BFS with distance 0 from 18'}
+message received:  {'source_id': 18, 'dest_id': 7, 'arrival_time': 0.43512186542357745, 'content': 'running a BFS with distance 0 from 18'}
+message received:  {'source_id': 7, 'dest_id': 0, 'arrival_time': 0.43920185455439287, 'content': 'running a BFS with distance 1.0 from 7'}
+message received:  {'source_id': 0, 'dest_id': 7, 'arrival_time': 0.4432818436852083, 'content': 'running a BFS with distance 2.0 from 0'}
+message received:  {'source_id': 18, 'dest_id': 9, 'arrival_time': 0.47557253386287235, 'content': 'running a BFS with distance 0 from 18'}
+message received:  {'source_id': 17, 'dest_id': 9, 'arrival_time': 0.5033069255224, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 9, 'dest_id': 16, 'arrival_time': 0.5514228410267856, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 9, 'dest_id': 17, 'arrival_time': 0.5555279768001252, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 18, 'dest_id': 2, 'arrival_time': 0.5726521536611504, 'content': 'running a BFS with distance 0 from 18'}
+message received:  {'source_id': 17, 'dest_id': 13, 'arrival_time': 0.6067504038846746, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 0, 'dest_id': 10, 'arrival_time': 0.626734512024299, 'content': 'running a BFS with distance 2.0 from 0'}
+message received:  {'source_id': 16, 'dest_id': 9, 'arrival_time': 0.6272731481906989, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 9, 'dest_id': 1, 'arrival_time': 0.7212046041224583, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 18, 'dest_id': 14, 'arrival_time': 0.757420666600587, 'content': 'running a BFS with distance 0 from 18'}
+message received:  {'source_id': 1, 'dest_id': 4, 'arrival_time': 0.7641165354594047, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 7, 'dest_id': 13, 'arrival_time': 0.7688193125119978, 'content': 'running a BFS with distance 1.0 from 7'}
+message received:  {'source_id': 10, 'dest_id': 11, 'arrival_time': 0.7828535432252712, 'content': 'running a BFS with distance 3.0 from 10'}
+message received:  {'source_id': 13, 'dest_id': 17, 'arrival_time': 0.7901493251842021, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 1, 'dest_id': 12, 'arrival_time': 0.7974060272595093, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 4, 'dest_id': 1, 'arrival_time': 0.8070284667963511, 'content': 'running a BFS with distance 3.0 from 4'}
+message received:  {'source_id': 9, 'dest_id': 8, 'arrival_time': 0.8137280023379095, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 10, 'dest_id': 0, 'arrival_time': 0.8142671694942051, 'content': 'running a BFS with distance 3.0 from 10'}
+message received:  {'source_id': 2, 'dest_id': 10, 'arrival_time': 0.8237659682929381, 'content': 'running a BFS with distance 1.0 from 2'}
+message received:  {'source_id': 10, 'dest_id': 11, 'arrival_time': 0.7828535432252712, 'content': 'running a BFS with distance 2.0 from 10'}
+message received:  {'source_id': 10, 'dest_id': 0, 'arrival_time': 0.8142671694942051, 'content': 'running a BFS with distance 2.0 from 10'}
+message received:  {'source_id': 17, 'dest_id': 18, 'arrival_time': 0.8467029651702942, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 9, 'dest_id': 15, 'arrival_time': 0.8519814347898231, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 7, 'dest_id': 18, 'arrival_time': 0.8702437308471549, 'content': 'running a BFS with distance 1.0 from 7'}
+message received:  {'source_id': 12, 'dest_id': 1, 'arrival_time': 0.8736074503965602, 'content': 'running a BFS with distance 3.0 from 12'}
+message received:  {'source_id': 10, 'dest_id': 2, 'arrival_time': 0.8778483266560867, 'content': 'running a BFS with distance 3.0 from 10'}
+message received:  {'source_id': 10, 'dest_id': 2, 'arrival_time': 0.8778483266560867, 'content': 'running a BFS with distance 2.0 from 10'}
+message received:  {'source_id': 0, 'dest_id': 11, 'arrival_time': 0.8863882232505459, 'content': 'running a BFS with distance 2.0 from 0'}
+message received:  {'source_id': 10, 'dest_id': 19, 'arrival_time': 0.9151229771916111, 'content': 'running a BFS with distance 3.0 from 10'}
+message received:  {'source_id': 10, 'dest_id': 19, 'arrival_time': 0.9151229771916111, 'content': 'running a BFS with distance 2.0 from 10'}
+message received:  {'source_id': 8, 'dest_id': 3, 'arrival_time': 0.9282806475158368, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 11, 'dest_id': 10, 'arrival_time': 0.9389725744262435, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 10, 'arrival_time': 0.9389725744262435, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 13, 'dest_id': 7, 'arrival_time': 0.9404478509730949, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 9, 'dest_id': 18, 'arrival_time': 0.9511450677257447, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 8, 'dest_id': 5, 'arrival_time': 0.9528709417108414, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 1, 'dest_id': 9, 'arrival_time': 0.9668366743820443, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 17, 'dest_id': 19, 'arrival_time': 0.9703885620134901, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 0, 'dest_id': 3, 'arrival_time': 0.9780392501599664, 'content': 'running a BFS with distance 2.0 from 0'}
+message received:  {'source_id': 16, 'dest_id': 1, 'arrival_time': 0.9961838883351664, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 9, 'dest_id': 4, 'arrival_time': 0.9962237339290598, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 4, 'dest_id': 1, 'arrival_time': 0.8070284667963511, 'content': 'running a BFS with distance 2.0 from 4'}
+message received:  {'source_id': 2, 'dest_id': 13, 'arrival_time': 0.9965434029007674, 'content': 'running a BFS with distance 1.0 from 2'}
+message received:  {'source_id': 13, 'dest_id': 2, 'arrival_time': 1.0306416531242917, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 3, 'dest_id': 8, 'arrival_time': 1.0428332926937642, 'content': 'running a BFS with distance 3.0 from 3'}
+message received:  {'source_id': 17, 'dest_id': 7, 'arrival_time': 1.0803890868028962, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 5, 'dest_id': 8, 'arrival_time': 1.0920138810837732, 'content': 'running a BFS with distance 3.0 from 5'}
+message received:  {'source_id': 7, 'dest_id': 17, 'arrival_time': 1.0921594696413266, 'content': 'running a BFS with distance 1.0 from 7'}
+message received:  {'source_id': 7, 'dest_id': 16, 'arrival_time': 1.1210813177964831, 'content': 'running a BFS with distance 1.0 from 7'}
+message received:  {'source_id': 13, 'dest_id': 11, 'arrival_time': 1.1311049662293178, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 14, 'dest_id': 11, 'arrival_time': 1.1332039279891069, 'content': 'running a BFS with distance 1.0 from 14'}
+message received:  {'source_id': 11, 'dest_id': 10, 'arrival_time': 0.9389725744262435, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 2, 'dest_id': 18, 'arrival_time': 1.1453043073223008, 'content': 'running a BFS with distance 1.0 from 2'}
+message received:  {'source_id': 8, 'dest_id': 9, 'arrival_time': 1.1518834708129466, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 16, 'dest_id': 11, 'arrival_time': 1.1548769482501355, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 11, 'dest_id': 14, 'arrival_time': 1.158636804613791, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 14, 'arrival_time': 1.158636804613791, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 14, 'arrival_time': 1.158636804613791, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 1, 'dest_id': 16, 'arrival_time': 1.165965651430839, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 17, 'dest_id': 16, 'arrival_time': 1.1708445290994782, 'content': 'running a BFS with distance 1.0 from 17'}
+message received:  {'source_id': 13, 'dest_id': 19, 'arrival_time': 1.1728447173366037, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 19, 'dest_id': 10, 'arrival_time': 1.203511442358923, 'content': 'running a BFS with distance 4.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 10, 'arrival_time': 1.203511442358923, 'content': 'running a BFS with distance 3.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 10, 'arrival_time': 1.203511442358923, 'content': 'running a BFS with distance 2.0 from 19'}
+message received:  {'source_id': 15, 'dest_id': 9, 'arrival_time': 1.228390335716774, 'content': 'running a BFS with distance 2.0 from 15'}
+message received:  {'source_id': 11, 'dest_id': 0, 'arrival_time': 1.2300399119214243, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 0, 'arrival_time': 1.2300399119214243, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 0, 'arrival_time': 1.2300399119214243, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 16, 'dest_id': 7, 'arrival_time': 1.2373822933996914, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 4, 'dest_id': 9, 'arrival_time': 1.2847677355255922, 'content': 'running a BFS with distance 3.0 from 4'}
+message received:  {'source_id': 4, 'dest_id': 9, 'arrival_time': 1.2847677355255922, 'content': 'running a BFS with distance 2.0 from 4'}
+message received:  {'source_id': 16, 'dest_id': 17, 'arrival_time': 1.2989158875411166, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 11, 'dest_id': 13, 'arrival_time': 1.3072081055699143, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 13, 'arrival_time': 1.3072081055699143, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 13, 'arrival_time': 1.3072081055699143, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 8, 'dest_id': 6, 'arrival_time': 1.329100850181749, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 16, 'dest_id': 13, 'arrival_time': 1.3368971821270408, 'content': 'running a BFS with distance 2.0 from 16'}
+message received:  {'source_id': 1, 'dest_id': 11, 'arrival_time': 1.3652188548170037, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 9, 'dest_id': 2, 'arrival_time': 1.3816092671448539, 'content': 'running a BFS with distance 1.0 from 9'}
+message received:  {'source_id': 11, 'dest_id': 16, 'arrival_time': 1.3863076504486211, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 16, 'arrival_time': 1.3863076504486211, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 16, 'arrival_time': 1.3863076504486211, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 13, 'dest_id': 16, 'arrival_time': 1.3922247449849299, 'content': 'running a BFS with distance 2.0 from 13'}
+message received:  {'source_id': 11, 'dest_id': 1, 'arrival_time': 1.4268677939198167, 'content': 'running a BFS with distance 4.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 1, 'arrival_time': 1.4268677939198167, 'content': 'running a BFS with distance 3.0 from 11'}
+message received:  {'source_id': 11, 'dest_id': 1, 'arrival_time': 1.4268677939198167, 'content': 'running a BFS with distance 2.0 from 11'}
+message received:  {'source_id': 19, 'dest_id': 17, 'arrival_time': 1.462160056619954, 'content': 'running a BFS with distance 4.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 17, 'arrival_time': 1.462160056619954, 'content': 'running a BFS with distance 3.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 17, 'arrival_time': 1.462160056619954, 'content': 'running a BFS with distance 2.0 from 19'}
+message received:  {'source_id': 3, 'dest_id': 0, 'arrival_time': 1.4671180431214104, 'content': 'running a BFS with distance 3.0 from 3'}
+message received:  {'source_id': 2, 'dest_id': 9, 'arrival_time': 1.4786888869431318, 'content': 'running a BFS with distance 1.0 from 2'}
+message received:  {'source_id': 19, 'dest_id': 13, 'arrival_time': 1.4812172906435401, 'content': 'running a BFS with distance 4.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 13, 'arrival_time': 1.4812172906435401, 'content': 'running a BFS with distance 3.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 13, 'arrival_time': 1.4812172906435401, 'content': 'running a BFS with distance 2.0 from 19'}
+message received:  {'source_id': 14, 'dest_id': 12, 'arrival_time': 1.4957695558766702, 'content': 'running a BFS with distance 1.0 from 14'}
+message received:  {'source_id': 12, 'dest_id': 1, 'arrival_time': 0.8736074503965602, 'content': 'running a BFS with distance 2.0 from 12'}
+message received:  {'source_id': 14, 'dest_id': 18, 'arrival_time': 1.514841333201174, 'content': 'running a BFS with distance 1.0 from 14'}
+message received:  {'source_id': 12, 'dest_id': 14, 'arrival_time': 1.5357549165355926, 'content': 'running a BFS with distance 3.0 from 12'}
+message received:  {'source_id': 12, 'dest_id': 14, 'arrival_time': 1.5357549165355926, 'content': 'running a BFS with distance 2.0 from 12'}
+message received:  {'source_id': 12, 'dest_id': 8, 'arrival_time': 1.5518681993280747, 'content': 'running a BFS with distance 3.0 from 12'}
+message received:  {'source_id': 12, 'dest_id': 8, 'arrival_time': 1.5518681993280747, 'content': 'running a BFS with distance 2.0 from 12'}
+message received:  {'source_id': 19, 'dest_id': 6, 'arrival_time': 1.558529252109176, 'content': 'running a BFS with distance 4.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 6, 'arrival_time': 1.558529252109176, 'content': 'running a BFS with distance 3.0 from 19'}
+message received:  {'source_id': 19, 'dest_id': 6, 'arrival_time': 1.558529252109176, 'content': 'running a BFS with distance 2.0 from 19'}
+message received:  {'source_id': 8, 'dest_id': 12, 'arrival_time': 1.568190174406475, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 3, 'dest_id': 6, 'arrival_time': 1.5774820996128, 'content': 'running a BFS with distance 3.0 from 3'}
+message received:  {'source_id': 4, 'dest_id': 6, 'arrival_time': 1.6467828568536695, 'content': 'running a BFS with distance 3.0 from 4'}
+message received:  {'source_id': 4, 'dest_id': 6, 'arrival_time': 1.6467828568536695, 'content': 'running a BFS with distance 2.0 from 4'}
+message received:  {'source_id': 12, 'dest_id': 5, 'arrival_time': 1.683120797860445, 'content': 'running a BFS with distance 3.0 from 12'}
+message received:  {'source_id': 12, 'dest_id': 5, 'arrival_time': 1.683120797860445, 'content': 'running a BFS with distance 2.0 from 12'}
+message received:  {'source_id': 1, 'dest_id': 8, 'arrival_time': 1.6881937231909618, 'content': 'running a BFS with distance 2.0 from 1'}
+message received:  {'source_id': 8, 'dest_id': 1, 'arrival_time': 1.780717121406413, 'content': 'running a BFS with distance 2.0 from 8'}
+message received:  {'source_id': 5, 'dest_id': 12, 'arrival_time': 1.838585712311777, 'content': 'running a BFS with distance 3.0 from 5'}
+message received:  {'source_id': 6, 'dest_id': 8, 'arrival_time': 1.8444736980255882, 'content': 'running a BFS with distance 3.0 from 6'}
+message received:  {'source_id': 6, 'dest_id': 19, 'arrival_time': 1.9725071250993138, 'content': 'running a BFS with distance 3.0 from 6'}
+message received:  {'source_id': 6, 'dest_id': 3, 'arrival_time': 1.978302302278712, 'content': 'running a BFS with distance 3.0 from 6'}
+message received:  {'source_id': 6, 'dest_id': 4, 'arrival_time': 2.211767171576014, 'content': 'running a BFS with distance 3.0 from 6'}
+--- 0.44257450103759766 seconds ---

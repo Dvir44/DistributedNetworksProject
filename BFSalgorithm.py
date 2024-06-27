@@ -15,7 +15,6 @@ colors = ["blue", "red", "green", "yellow", "purple", "pink"]
 def mainAlgorithm(self: computer.Computer, communication : communicationModule.CommunicationModule, message):
     if  self.state != "activated":
         message = message.split(" ")
-        print(message)
         dist = float(message[-3])
         parent = int(message[-1])
         
@@ -23,9 +22,10 @@ def mainAlgorithm(self: computer.Computer, communication : communicationModule.C
             self.setState("activated")
             self.setParent(parent)
             self.setDistance(dist+1)
-            communication.send_to_all(self.id, f"running a BFS with distance {self.getDistance()} from {self.getParent()}")
             self.setColor(colors[int(dist)])
+            communication.send_to_all(self.id, f"running a BFS with distance {self.getDistance()} from {self.getId()}")
             self.setState("deactivated")
+            
 
 
 
