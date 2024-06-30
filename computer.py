@@ -3,32 +3,25 @@ import queue
 class Computer:
     '''
     Computer Class - create a vertex in the full topology with the next members:
-    ID - the id of the computer
+    _id - the id of the computer
     ConnectedEdges - computer ids that the computer is connected to (int type)
     Delays - the delay to each edge in the same order as ConnectedEdges list
-    Messages - a messages queue that the computer has
-    Algorithm - the algorithm the computer runs
-    State - computer state
+    algorithm - the algorithm the computer runs
+    state - computer state
     root - whether the computer is a root
-    dist - distance parameter for algorithms that use distance
-    parent - parameter for algorithms who use parent information (saves the id of the parent)
     color - computer color
+    _internal_clock - used for delay
     '''
-
+    
     def __init__(self):
         self._id = None
         self.connectedEdges = []
         self.delays = []
-        self.messageQueue = queue.Queue()
         self.algorithm_file=None
         self.state = None
-        self.root = False
-        self.color = None
-        self.dist = float("inf")
-        self.parent = None
-        
-        self.receivedFrom = None
-        
+        self.is_root = False
+        self.color = "#5AD469"
+                
         self._internal_clock = 0
         
     def __str__(self):
@@ -49,31 +42,10 @@ class Computer:
         return self.connectedEdges
     def getDelays(self):
         return self.delays
-    def getState(self):
-        return self.state
-    def getRoot(self):
-        return self.root
-    def getColor(self):
-        return self.color
-    def getReceivedFrom(self):
-        return self.receivedFrom
-    def getId(self):
-        return self.id
-    def getDistance(self):
-        return self.dist
-    def getParent(self):
-        return self.parent
-    
-    def setState(self, newState: int):
-        self.state=newState
-    def setColor(self, new_color: str):
-        self.color=new_color
-    def setReceivedFrom(self, newReceivedFrom: str):
-        self.receivedFrom=newReceivedFrom
-    def setDistance(self, newDist : int):
-        self.dist = newDist
-    def setParent(self, newParent : int):
-        self.parent = newParent
+
+
+
+
     
 def main():
     pass

@@ -31,11 +31,8 @@ class CommunicationModule:
             'content': message_info
             }
             self.network.network_message_queue.push(message)
-        
-            # if display is text, print
-            if self.displayType=="Text":
-                pass
-
+    
+    
         
     def send_to_all(self, source_id, message_info):
         source_computer = self.network.find_computer(source_id)
@@ -43,7 +40,8 @@ class CommunicationModule:
             self.send_message(source_id, connected_computer_id, message_info)
             
     def receive_message(self, message : dict, comm):
-        print("message received: ", message)
+        if self.displayType=="Text":
+            print("message received: ", message)
             
         current_id = message['dest_id']
         source_id = message['source_id']

@@ -39,11 +39,6 @@ class Initialization:
         self.edges_delays={} # holds the delays of each edge in the network
 
         self.create_computer_ids()
-        
-        self.network_dict = {}
-        for i in self.connected_computers:
-            self.network_dict[i.id] = i
-        
         self.create_connected_computers()
         self.load_algorithms(self.algorithm_path)
         self.root_selection()
@@ -125,27 +120,8 @@ class Initialization:
         
         topology_function = topology_functions[self.topologyType]
         topology_function()
-        connected = self.is_connected()
-        while (not connected):
-            topology_function()
-            connected = self.is_connected()
-    
-    def is_connected(self):
-        visited = set()
-
-        def dfs(node):
-            if node not in visited:
-                visited.add(node)
-                for neighbor in node.connectedEdges:
-                    dfs(self.network_dict[neighbor])
-
-        # Start DFS from an arbitrary node
-        start_node = self.connected_computers[0] # Get an arbitrary starting node
-        dfs(start_node)
-
-        # Check if all nodes were visited
-        return len(visited) == len(self.connected_computers)       
         
+    
     # Create computer IDs based on the IdType
     def create_computer_ids(self):
         id_functions = {
@@ -251,10 +227,10 @@ class Initialization:
     def root_selection(self):
         if self.root_type == "Random":
             selected_computer = random.choice(self.connected_computers)
-            selected_computer.root=True
+            selected_computer.is_root=True
         elif self.root_type=="Min ID":
             selected_computer = min(self.connected_computers, key=lambda computer: computer.id)
-            selected_computer.root=True
+            selected_computer.is_root=True
 
 
 
