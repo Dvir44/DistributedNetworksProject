@@ -18,7 +18,7 @@ class Simulator:
         pass
 
 def main():
-    #sys.stdout = open("./output.txt", "w") # change default output
+    sys.stdout = open("./output.txt", "w") # change default output
     
     visualizationModule.menu()
     start_time = time.time()
