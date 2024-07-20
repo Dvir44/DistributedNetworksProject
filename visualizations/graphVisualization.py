@@ -2,158 +2,18 @@ import math
 import os
 import random
 import sys
-
 import numpy as np
-import initializationModule
+import networkx as nx
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-
 from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
-import networkx as nx
 
-
-class NodeInfoWindow(QSplitter):
-    def __init__(self, node, parent=None):
-        super().__init__(parent)
-
-        stylesheet_file = os.path.join('./extra_files', 'graph_window.qss')
-        with open(stylesheet_file, 'r') as f:
-            self.setStyleSheet(f.read())
-        self.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
-
-        values = node.values
-        self.setWindowTitle(f"Node {values['_id']} info")
-        
-        text_content = ""
-        for key, value in values.items():
-            if key=="algorithm_file":
-                path = str(value)
-                filename = os.path.basename(path)
-                text_content += f"{key} : {filename}\n"
-            elif key!="delays" and key!="_internal_clock":
-                text_content += f"{key} : {value}\n"
-        
-        layout = QVBoxLayout(self)
-        text_edit = QTextEdit(self)
-        text_edit.setReadOnly(True)
-        text_edit.setText(text_content)
-        
-        layout.addWidget(text_edit)
-        self.resize(350, 300)
-
-
-
-# node class
-class Node(QGraphicsObject):
-    def __init__(self, name: str, num_nodes: int, network: initializationModule.Initialization, parent=None):
-        super().__init__(parent)
-        self.name = name
-        self.edges = []
-        self.color = "#5AD469"
-        self.num_nodes = num_nodes
-        self.radius = self.calculate_radius()
-        #self.radius = 10
-        self.rect = QRectF(0, 0, self.radius * 2, self.radius * 2)
-        
-        self.info_window = None  # reference to the node info window
-        
-        comp = network.find_computer(int(self.name))
-        self.values = {}
-        for key, value in comp.__dict__.items():
-            self.values[key] = value
-
-        self.setFlag(QGraphicsItem.ItemIsMovable)
-        self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
-        self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-        
-    def calculate_radius(self) -> int:
-        max_radius = 60
-        min_radius = 10  # Adjust this to set a more reasonable minimum radius
-        
-        # Use logarithmic scaling to calculate the radius
-        radius = max(min_radius, max_radius / (1 + math.log(self.num_nodes)))
-        
-        return int(radius)
-    
-    def mouseDoubleClickEvent(self, event):
-        if event.button() == Qt.LeftButton:        
-            self.info_window = NodeInfoWindow(self)
-            self.info_window.show()
-        super().mouseDoubleClickEvent(event)
-        
-    def add_edge(self, edge):
-        self.edges.append(edge)
-        
-    def itemChange(self, change: QGraphicsItem.GraphicsItemChange, value):
-        if change == QGraphicsItem.ItemPositionHasChanged:
-            for edge in self.edges:
-                edge.adjust()
-        return super().itemChange(change, value)
-    
-    def boundingRect(self) -> QRectF:
-        return self.rect
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = None):
-        painter.setRenderHints(QPainter.Antialiasing)
-        painter.setPen(
-            QPen(
-                QColor(self.color).darker(),
-                2,
-                Qt.SolidLine,
-                Qt.RoundCap,
-                Qt.RoundJoin,
-            )
-        )
-        painter.setBrush(QBrush(QColor(self.color)))
-        painter.drawEllipse(self.boundingRect())
-        painter.setPen(QPen(QColor("white")))
-        painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)
-        
-# edge class
-class Edge(QGraphicsItem):
-    def __init__(self, source: Node, dest: Node, parent: QGraphicsItem = None):
-        super().__init__(parent)
-        self.source = source
-        self.dest = dest
-        self.boldness = 2
-        self.color = "#2BB53C"
-        self.source.add_edge(self)
-        self.dest.add_edge(self)
-
-        self.line = QLineF()
-        self.setZValue(-1)
-        self.adjust()
-        
-    def adjust(self):
-        # update edge position from source and destination node. Gets called when node is moved
-        self.prepareGeometryChange()
-        self.line = QLineF(
-            self.source.pos() + self.source.boundingRect().center(),
-            self.dest.pos() + self.dest.boundingRect().center(),
-        )
-    
-    def boundingRect(self) -> QRectF:
-        return (
-            QRectF(self.line.p1(), self.line.p2())
-            .normalized().adjusted( -self.boldness, -self.boldness, self.boldness, self.boldness)
-        )
-          
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget=None):
-        if self.source and self.dest:
-            painter.setRenderHints(QPainter.Antialiasing)
-            painter.setPen(
-                QPen(
-                    QColor(self.color),
-                    self.boldness,
-                    Qt.SolidLine,
-                    Qt.RoundCap,
-                    Qt.RoundJoin,
-                )
-            )
-            painter.drawLine(self.line)
-
+import initializationModule
+from visualizations.node import Node
+from visualizations.edge import Edge
+     
 
 class GraphView(QGraphicsView):
     def __init__(self, graph: nx.DiGraph, network: initializationModule.Initialization, parent=None):
@@ -181,7 +41,6 @@ class GraphView(QGraphicsView):
         self.zoom_step = 1.1
 
 
-
     def wheelEvent(self, event):
         # zoom in/out on wheel event
         if event.angleDelta().y() > 0:
@@ -191,53 +50,35 @@ class GraphView(QGraphicsView):
             # zoom out
             self.scale(1 / self.zoom_factor, 1 / self.zoom_factor)
 
-
     def get_nx_layouts(self) -> list:
         return self.nx_layout.keys()
 
-
-      
     def set_nx_layout(self, name: str):
-        if self.graph.number_of_nodes()>300:
+        if self.graph.number_of_nodes()>200:
+            self.set_nx_layout_large_graph(name)
+               
+        elif name=="circular":
             self.nx_layout_function = self.nx_layout[name]
-            # Compute node position from layout function
             positions = self.nx_layout_function(self.graph)
 
-            # Change position of all nodes using an animation
             for node, pos in positions.items():
-                window_size = self.size()
-
+                x, y = pos
+                x *= self.graph_scale
+                y *= self.graph_scale
                 item = self.nodes_map[node]
-                x = random.randint(item.radius, window_size.width() - item.radius)
-                y = random.randint(item.radius, window_size.height() - item.radius)
                 item.setPos(QPointF(x, y))
-                
-                
-            for edge in self.scene.items():
-                if isinstance(edge, Edge):
-                    edge.boldness = 1
-                    edge.update()    
-                    
-                    
-                    
-                    
-        # not a lot of nodes, can split them  
-        else:
-            if name in self.nx_layout:
+
+            
+        else: # random layout
+            if name in self.nx_layout and self.nx_layout[name] is not None:
                 self.nx_layout_function = self.nx_layout[name]
 
-                for value in self.nodes_map.values():
-                    if value:
-                        threshold_distance = 2*value.radius/self.graph_scale
-                        break
+                item_radius = next(iter(self.nodes_map.values())).radius
+                threshold_distance = 2 * item_radius / self.graph_scale
 
                 # compute node position from layout function
                 positions = self.nx_layout_function(self.graph)
-                locations ={}
-
-                for node, pos in positions.items():
-                    x, y = pos
-                    locations[node]=(x,y)
+                locations = {node: (pos[0], pos[1]) for node, pos in positions.items()}  # holds position for each node
 
                 changed=True
                 while changed:
@@ -252,29 +93,44 @@ class GraphView(QGraphicsView):
                                 angle = math.atan2(y2 - y, x2 - x)
                                 x += 5*threshold_distance* math.cos(angle)
                                 y += 5*threshold_distance* math.sin(angle)
-                                distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
                                 changed=True
                                 break
                         
                         locations[node]=(x,y)
                             
                         # scale x,y
-                        x *= self.graph_scale
-                        y *= self.graph_scale
-                        # set the position for the node
+                        x_scaled = x * self.graph_scale
+                        y_scaled = y * self.graph_scale
+                        
+                        # Set the position for the node
                         item = self.nodes_map[node]
-                        item.setPos(QPointF(x, y))
+                        item.setPos(QPointF(x_scaled, y_scaled))
                         
                         # update positions
-                        for node, (x, y) in positions.items():                        
-                            new_x, new_y = locations[node]
-                            positions[node] = (new_x, new_y)
                         if changed:
+                            for node, (x, y) in positions.items():
+                                new_x, new_y = locations[node]
+                                positions[node] = (new_x, new_y)
                             break
-                
-                
-                
+ 
+ 
+    def set_nx_layout_large_graph(self, name: str):
+        self.nx_layout_function = self.nx_layout[name]
+        positions = self.nx_layout_function(self.graph)
 
+        for node, pos in positions.items():
+            window_size = self.size()
+            item = self.nodes_map[node]
+            x = random.randint(item.radius, window_size.width() - item.radius)
+            y = random.randint(item.radius, window_size.height() - item.radius)
+            item.setPos(QPointF(x, y))
+            
+        for edge in self.scene.items():
+            if isinstance(edge, Edge):
+                edge.boldness = -1
+                edge.update()
+                
+          
     def load_graph(self, network: initializationModule.Initialization):
         # Load graph into QGraphicsScene using Node class and Edge class
         self.scene.clear()
@@ -395,7 +251,6 @@ class MainWindow(QWidget):
         new_interval = self.slider.value()
         self.timer.setInterval(abs(new_interval))
  
- 
     def update_slider_label(self):
         self.slider_label.setText(f"{abs(self.slider.value()/1000)} seconds per tick")
         
@@ -407,7 +262,7 @@ class MainWindow(QWidget):
                 node_name = None
                 for key, value in values_change_dict.items():
                     if node_name is None:
-                        if key == '_id':
+                        if key == 'id':
                             node_name = value
                             break
                         

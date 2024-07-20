@@ -2,7 +2,7 @@ import numpy
 import initializationModule
 
 
-class CommunicationModule:
+class Communication:
     def __init__(self, network: initializationModule.Initialization):
         self.network = network
         self.displayType = network.display_type
@@ -49,7 +49,7 @@ class CommunicationModule:
         current_computer = self.network.find_computer(current_id)
         current_computer.receivedFrom = source_id
         
-        algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None)
+        algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None) 
         
         old_values = current_computer.__dict__.copy()
 

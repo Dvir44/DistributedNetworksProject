@@ -77,7 +77,7 @@ class MenuWindow(QMainWindow):
         self.add_line_edit_button(checkbox_layout, "Change Number of Computers",
                                   self.checkbox_values["Number of Computers"], "Default = 0", "Number of Computers")
         self.add_line_edit_button(checkbox_layout, "Choose Topology",
-                                  self.checkbox_values["Topology"], "Random, Clique, Line", "Topology")
+                                  self.checkbox_values["Topology"], "Random, Clique, Line, Tree, Star", "Topology")
         self.add_line_edit_button(checkbox_layout, "Choose ID Type",
                                   self.checkbox_values["ID Type"], "Random, Sequential", "ID Type")
         self.add_line_edit_button(checkbox_layout, "Enable Delay",

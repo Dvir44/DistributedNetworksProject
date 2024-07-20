@@ -3,6 +3,8 @@ import json
 import os
 import random
 import sys
+
+import numpy as np
 from computer import Computer
 import heapq
 import math
@@ -43,10 +45,10 @@ class Initialization:
         self.network_dict = {}
         for i in self.connected_computers:
             self.network_dict[i.id] = i
-            
+        self.root_selection()
+
         self.create_connected_computers()
         self.load_algorithms(self.algorithm_path)
-        self.root_selection()
         self.delays_creation()
         
         
@@ -91,18 +93,9 @@ class Initialization:
                     self.edges_delays[edge_tuple] = random_num
                 
                 comp.delays[i] = self.edges_delays[edge_tuple]
-                        
-    '''
-    ***********************************************************************************
-        need to change to be bi-directional!!!
-    ***********************************************************************************
-    '''
+                
+    # Creates constant delay for every edge
     def constant_delay(self):
-        #for comp in self.connected_computers:
-        #    comp.delays = [None]*len(comp.connectedEdges)
-        #    for i in range(len(comp.connectedEdges)):
-        #        comp.delays[i]=1
-
         for comp in self.connected_computers:
             comp.delays = [None] * len(comp.connectedEdges)
             for i, connected in enumerate(comp.connectedEdges):
@@ -120,7 +113,9 @@ class Initialization:
         topology_functions = {
             "Random": self.create_random_topology,
             "Line": self.create_line_topology,
-            "Clique": self.create_clique_topology
+            "Clique": self.create_clique_topology,
+            "Tree": self.create_tree_topology,
+            "Star": self.create_star_topology,
             }
         
         topology_function = topology_functions[self.topologyType]
@@ -222,6 +217,86 @@ class Initialization:
         # Removing duplicates
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
+
+
+
+
+
+    def create_tree_topology(self, max_height=None):
+        if max_height is None:
+            max_height = int(np.log2(self.computer_number)) + 1
+
+        # Find the root node based on the is_root field
+        root = None
+        for comp in self.connected_computers:
+            if getattr(comp, 'is_root', False):
+                root = comp
+                break
+
+        # Initialize a queue with the root node and track their heights
+        queue = [(root, 0)]
+        next_computer_index = 0
+        
+        used_computers = set([root.id])
+
+        # While there are still computers to connect
+        while len(used_computers) < self.computer_number:
+            if not queue:
+                break
+            # Take the next node and its height from the queue
+            parent, height = queue.pop(0)
+            
+            if height >= max_height:
+                continue
+            
+            # Determine a random number of children for the current parent using Poisson distribution
+            ''' need to receive user sumbitted lambda value somehow'''
+            children_count = np.random.poisson(1.5)
+
+            # Ensure the number of children is at least 1 and does not exceed the remaining nodes
+            children_count = min(max(1, children_count), self.computer_number - len(used_computers))
+
+            for _ in range(children_count):
+                if len(used_computers) >= self.computer_number:
+                    break
+                # Find the next available computer to connect
+                while next_computer_index in used_computers or next_computer_index >= self.computer_number:
+                    next_computer_index += 1
+                if next_computer_index >= self.computer_number:
+                    break
+                # Connect the parent to the child
+                child = self.connected_computers[next_computer_index]
+                parent.connectedEdges.append(child.id)
+                child.connectedEdges.append(parent.id)  # Ensure bi-directional connection
+                
+                # Add the child to the queue with its height
+                queue.append((child, height + 1))
+                used_computers.add(next_computer_index)
+                next_computer_index += 1
+
+        # Removing duplicates
+        for comp in self.connected_computers:
+            comp.connectedEdges = list(set(comp.connectedEdges))
+
+
+
+
+
+    def create_star_topology(self):
+        root = None
+        for comp in self.connected_computers:
+            if getattr(comp, 'is_root', False):
+                root = comp
+                break
+
+        # Connect all other nodes to the hub
+        for comp in self.connected_computers:
+            if comp.id != root.id:
+                root.connectedEdges.append(comp.id)
+                comp.connectedEdges.append(root.id)  # Ensure bi-directional connection
+
+
+
 
 
 

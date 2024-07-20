@@ -3,11 +3,10 @@ import sys
 import numpy
 from visualizations.graphVisualization import visualize_network
 import initializationModule
-import communicationModule
+import communication
 
-exception_queue = queue.Queue()
 
-def initiateRun(network: initializationModule.Initialization, comm : communicationModule.CommunicationModule): 
+def initiateRun(network: initializationModule.Initialization, comm : communication): 
         old_values_list = [None]*network.computer_number
         # running init() for every computer which must be defined, and puting messages into the network queue
         for comp in network.connected_computers:
@@ -16,13 +15,8 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
                 old_values = comp.__dict__.copy()
                 old_values_list.append(old_values)
 
-                try:
-                    algorithm_function(comp, comm)
-                except BaseException as e:
-                    print("ERROR IN INIT ALGORITHM")
-                    exception_queue.put(e)
-                    exit()
-                    
+                algorithm_function(comp, comm)
+
                 new_values = comp.__dict__
                 if old_values!=new_values: # if display is graph then update values. NEED TO CHANGE THE IF STATEMENT
                     values = comp.__dict__.copy()

@@ -1,21 +1,17 @@
 import json
 import os
 import threading
+import sys
+import time
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import sys
+
+import runModule
+import communication
 import initializationModule
 import visualizations.visualizationModule as visualizationModule
-import runModule
-import communicationModule
-import time
 import visualizations.graphVisualization as graphVisualization
-
-from runModule import exception_queue
-
-class Simulator:
-    def __init__(self):
-        pass
 
 def main():
     sys.stdout = open("./output.txt", "w") # change default output
@@ -28,9 +24,7 @@ def main():
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
 
-
-
-    comm = communicationModule.CommunicationModule(network)
+    comm = communication.Communication(network)
 
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)
@@ -41,15 +35,10 @@ def main():
         thread.join()
         print("--- %s seconds ---" % (time.time() - start_time))
 
-        if not exception_queue.empty():
-            exit()
-            
-
         sys.exit(app.exec_())
+        
     else:
         runModule.initiateRun(network, comm)
-        if not exception_queue.empty():
-            exit()
         print("--- %s seconds ---" % (time.time() - start_time))
 
     
