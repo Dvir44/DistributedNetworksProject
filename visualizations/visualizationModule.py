@@ -183,8 +183,8 @@ class MenuWindow(QMainWindow):
 def menu():
     app = QApplication(sys.argv)
     menu_window = MenuWindow()
-    menu_window.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
-    stylesheet_file = os.path.join('./extra_files', 'main_window.qss')
+    menu_window.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))
+    stylesheet_file = os.path.join('./designFiles', 'main_window.qss')
     with open(stylesheet_file, 'r') as f:
         menu_window.setStyleSheet(f.read())
     

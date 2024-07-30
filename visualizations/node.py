@@ -19,10 +19,10 @@ class NodeInfoWindow(QWidget):
         super().__init__(parent)
 
         # Set stylesheet and icon
-        stylesheet_file = os.path.join('./extra_files', 'graph_window.qss')
+        stylesheet_file = os.path.join('./designFiles', 'graph_window.qss')
         with open(stylesheet_file, 'r') as f:
             self.setStyleSheet(f.read())
-        self.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
+        self.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))
 
         values = node.values
         self.setWindowTitle(f"Node {values.get('id', 'Unknown')} info")

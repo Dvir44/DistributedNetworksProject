@@ -13,15 +13,38 @@ from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
 import initializationModule
 from visualizations.node import Node
 from visualizations.edge import Edge
-     
 
-class GraphView(QGraphicsView):
-    def __init__(self, graph: nx.DiGraph, network: initializationModule.Initialization, parent=None):
-        super().__init__()
-        self.graph = graph
+import visualizations.graph_functions as gf
+import visualizations.graph_layout_creation as glc
+
+
+class GraphVisualizer(QWidget):
+    def __init__(self, network: initializationModule.Initialization, comm, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Simulator for Distributed Networks")
+
+        self.change_stack = []  # used for "undo" button press
+
+        self.network = network
+        self.comm = comm
+        self.graph = nx.DiGraph()
+        self.num_nodes = len(self.graph)  # used for node radius calculation
+        self.first_entry = True
+
+        # adding node names
+        vertex_names = [str(comp.id) for comp in self.network.connected_computers]
+        self.graph.add_nodes_from(vertex_names)
+
+        # adding edges
+        for comp in self.network.connected_computers:
+            for connected in comp.connectedEdges:
+                self.graph.add_edge(str(comp.id), str(connected))
+
+        self.pos = nx.spring_layout(self.graph, k=0.5, iterations=20)  # You can tweak the k and iterations parameters
+
         self.scene = QGraphicsScene()
-        self.setScene(self.scene)
-        self.num_nodes = len(self.graph) # used for node radius calculation
+        self.view = QGraphicsView(self.scene)
+        self.num_nodes = len(self.graph)  # used for node radius calculation
 
         # space between nodes
         self.graph_scale = 200
@@ -33,31 +56,25 @@ class GraphView(QGraphicsView):
             "random": nx.random_layout,
         }
 
-        self.load_graph(network)
+        self.load_graph()
 
         self.set_nx_layout("circular")
 
         self.zoom_factor = 1.15
         self.zoom_step = 1.1
 
-
-    def wheelEvent(self, event):
-        # zoom in/out on wheel event
-        if event.angleDelta().y() > 0:
-            # zoom in
-            self.scale(self.zoom_factor, self.zoom_factor)
-        else:
-            # zoom out
-            self.scale(1 / self.zoom_factor, 1 / self.zoom_factor)
+        self.view.wheelEvent = self.wheelEvent
+        
+        self.layoutCreation()
 
     def get_nx_layouts(self) -> list:
         return self.nx_layout.keys()
 
     def set_nx_layout(self, name: str):
-        if self.graph.number_of_nodes()>200:
+        if self.graph.number_of_nodes() > 200:
             self.set_nx_layout_large_graph(name)
-               
-        elif name=="circular":
+
+        elif name == "circular":
             self.nx_layout_function = self.nx_layout[name]
             positions = self.nx_layout_function(self.graph)
 
@@ -68,8 +85,7 @@ class GraphView(QGraphicsView):
                 item = self.nodes_map[node]
                 item.setPos(QPointF(x, y))
 
-            
-        else: # random layout
+        else:  # random layout
             if name in self.nx_layout and self.nx_layout[name] is not None:
                 self.nx_layout_function = self.nx_layout[name]
 
@@ -80,40 +96,39 @@ class GraphView(QGraphicsView):
                 positions = self.nx_layout_function(self.graph)
                 locations = {node: (pos[0], pos[1]) for node, pos in positions.items()}  # holds position for each node
 
-                changed=True
+                changed = True
                 while changed:
-                    changed=False
+                    changed = False
                     for node, pos in positions.items():
                         x, y = pos
                         # adjust position if it overlaps with existing nodes
                         for _, loc in locations.items():
                             x2, y2 = loc
                             distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
-                            if distance < threshold_distance and x!=x2 and y!=y2:
+                            if distance < threshold_distance and x != x2 and y != y2:
                                 angle = math.atan2(y2 - y, x2 - x)
-                                x += 5*threshold_distance* math.cos(angle)
-                                y += 5*threshold_distance* math.sin(angle)
-                                changed=True
+                                x += 5 * threshold_distance * math.cos(angle)
+                                y += 5 * threshold_distance * math.sin(angle)
+                                changed = True
                                 break
-                        
-                        locations[node]=(x,y)
-                            
+
+                        locations[node] = (x, y)
+
                         # scale x,y
                         x_scaled = x * self.graph_scale
                         y_scaled = y * self.graph_scale
-                        
+
                         # Set the position for the node
                         item = self.nodes_map[node]
                         item.setPos(QPointF(x_scaled, y_scaled))
-                        
+
                         # update positions
                         if changed:
                             for node, (x, y) in positions.items():
                                 new_x, new_y = locations[node]
                                 positions[node] = (new_x, new_y)
                             break
- 
- 
+
     def set_nx_layout_large_graph(self, name: str):
         self.nx_layout_function = self.nx_layout[name]
         positions = self.nx_layout_function(self.graph)
@@ -124,21 +139,20 @@ class GraphView(QGraphicsView):
             x = random.randint(item.radius, window_size.width() - item.radius)
             y = random.randint(item.radius, window_size.height() - item.radius)
             item.setPos(QPointF(x, y))
-            
+
         for edge in self.scene.items():
             if isinstance(edge, Edge):
                 edge.boldness = -1
                 edge.update()
-                
-          
-    def load_graph(self, network: initializationModule.Initialization):
+
+    def load_graph(self):
         # Load graph into QGraphicsScene using Node class and Edge class
         self.scene.clear()
         self.nodes_map.clear()
 
         # add nodes
         for node in self.graph:
-            item = Node(node, self.num_nodes, network)
+            item = Node(node, self.num_nodes, self.network)
             self.scene.addItem(item)
             self.nodes_map[node] = item
 
@@ -147,165 +161,45 @@ class GraphView(QGraphicsView):
             source = self.nodes_map[a]
             dest = self.nodes_map[b]
             self.scene.addItem(Edge(source, dest))
-            
-        
-        
-class MainWindow(QWidget):
-    def __init__(self, network: initializationModule.Initialization, comm, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Simulator for Distributed Networks")
 
-        self.change_stack = [] # used for "undo" button press
-
-        self.network = network
-        self.comm = comm
-        self.graph = nx.DiGraph()
-        self.first_entry=True
-        # adding node names
-        vertex_names=[]
-        for comp in self.network.connected_computers:
-            vertex_names.append(str(comp.id))
-        self.graph.add_nodes_from(vertex_names)
-
-        # adding edges
-        for comp in self.network.connected_computers:
-            for connected in comp.connectedEdges:
-                self.graph.add_edge(str(comp.id), str(connected))
-                
-        self.pos = nx.spring_layout(self.graph, k=0.5, iterations=20)  # You can tweak the k and iterations parameters
-
-        self.view = GraphView(self.graph, self.network)
-        self.layoutCreation()
-
-        
     def layoutCreation(self):
-        self.choice_combo = QComboBox()
-        self.choice_combo.addItems(self.view.get_nx_layouts())
-        self.choice_combo.currentTextChanged.connect(self.view.set_nx_layout)
-
-        self.regenarate_button = QPushButton("regenarate")
-        self.regenarate_button.clicked.connect(self.regenarate_clicked)
-
-        main_layout = QVBoxLayout(self)
-        main_layout.addWidget(self.choice_combo)
-        main_layout.addWidget(self.regenarate_button)
-        main_layout.addWidget(self.view)
-    
-        slider_h_layout = QHBoxLayout()
-
-        self.slider = QSlider(Qt.Horizontal)
-        self.slider.setRange(-2000, -1)
-        self.slider.setValue(-1000)
-        self.slider.valueChanged.connect(self.update_timer_interval)
-        
-        self.slider_label = QLabel(f"{abs(self.slider.value()/1000)} seconds per tick")
-        self.slider.valueChanged.connect(self.update_slider_label)
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(lambda: self.change_node_color(1))
-        
-        self.run_checkbox = QCheckBox()
-        self.run_checkbox.stateChanged.connect(self.toggle_timer)
-        run_label = QLabel("Run")
-        slider_h_layout.addWidget(self.run_checkbox)
-        slider_h_layout.addWidget(run_label)
-        slider_h_layout.addWidget(self.slider)
+        glc.layoutCreation(self)
 
 
+    def wheelEvent(self, event):
+        gf.wheelEvent(self, event)
 
-        buttons_layout = QGridLayout()
-        self.next_phase_button = QPushButton("Next Phase")
-        self.next_phase_button.clicked.connect(lambda: self.change_node_color(1))
-        self.next_5_phase_button = QPushButton("Next 5 Phases")
-        self.next_5_phase_button.clicked.connect(lambda: self.change_node_color(5))
-        self.undo_button = QPushButton('Undo', self)
-        self.undo_button.clicked.connect(self.undo_change)
-        self.reset_button = QPushButton('Reset', self)
-        self.reset_button.clicked.connect(self.reset)
-
-        buttons_layout.addWidget(self.next_phase_button, 0, 0)
-        buttons_layout.addWidget(self.next_5_phase_button, 0, 1)
-        buttons_layout.addWidget(self.undo_button, 1, 0)
-        buttons_layout.addWidget(self.reset_button, 1, 1)
-        buttons_layout.addWidget(self.slider_label, 0, 2)
-
-
-        # Add the horizontal layouts to the main layout
-        main_layout.addLayout(slider_h_layout)
-        main_layout.addLayout(buttons_layout)
-        
-    # generate a new layout if the current choice is "random"
     def regenarate_clicked(self):
-        if self.choice_combo.currentText() == "random":
-            self.view.set_nx_layout("random")
-    
-    # toggles timer based on the QCheckBox run_checkbox
+        gf.regenarate_clicked(self)
+
     def toggle_timer(self):
-        if self.run_checkbox.isChecked():
-            self.timer.start(abs(self.slider.value()))
-        else:
-            self.timer.stop()
-        
-    # update the timer interval
+        gf.toggle_timer(self)
+
     def update_timer_interval(self):
-        new_interval = self.slider.value()
-        self.timer.setInterval(abs(new_interval))
- 
+        gf.update_timer_interval(self)
+
     def update_slider_label(self):
-        self.slider_label.setText(f"{abs(self.slider.value()/1000)} seconds per tick")
-        
-    # accessed only when button is clicked, gets first value from the list and updates its values
-    def change_node_color(self, times):
-        for _ in range(times):
-            if self.network.node_values_change:
-                values_change_dict = self.network.node_values_change.pop(0)
-                node_name = None
-                for key, value in values_change_dict.items():
-                    if node_name is None:
-                        if key == 'id':
-                            node_name = value
-                            break
-                        
-                node_item = self.view.nodes_map[str(node_name)]
-                
-                # Store the current state of the node before changing
-                previous_state = node_item.values.copy()
-                
-                for key, value in values_change_dict.items():
-                    node_item.values[key] = value
-
-                node_item.color = node_item.values['color']
-
-                next_state = node_item.values.copy()
-                self.change_stack.insert(0, (node_item, previous_state))
-                self.change_stack.insert(1, (node_item, next_state))
-
-                node_item.update()
-
+        gf.update_slider_label(self)
 
     def undo_change(self):
-        if self.change_stack:
-            previous_node_item, previous_state = self.change_stack.pop(0)
-            previous_node_item.values = previous_state
-            previous_node_item.color = previous_state['color']
-            
-            _, next_state = self.change_stack.pop(0)
-            self.network.node_values_change.insert(0, next_state)
-
-            previous_node_item.update()
+        gf.undo_change(self)
 
     def reset(self):
-        while self.change_stack:
-            self.undo_change()
+        gf.reset(self)
+        
+    def change_node_color(self, times):
+        gf.change_node_color(self, times)
+        
+    def update_node_color(self, node_name, values_change_dict):
+        gf.update_node_color(self, node_name, values_change_dict)
 
 
 def visualize_network(network: initializationModule.Initialization, comm):
-    graph_window = MainWindow(network, comm)
-    stylesheet_file = os.path.join('./extra_files', 'graph_window.qss')
+    graph_window = GraphVisualizer(network, comm)
+    stylesheet_file = os.path.join('./designFiles', 'graph_window.qss')
     with open(stylesheet_file, 'r') as f:
         graph_window.setStyleSheet(f.read())
-    graph_window.setWindowIcon(QIcon('./extra_files/app_icon.jpeg'))
+    graph_window.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))
 
     graph_window.show()
-    #graph_window.showMaximized()
     graph_window.resize(1000, 800)
