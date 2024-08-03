@@ -4,7 +4,7 @@ import random
 import sys
 
 import numpy as np
-import initializationModule
+import simulator.initializationModule as initializationModule
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -118,7 +118,7 @@ class Node(QGraphicsObject):
         max_nodes = 100
         scale = (self.MAX_RADIUS - self.MIN_RADIUS) / (min_nodes - max_nodes)
         return self.MAX_RADIUS + scale * (self.num_nodes - min_nodes)
-    
+
         """
         radius = max(self.MIN_RADIUS, self.MAX_RADIUS / (1 + math.log(self.num_nodes)))
         return int(radius)

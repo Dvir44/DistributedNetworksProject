@@ -1,12 +1,16 @@
+import json
+import os
+import re
+import time
 import numpy
-import initializationModule
+import simulator.initializationModule as initializationModule
 
 
 class Communication:
     def __init__(self, network: initializationModule.Initialization):
         self.network = network
-        self.displayType = network.display_type
-
+        self.displayType = network.display_type 
+        
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, message_info):
         current_computer = self.network.find_computer(source)
@@ -41,7 +45,8 @@ class Communication:
             
     def receive_message(self, message : dict, comm):
         if self.displayType=="Text":
-            print("message received: ", message)
+            print(message)
+            
             
         current_id = message['dest_id']
         source_id = message['source_id']
@@ -63,6 +68,8 @@ class Communication:
         else:
             print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithm_file}.py")
             return None
+ 
+ 
  
 def main():
     pass

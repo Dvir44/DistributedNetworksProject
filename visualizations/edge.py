@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
 
-import initializationModule
+import simulator.initializationModule as initializationModule
 from visualizations.node import Node
 
 class Edge(QGraphicsItem):

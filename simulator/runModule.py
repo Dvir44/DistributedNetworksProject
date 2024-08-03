@@ -2,8 +2,8 @@ import queue
 import sys
 import numpy
 from visualizations.graphVisualization import visualize_network
-import initializationModule
-import communication
+import simulator.initializationModule as initializationModule
+import simulator.communication as communication
 
 
 def initiateRun(network: initializationModule.Initialization, comm : communication): 
@@ -25,14 +25,6 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
                 print(f"Error: Function 'init' not found in {comp.algorithm_file}.py")
                 return None
         print("******************************************")
-        
-
-        """ for i, comp in enumerate(network.connected_computers):
-            new_values = comp.__dict__
-            if old_values_list[i]!=new_values: # if display is graph then update values. NEED TO CHANGE THE IF STATEMENT
-                values = comp.__dict__.copy()
-                network.node_values_change.append(values)
- """
 
         ## running mainAlgorithm
         while not network.network_message_queue.empty():

@@ -1,5 +1,5 @@
-import computer
-import communication
+import simulator.computer as computer
+import simulator.communication as communication
 import numpy as np
 ''' 
 user implemented code that runs a BFS algorithm

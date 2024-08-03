@@ -26,7 +26,7 @@ class Computer:
         
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
-
+    
     def getConnectedEdges(self):
         return self.connectedEdges
     def getDelays(self):

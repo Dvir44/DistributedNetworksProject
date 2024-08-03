@@ -10,12 +10,12 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
 
-import initializationModule
+import simulator.initializationModule as initializationModule
 from visualizations.node import Node
 from visualizations.edge import Edge
 
-import visualizations.graph_functions as gf
-import visualizations.graph_layout_creation as glc
+import visualizations.functions as gf
+import visualizations.layout_creation as glc
 
 
 class GraphVisualizer(QWidget):
@@ -28,48 +28,42 @@ class GraphVisualizer(QWidget):
         self.network = network
         self.comm = comm
         self.graph = nx.DiGraph()
-        self.num_nodes = len(self.graph)  # used for node radius calculation
         self.first_entry = True
+        self.num_nodes = self.network.computer_number
+        self.nodes_map = {} # map node name to Node object (Str->Node)
+        self.nx_layout = {"circular": nx.circular_layout, "random": nx.random_layout,}
+        
+        self.init_graph()
+        self.init_ui()
 
-        # adding node names
-        vertex_names = [str(comp.id) for comp in self.network.connected_computers]
-        self.graph.add_nodes_from(vertex_names)
 
-        # adding edges
+    def init_graph(self):
+        self.add_nodes_to_graph()
+        self.add_edges_to_graph()
+
+    def add_nodes_to_graph(self):
+            vertex_names = [str(comp.id) for comp in self.network.connected_computers]
+            self.graph.add_nodes_from(vertex_names)
+            
+    def add_edges_to_graph(self):
         for comp in self.network.connected_computers:
             for connected in comp.connectedEdges:
                 self.graph.add_edge(str(comp.id), str(connected))
 
-        self.pos = nx.spring_layout(self.graph, k=0.5, iterations=20)  # You can tweak the k and iterations parameters
-
+    def init_ui(self):
         self.scene = QGraphicsScene()
         self.view = QGraphicsView(self.scene)
-        self.num_nodes = len(self.graph)  # used for node radius calculation
-
-        # space between nodes
         self.graph_scale = 200
-        # map node name to Node object (str->Node)
-        self.nodes_map = {}
-
-        self.nx_layout = {
-            "circular": nx.circular_layout,
-            "random": nx.random_layout,
-        }
-
         self.load_graph()
-
         self.set_nx_layout("circular")
-
         self.zoom_factor = 1.15
         self.zoom_step = 1.1
-
         self.view.wheelEvent = self.wheelEvent
-        
         self.layoutCreation()
-
+        
     def get_nx_layouts(self) -> list:
         return self.nx_layout.keys()
-
+    
     def set_nx_layout(self, name: str):
         if self.graph.number_of_nodes() > 200:
             self.set_nx_layout_large_graph(name)
@@ -203,3 +197,4 @@ def visualize_network(network: initializationModule.Initialization, comm):
 
     graph_window.show()
     graph_window.resize(1000, 800)
+    

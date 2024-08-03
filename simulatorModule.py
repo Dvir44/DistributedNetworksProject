@@ -1,22 +1,28 @@
+import http
+import http.server
 import json
 import os
+import re
+import socketserver
 import threading
 import sys
 import time
+import json
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-import runModule
-import communication
-import initializationModule
-import visualizations.visualizationModule as visualizationModule
+import simulator.runModule as runModule
+import simulator.communication as communication
+import simulator.initializationModule as initializationModule
+import simulator.MainMenu as MainMenu
 import visualizations.graphVisualization as graphVisualization
+
 
 def main():
     sys.stdout = open("./output.txt", "w") # change default output
     
-    visualizationModule.menu()
+    MainMenu.menu()
     start_time = time.time()
     network= initializationModule.Initialization()
     print(network)

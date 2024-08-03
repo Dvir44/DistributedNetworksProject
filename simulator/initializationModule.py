@@ -5,7 +5,7 @@ import random
 import sys
 
 import numpy as np
-from computer import Computer
+from simulator.computer import Computer
 import heapq
 import math
 
@@ -305,7 +305,7 @@ class Initialization:
             print("No algorithm was provided")
             #exit()
             
-            directory, file_name = os.path.split("./someAlgorithm.py")
+            directory, file_name = os.path.split("./algorithms/someAlgorithm.py")
             base_file_name, _ = os.path.splitext(file_name)
             sys.path.insert(0,directory)
 

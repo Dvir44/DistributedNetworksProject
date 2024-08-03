@@ -1,5 +1,5 @@
-import computer
-from communication  import Communication
+import simulator.computer as computer
+from simulator.communication  import Communication
 
 ''' user implemented code that runs a broadcast algorithm'''
 
