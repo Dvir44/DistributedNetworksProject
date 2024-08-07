@@ -1,9 +1,9 @@
 {
-    "Number of Computers": "12",
-    "Topology": "Random",
-    "ID Type": "Sequential",
+    "Number of Computers": "6",
+    "Topology": "Star",
+    "ID Type": "Random",
     "Delay": "Random",
     "Display": "Graph",
-    "Root": "Random",
-    "Algorithm": "C:/Users/User/Desktop/DistributedNetworksProject-2/BFSalgorithm.py"
+    "Root": "Min ID",
+    "Algorithm": "C:/Users/User/Desktop/python_leetcode/python.py"
 }

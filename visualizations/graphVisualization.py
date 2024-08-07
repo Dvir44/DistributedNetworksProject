@@ -89,7 +89,13 @@ class GraphVisualizer(QWidget):
                 # compute node position from layout function
                 positions = self.nx_layout_function(self.graph)
                 locations = {node: (pos[0], pos[1]) for node, pos in positions.items()}  # holds position for each node
-
+                
+                for key, value in positions.items():
+                    print(f'Key: {key} (Type: {type(key)}) | Value: {value} (Type: {type(value)})')
+                for key, value in locations.items():
+                    print(f'Keyyyyyyyy: {key} (Type: {type(key)}) | Value: {value} (Type: {type(value)})')
+                    
+                    
                 changed = True
                 while changed:
                     changed = False
@@ -122,6 +128,7 @@ class GraphVisualizer(QWidget):
                                 new_x, new_y = locations[node]
                                 positions[node] = (new_x, new_y)
                             break
+
 
     def set_nx_layout_large_graph(self, name: str):
         self.nx_layout_function = self.nx_layout[name]

@@ -54,7 +54,7 @@ def change_node_color(self, times):
                     break
             self.update_node_color(node_name, values_change_dict)
             
-#pdates node values, called from 'change_node_color'
+#updates node values, called from 'change_node_color'
 def update_node_color(self, node_name, values_change_dict):
     node_item = self.nodes_map[str(node_name)]
     previous_state = node_item.values.copy()
