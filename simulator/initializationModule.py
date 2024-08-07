@@ -55,13 +55,14 @@ class Initialization:
     def load_config(self):
         with open('network_variables.json', 'r') as f:
             data = json.load(f)
-        self.computer_number = int(data.get('Number of Computers', 5))
+        self.computer_number = int(data.get('Number of Computers', 10))
         self.topologyType = data.get('Topology', 'Line')
         self.id_type = data.get('ID Type', 'Sequential')
         self.display_type = data.get('Display', 'Text')
         self.root_type = data.get('Root', 'Random')
         self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
+        self.logging_type = data.get('Logging', 'Short')
         
         
     def __str__(self) -> list:

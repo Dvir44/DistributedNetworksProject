@@ -1,9 +1,10 @@
 {
     "Number of Computers": "6",
-    "Topology": "Star",
+    "Topology": "Clique",
     "ID Type": "Random",
     "Delay": "Random",
     "Display": "Graph",
     "Root": "Min ID",
-    "Algorithm": "C:/Users/User/Desktop/python_leetcode/python.py"
+    "Algorithm": "C:/Users/User/Desktop/working/DistributedNetworksProject/algorithms/BFSalgorithm.py",
+    "Logging": "Short"
 }

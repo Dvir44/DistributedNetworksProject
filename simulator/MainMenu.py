@@ -7,13 +7,14 @@ import os
 
 # Constants
 JSON_FILE = 'network_variables.json'
-CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 500)
+CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 600)
 COMBOBOX_OPTIONS = {
     "Topology": "Random, Clique, Line, Tree, Star",
     "ID Type": "Random, Sequential",
     "Delay": "Random, Constant",
     "Display": "Text, Graph",
     "Root": "No Root, Min ID, Random",
+    "Logging": "Short, Medium, Long",
 }
 
 
@@ -89,7 +90,7 @@ class MenuWindow(QMainWindow):
         upload_file_button.clicked.connect(lambda: self.on_upload_algorithm())
 
         confirm_button = QPushButton("Submit", self)
-        confirm_button.setGeometry(550, 700, 150, 30)
+        confirm_button.setGeometry(550, 750, 150, 30)
         confirm_button.clicked.connect(lambda: self.on_submit_all())
 
 

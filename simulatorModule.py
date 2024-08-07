@@ -25,7 +25,8 @@ def main():
     MainMenu.menu()
     start_time = time.time()
     network= initializationModule.Initialization()
-    print(network)
+    if network.logging_type!="Short":
+        print(network)
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
