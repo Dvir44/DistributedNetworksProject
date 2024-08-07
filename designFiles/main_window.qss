@@ -1,15 +1,13 @@
 * {
     background-color: #d7d6d5 ;
     color: #000000;
-    font-family: Georgia;
+    font-family: "Times font";
 }          
-
-
 
 
 QLabel{
     color: #2e8d93;
-    font-size: 19px;
+    font-size: 16px;
 
 }
 
@@ -25,7 +23,7 @@ QLineEdit {
     border-style: outset;
     border-width: 1px;
     border-radius: 10px;
-    font: 14px;
+    font: 20px;
     min-width: 5em;
 
 }
