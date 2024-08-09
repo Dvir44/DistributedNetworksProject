@@ -62,7 +62,7 @@ class Initialization:
         self.root_type = data.get('Root', 'Random')
         self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
-        self.logging_type = data.get('Logging', 'Short')
+        #self.logging_type = data.get('Logging', 'Short')
         
         
     def __str__(self) -> list:
@@ -304,7 +304,15 @@ class Initialization:
     def load_algorithms(self, algorithm_module_path):
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
-            exit()
+            #exit()
+
+            directory, file_name = os.path.split("./algorithms/someAlgorithm.py")
+            base_file_name, _ = os.path.splitext(file_name)
+            sys.path.insert(0,directory)
+
+            algorithm_module = importlib.import_module(base_file_name)
+            for comp in self.connected_computers:
+                comp.algorithm_file = algorithm_module
         try:
             directory, file_name = os.path.split(algorithm_module_path)
             base_file_name, _ = os.path.splitext(file_name)

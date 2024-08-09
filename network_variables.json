@@ -1,10 +1,8 @@
 {
-    "Number of Computers": "6",
-    "Topology": "Clique",
-    "ID Type": "Random",
+    "Number of Computers": "444",
+    "Topology": "Random",
+    "ID Type": "Sequential",
     "Delay": "Random",
     "Display": "Graph",
-    "Root": "Min ID",
-    "Algorithm": "C:/Users/User/Desktop/working/DistributedNetworksProject/algorithms/BFSalgorithm.py",
-    "Logging": "Short"
+    "Root": "Random"
 }
