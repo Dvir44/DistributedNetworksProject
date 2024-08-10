@@ -10,7 +10,6 @@ class Communication:
     def __init__(self, network: initializationModule.Initialization):
         self.network = network
         self.displayType = network.display_type 
-        #self.logging_type = network.logging_type
         
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, message_info):
@@ -46,8 +45,8 @@ class Communication:
             
     def receive_message(self, message : dict, comm):
         #if self.logging_type=="Long":
-        print(message)
-            
+        if self.network.logging_type=="Long":
+            print(message)
             
         current_id = message['dest_id']
         source_id = message['source_id']

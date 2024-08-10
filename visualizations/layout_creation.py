@@ -1,7 +1,13 @@
+import math
+import random
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QPointF
+
+from visualizations.edge import Edge
+
 
 # create graph visualization layout
 def layoutCreation(self):
@@ -56,3 +62,70 @@ def layoutCreation(self):
     # Add the horizontal layouts to the main layout
     main_layout.addLayout(slider_h_layout)
     main_layout.addLayout(buttons_layout)
+    
+    
+    
+def set_nx_layout_large_graph(self, positions):
+        for node, pos in positions.items():
+            window_size = self.size()
+            item = self.nodes_map[node]
+            x = random.randint(item.radius, window_size.width() - item.radius)
+            y = random.randint(item.radius, window_size.height() - item.radius)
+            item.setPos(QPointF(x, y))
+
+        for edge in self.scene.items():
+            if isinstance(edge, Edge):
+                edge.boldness = -1
+                edge.update()
+                
+                
+def set_nx_layout_circular_graph(self, positions):
+        for node, pos in positions.items():
+            x, y = pos
+            x *= self.graph_scale
+            y *= self.graph_scale
+            item = self.nodes_map[node]
+            item.setPos(QPointF(x, y))
+
+            
+
+def set_nx_layout_random_small_graph(self, name, positions):
+    if name in self.nx_layout and self.nx_layout[name] is not None:
+        item_radius = next(iter(self.nodes_map.values())).radius
+        threshold_distance = 2 * item_radius / self.graph_scale
+
+        # compute node position from layout function
+        locations = {node: (pos[0], pos[1]) for node, pos in positions.items()}  # holds position for each node
+
+        changed = True
+        while changed:
+            changed = False
+            for node, pos in positions.items():
+                x, y = pos
+                # adjust position if it overlaps with existing nodes
+                for _, loc in locations.items():
+                    x2, y2 = loc
+                    distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
+                    if distance < threshold_distance and x != x2 and y != y2:
+                        angle = math.atan2(y2 - y, x2 - x)
+                        x += 5 * threshold_distance * math.cos(angle)
+                        y += 5 * threshold_distance * math.sin(angle)
+                        changed = True
+                        break
+
+                locations[node] = (x, y)
+
+                # scale x,y
+                x_scaled = x * self.graph_scale
+                y_scaled = y * self.graph_scale
+
+                # Set the position for the node
+                item = self.nodes_map[node]
+                item.setPos(QPointF(x_scaled, y_scaled))
+
+                # update positions
+                if changed:
+                    for node, (x, y) in positions.items():
+                        new_x, new_y = locations[node]
+                        positions[node] = (new_x, new_y)
+                    break

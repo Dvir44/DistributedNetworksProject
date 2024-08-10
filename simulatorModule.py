@@ -25,8 +25,8 @@ def main():
     MainMenu.menu()
     start_time = time.time()
     network= initializationModule.Initialization()
-    #if network.logging_type!="Short":
-    print(network)
+    if network.logging_type!="Short":
+        print(network)
     
     with open('network_variables.json', 'r') as f:
         data = json.load(f)
@@ -38,10 +38,8 @@ def main():
         graphVisualization.visualize_network(network, comm)
         thread = threading.Thread(target=runModule.initiateRun, args=(network, comm))
         thread.start()
-        #print("here", file=sys.__stdout__)  # Print to the original stdout
         thread.join()
         print("--- %s seconds ---" % (time.time() - start_time))
-
         sys.exit(app.exec_())
         
     else:
@@ -50,6 +48,6 @@ def main():
 
     
 
-
+ 
 if __name__=="__main__":
     main()

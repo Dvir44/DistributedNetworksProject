@@ -63,89 +63,19 @@ class GraphVisualizer(QWidget):
         
     def get_nx_layouts(self) -> list:
         return self.nx_layout.keys()
-    
+
     def set_nx_layout(self, name: str):
-        if self.graph.number_of_nodes() > 200:
-            self.set_nx_layout_large_graph(name)
-
-        elif name == "circular":
-            self.nx_layout_function = self.nx_layout[name]
-            positions = self.nx_layout_function(self.graph)
-
-            for node, pos in positions.items():
-                x, y = pos
-                x *= self.graph_scale
-                y *= self.graph_scale
-                item = self.nodes_map[node]
-                item.setPos(QPointF(x, y))
-
-        else:  # random layout
-            if name in self.nx_layout and self.nx_layout[name] is not None:
-                self.nx_layout_function = self.nx_layout[name]
-
-                item_radius = next(iter(self.nodes_map.values())).radius
-                threshold_distance = 2 * item_radius / self.graph_scale
-
-                # compute node position from layout function
-                positions = self.nx_layout_function(self.graph)
-                locations = {node: (pos[0], pos[1]) for node, pos in positions.items()}  # holds position for each node
-                
-                for key, value in positions.items():
-                    print(f'Key: {key} (Type: {type(key)}) | Value: {value} (Type: {type(value)})')
-                for key, value in locations.items():
-                    print(f'Keyyyyyyyy: {key} (Type: {type(key)}) | Value: {value} (Type: {type(value)})')
-                    
-                    
-                changed = True
-                while changed:
-                    changed = False
-                    for node, pos in positions.items():
-                        x, y = pos
-                        # adjust position if it overlaps with existing nodes
-                        for _, loc in locations.items():
-                            x2, y2 = loc
-                            distance = math.sqrt((x2 - x) ** 2 + (y2 - y) ** 2)
-                            if distance < threshold_distance and x != x2 and y != y2:
-                                angle = math.atan2(y2 - y, x2 - x)
-                                x += 5 * threshold_distance * math.cos(angle)
-                                y += 5 * threshold_distance * math.sin(angle)
-                                changed = True
-                                break
-
-                        locations[node] = (x, y)
-
-                        # scale x,y
-                        x_scaled = x * self.graph_scale
-                        y_scaled = y * self.graph_scale
-
-                        # Set the position for the node
-                        item = self.nodes_map[node]
-                        item.setPos(QPointF(x_scaled, y_scaled))
-
-                        # update positions
-                        if changed:
-                            for node, (x, y) in positions.items():
-                                new_x, new_y = locations[node]
-                                positions[node] = (new_x, new_y)
-                            break
-
-
-    def set_nx_layout_large_graph(self, name: str):
         self.nx_layout_function = self.nx_layout[name]
         positions = self.nx_layout_function(self.graph)
+        
+        if self.graph.number_of_nodes() > 200:
+            glc.set_nx_layout_large_graph(self, positions)
+        elif name == "circular":
+            glc.set_nx_layout_circular_graph(self, positions)
+        else:  # random layout with not a lot of nodes
+            glc.set_nx_layout_random_small_graph(self, name, positions)
 
-        for node, pos in positions.items():
-            window_size = self.size()
-            item = self.nodes_map[node]
-            x = random.randint(item.radius, window_size.width() - item.radius)
-            y = random.randint(item.radius, window_size.height() - item.radius)
-            item.setPos(QPointF(x, y))
-
-        for edge in self.scene.items():
-            if isinstance(edge, Edge):
-                edge.boldness = -1
-                edge.update()
-
+            
     def load_graph(self):
         # Load graph into QGraphicsScene using Node class and Edge class
         self.scene.clear()

@@ -12,19 +12,25 @@ we have the following data for each computer:
 
 colors = ["blue", "red", "green", "yellow", "purple", "pink", "orange", "cyan", "magenta", "lime", "teal", "lavender", "brown", "maroon", "navy", "olive", "coral", "salmon", "gold", "silver"]
 
-def mainAlgorithm(self: computer.Computer, communication : communication.Communication, message):
-    if  self.state != "activated":
-        message = message.split(" ")
-        dist = float(message[-3])
-        parent = int(message[-1])
+def mainAlgorithm(self: computer.Computer, communication: communication.Communication, message):
+    if self.state != "activated":
+        try:
+            message_parts = message.split(" ")
+            dist = float(message_parts[-3])
+            parent = int(message_parts[-1])
+        except (ValueError, IndexError) as e:
+            print(f"Error processing message: {e}")
+            return
         
         if dist + 1 < self.distance:
             self.state = "activated"
             self.parent = parent
             self.distance = dist + 1
-            self.color = colors[int(dist)]
+            color_index = int(dist) % len(colors)
+            self.color = colors[color_index]
             communication.send_to_all(self.id, f"running a BFS with distance {self.distance} from {self.id}")
-            self.state ="deactivated"
+            # Consider adding a condition here before deactivating
+            self.state = "deactivated"
             
 def init(self: computer.Computer, communication : communication.Communication, message = None):
     if self.is_root:

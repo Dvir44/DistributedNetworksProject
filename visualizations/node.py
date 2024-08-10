@@ -73,7 +73,6 @@ class Node(QGraphicsObject):
         self.edges = []
         self.num_nodes = num_nodes
         self.radius = self._calculate_radius()
-        #self.radius  = 3
         self.rect = QRectF(0, 0, self.radius * 2, self.radius * 2)
         self.info_window = None  # reference to the node info window
 
@@ -113,12 +112,6 @@ class Node(QGraphicsObject):
 
         Returns:
             int: The calculated radius.
-        """
-        """         min_nodes = 1
-        max_nodes = 100
-        scale = (self.MAX_RADIUS - self.MIN_RADIUS) / (min_nodes - max_nodes)
-        return self.MAX_RADIUS + scale * (self.num_nodes - min_nodes)
-
         """
         radius = max(self.MIN_RADIUS, self.MAX_RADIUS / (1 + math.log(self.num_nodes)))
         return int(radius)
