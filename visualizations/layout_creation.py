@@ -9,8 +9,9 @@ from PyQt5.QtCore import Qt, QTimer, QPointF
 from visualizations.edge import Edge
 
 
-# create graph visualization layout
 def layoutCreation(self):
+    '''create graph visualization layout'''
+
     self.choice_combo = QComboBox()
     self.choice_combo.addItems(self.get_nx_layouts())
     self.choice_combo.currentTextChanged.connect(self.set_nx_layout)
@@ -66,30 +67,33 @@ def layoutCreation(self):
     
     
 def set_nx_layout_large_graph(self, positions):
-        for node, pos in positions.items():
-            window_size = self.size()
-            item = self.nodes_map[node]
-            x = random.randint(item.radius, window_size.width() - item.radius)
-            y = random.randint(item.radius, window_size.height() - item.radius)
-            item.setPos(QPointF(x, y))
+    ''' creates layout if number of nodes>200'''
+    for node, pos in positions.items():
+        window_size = self.size()
+        item = self.nodes_map[node]
+        x = random.randint(item.radius, window_size.width() - item.radius)
+        y = random.randint(item.radius, window_size.height() - item.radius)
+        item.setPos(QPointF(x, y))
 
-        for edge in self.scene.items():
-            if isinstance(edge, Edge):
-                edge.boldness = -1
-                edge.update()
+    for edge in self.scene.items():
+        if isinstance(edge, Edge):
+            edge.boldness = -1
+            edge.update()
                 
                 
 def set_nx_layout_circular_graph(self, positions):
-        for node, pos in positions.items():
-            x, y = pos
-            x *= self.graph_scale
-            y *= self.graph_scale
-            item = self.nodes_map[node]
-            item.setPos(QPointF(x, y))
+    ''' creates circular layout'''
+    for node, pos in positions.items():
+        x, y = pos
+        x *= self.graph_scale
+        y *= self.graph_scale
+        item = self.nodes_map[node]
+        item.setPos(QPointF(x, y))
 
             
 
 def set_nx_layout_random_small_graph(self, name, positions):
+    ''' creates random layout if number of nodes <= 200'''
     if name in self.nx_layout and self.nx_layout[name] is not None:
         item_radius = next(iter(self.nodes_map.values())).radius
         threshold_distance = 2 * item_radius / self.graph_scale

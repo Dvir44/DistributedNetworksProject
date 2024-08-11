@@ -66,7 +66,7 @@ class Node(QGraphicsObject):
             parent (QGraphicsItem, optional): The parent QGraphicsItem. Defaults to None.
         """
         super().__init__(parent)
-        comp = network.find_computer(int(name))
+        comp = network.network_dict.get(int(name))
         
         self.name = name
         self.color = comp.color

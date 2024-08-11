@@ -13,14 +13,14 @@ class Communication:
         
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, message_info):
-        current_computer = self.network.find_computer(source)
+        current_computer =  self.network.network_dict.get(source)
             
         edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
         delay = self.network.edges_delays.get(edge_tuple, 0)        
         
         # creating a new message which will be put into the queue
         if not current_computer.state == "terminated":
-            destination_computer = self.network.find_computer(dest)
+            destination_computer = self.network.network_dict.get(dest)
                       
             # updating destination computer clock
             if destination_computer._internal_clock != 0:
@@ -39,7 +39,7 @@ class Communication:
     
         
     def send_to_all(self, source_id, message_info):
-        source_computer = self.network.find_computer(source_id)
+        source_computer = self.network.network_dict.get(source_id)
         for index, connected_computer_id in enumerate(source_computer.connectedEdges):
             self.send_message(source_id, connected_computer_id, message_info)
             
@@ -51,7 +51,7 @@ class Communication:
         current_id = message['dest_id']
         source_id = message['source_id']
         
-        current_computer = self.network.find_computer(current_id)
+        current_computer = self.network.network_dict.get(current_id)
         current_computer.receivedFrom = source_id
         
         algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None) 
@@ -68,11 +68,3 @@ class Communication:
         else:
             print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithm_file}.py")
             return None
- 
- 
- 
-def main():
-    pass
-
-if __name__=="__main__":
-    main()

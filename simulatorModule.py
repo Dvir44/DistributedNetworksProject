@@ -19,35 +19,40 @@ import simulator.MainMenu as MainMenu
 import visualizations.graphVisualization as graphVisualization
 
 
-def main():
-    sys.stdout = open("./output.txt", "w") # change default output
-    
+def simulation_creation():
+    ''' creates network, communication module and loads data from network.json .'''
     MainMenu.menu()
-    start_time = time.time()
     network= initializationModule.Initialization()
     if network.logging_type!="Short":
         print(network)
-    
-    with open('network_variables.json', 'r') as f:
-        data = json.load(f)
-
+        
     comm = communication.Communication(network)
 
+    return network, comm
+
+def simulation_run(data: str, network: initializationModule.Initialization, comm: communication.Communication):
+    ''' runs user submitted algorithm on created network.'''
     if data['Display'] == "Graph":
         app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
         thread = threading.Thread(target=runModule.initiateRun, args=(network, comm))
         thread.start()
         thread.join()
-        print("--- %s seconds ---" % (time.time() - start_time))
         sys.exit(app.exec_())
-        
     else:
         runModule.initiateRun(network, comm)
-        print("--- %s seconds ---" % (time.time() - start_time))
+        
 
+def main():
+    sys.stdout = open("./output.txt", "w") # change default output
+    start_time = time.time()
     
+    network, comm = simulation_creation()
+    with open('network_variables.json', 'r') as f:
+        data = json.load(f)
+    simulation_run(data, network, comm)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
- 
+
 if __name__=="__main__":
     main()

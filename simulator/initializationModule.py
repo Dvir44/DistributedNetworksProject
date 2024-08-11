@@ -41,11 +41,11 @@ class Initialization:
 
         self.create_computer_ids()
         
-        self.network_dict = {}
+        self.network_dict = {} # maps id (int) to the Computer with the same id
         for i in self.connected_computers:
             self.network_dict[i.id] = i
+            
         self.root_selection()
-
         self.create_connected_computers()
         self.load_algorithms(self.algorithm_path)
         self.delays_creation()
@@ -143,8 +143,6 @@ class Initialization:
             
         
         
-        
-    
     def create_computer_ids(self):
         '''Create computer IDs based on the IdType'''
         id_functions = {
@@ -243,8 +241,6 @@ class Initialization:
 
 
 
-
-
     def create_tree_topology(self, max_height=None):
         '''Create tree topology for the network'''
         if max_height is None:
@@ -302,9 +298,6 @@ class Initialization:
             comp.connectedEdges = list(set(comp.connectedEdges))
 
 
-
-
-
     def create_star_topology(self):
         '''Create star topology for the network'''
         root = None
@@ -318,8 +311,6 @@ class Initialization:
             if comp.id != root.id:
                 root.connectedEdges.append(comp.id)
                 comp.connectedEdges.append(root.id)  # Ensure bi-directional connection
-
-
 
 
 
@@ -349,20 +340,3 @@ class Initialization:
         elif self.root_type=="Min ID":
             selected_computer = min(self.connected_computers, key=lambda computer: computer.id)
             selected_computer.is_root=True
-
-
-
-
-    def find_computer(self, id: int) -> Computer:
-        '''Finds Computer based on its id, used in Communication'''
-        for comp in self.connected_computers:
-            if comp.id == id:
-                return comp
-        return None
-
-def main():
-    init = Initialization()
-    init.toString()
-
-if __name__=="__main__":
-    main()

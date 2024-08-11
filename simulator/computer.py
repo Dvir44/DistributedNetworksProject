@@ -31,9 +31,3 @@ class Computer:
         return self.connectedEdges
     def getDelays(self):
         return self.delays
-
-def main():
-    pass
-
-if __name__=="__main__":
-    main()

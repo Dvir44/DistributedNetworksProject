@@ -6,14 +6,13 @@ import simulator.initializationModule as initializationModule
 import simulator.communication as communication
 
 
-def initiateRun(network: initializationModule.Initialization, comm : communication): 
-        old_values_list = [None]*network.computer_number
-        # running init() for every computer which must be defined, and puting messages into the network queue
+def initiateRun(network: initializationModule.Initialization, comm : communication):
+        '''runs the algorithm on the created network'''
+        # runs init() for every computer which must be defined, and puting messages into the network queue
         for comp in network.connected_computers:
             algorithm_function = getattr(comp.algorithm_file, 'init', None)
             if callable(algorithm_function): # add the algorithm to each computer
                 old_values = comp.__dict__.copy()
-                old_values_list.append(old_values)
 
                 algorithm_function(comp, comm)
 
@@ -26,13 +25,7 @@ def initiateRun(network: initializationModule.Initialization, comm : communicati
                 return None
         print("******************************************")
 
-        ## running mainAlgorithm
+        ## runs mainAlgorithm
         while not network.network_message_queue.empty():
             mess=network.network_message_queue.pop()
             comm.receive_message(mess, comm)
-
-def main():
-    pass
-
-if __name__=="__main__":
-    main()
