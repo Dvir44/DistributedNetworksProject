@@ -103,8 +103,12 @@ class Node(QGraphicsObject):
         painter.setPen(QPen(QColor(self.color).darker(), 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         painter.setBrush(QBrush(QColor(self.color)))
         painter.drawEllipse(self.boundingRect())
-        painter.setPen(QPen(QColor(self.TEXT_COLOR)))
-        painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)   
+        
+        # Only paint the name if the number of nodes is 1000 or less
+        if self.num_nodes <= 1000:
+            painter.setPen(QPen(QColor(self.TEXT_COLOR)))
+            painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)
+        
         
     def _calculate_radius(self) -> int:
         """

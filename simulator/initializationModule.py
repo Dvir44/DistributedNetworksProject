@@ -8,6 +8,7 @@ import numpy as np
 from simulator.computer import Computer
 import heapq
 import math
+from itertools import combinations
 
 class CustomMinHeap:
     def __init__(self):
@@ -122,25 +123,26 @@ class Initialization:
         topology_function()
         
         connected = self.is_connected()
-        while (not connected):
+        while not connected:
             topology_function()
             connected = self.is_connected()
 
     def is_connected(self):
         visited = set()
+        stack = [self.connected_computers[0]]  # Start with an arbitrary node
 
-        def dfs(node):
+        while stack:
+            node = stack.pop()
             if node not in visited:
                 visited.add(node)
                 for neighbor in node.connectedEdges:
-                    dfs(self.network_dict[neighbor])
-
-        # Start DFS from an arbitrary node
-        start_node = self.connected_computers[0] # Get an arbitrary starting node
-        dfs(start_node)
+                    stack.append(self.network_dict[neighbor])
 
         # Check if all nodes were visited
         return len(visited) == len(self.connected_computers)
+            
+        
+        
         
     
     def create_computer_ids(self):
@@ -172,30 +174,51 @@ class Initialization:
 
     def create_random_topology(self):
         '''Create a random topology for the network'''
-        ids_list=[]
-        for comp in self.connected_computers:
-            ids_list.append(comp.id)
+        ids_list = [comp.id for comp in self.connected_computers]
 
-        for i, comp in enumerate(self.connected_computers):
-            # Determine a random number of edges (between 1 and computer_number - 1)
-            num_edges = random.randint(1, 2*int(math.log(self.computer_number - 1)))
-            # Choose num_edges unique vertices (excluding  comp.getId)
-            connected_to_vertices = random.sample([j for j in ids_list if j != comp.id], num_edges)
+        if len(self.connected_computers) == 2:
+            # Connect the first computer to the second
+            self.connected_computers[0].connectedEdges.append(self.connected_computers[1].id)
+            self.connected_computers[1].connectedEdges.append(self.connected_computers[0].id)
 
-            # Add connections
-            comp.connectedEdges.extend(connected_to_vertices)
+        elif len(self.connected_computers) == 3:
+            # Generate all possible connected graphs for 3 nodes
+            possible_edges = list(combinations(ids_list, 2))  # All pairs of nodes
+            connected_graphs = [
+                [(0, 1), (1, 2)],  # Line: 0-1-2
+                [(0, 1), (0, 2)],  # Star: 0-1, 0-2
+                [(0, 1), (1, 2), (0, 2)]  # Triangle: 0-1-2-0
+            ]
 
-            # Ensure bi-directional connection
-            for connected_to_id in connected_to_vertices:
-                for comp in self.connected_computers:
-                    if comp.id==connected_to_id:
-                        comp.connectedEdges.append(self.connected_computers[i].id)
-                        break
-                        
+            # Choose one random connected graph
+            chosen_edges = random.choice(connected_graphs)
+
+            # Create the connections based on the chosen graph
+            for u, v in chosen_edges:
+                self.connected_computers[u].connectedEdges.append(self.connected_computers[v].id)
+                self.connected_computers[v].connectedEdges.append(self.connected_computers[u].id)
                 
-        # removing duplicates
-        for comp in self.connected_computers:
-            comp.connectedEdges=list(set(comp.connectedEdges))
+        else:
+            for i, comp in enumerate(self.connected_computers):
+                # Determine a random number of edges (between 1 and 2 * log(computer_number - 1))
+                num_edges = random.randint(1, 2 * int(math.log(self.computer_number - 1)))
+                # Choose num_edges unique vertices (excluding comp.id)
+                connected_to_vertices = random.sample([j for j in ids_list if j != comp.id], num_edges)
+
+                # Add connections
+                comp.connectedEdges.extend(connected_to_vertices)
+
+                # Ensure bi-directional connection
+                for connected_to_id in connected_to_vertices:
+                    for comp_other in self.connected_computers:
+                        if comp_other.id == connected_to_id:
+                            comp_other.connectedEdges.append(comp.id)
+                            break
+
+            # Remove duplicates
+            for comp in self.connected_computers:
+                comp.connectedEdges = list(set(comp.connectedEdges))
+
 
     def create_line_topology(self):
         '''Create line topology for the network'''
