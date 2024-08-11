@@ -10,15 +10,43 @@ import heapq
 import math
 from itertools import combinations
 
+class UnionFind:
+    def __init__(self, size):
+        self.parent = list(range(size))
+        self.rank = [1] * size
+
+    def find(self, node):
+        if self.parent[node] != node:
+            self.parent[node] = self.find(self.parent[node])  # Path compression
+        return self.parent[node]
+
+    def union(self, node1, node2):
+        root1 = self.find(node1)
+        root2 = self.find(node2)
+
+        if root1 != root2:
+            # Union by rank
+            if self.rank[root1] > self.rank[root2]:
+                self.parent[root2] = root1
+            elif self.rank[root1] < self.rank[root2]:
+                self.parent[root1] = root2
+            else:
+                self.parent[root2] = root1
+                self.rank[root1] += 1
+
+
+
 class CustomMinHeap:
     def __init__(self):
         self.heap = []
+        self.counter = 0  # unique sequence count
         
     def push(self, message_format):
-        heapq.heappush(self.heap, (message_format['arrival_time'], message_format))
+        heapq.heappush(self.heap, (message_format['arrival_time'], self.counter, message_format))
+        self.counter += 1
         
     def pop(self) -> dict:
-        priority, message_format = heapq.heappop(self.heap)
+        priority, priority2, message_format = heapq.heappop(self.heap)
         return message_format
         
     def empty(self) -> bool: 
@@ -41,11 +69,11 @@ class Initialization:
 
         self.create_computer_ids()
         
-        self.network_dict = {} # maps id (int) to the Computer with the same id
+        self.network_dict = {}
         for i in self.connected_computers:
             self.network_dict[i.id] = i
-            
         self.root_selection()
+
         self.create_connected_computers()
         self.load_algorithms(self.algorithm_path)
         self.delays_creation()
@@ -61,8 +89,10 @@ class Initialization:
         self.root_type = data.get('Root', 'Random')
         self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
+        lambda_value_str = data.get('Lambda Value', 1.5)
         self.logging_type = data.get('Logging', 'Short')
-        self.lambda_value = float(data.get('Lambda Value', 1.5)) # Lambda value for tree topology
+
+        
         
     def __str__(self) -> list:
         result = [
@@ -74,7 +104,6 @@ class Initialization:
         ]
         result.extend(str(comp) for comp in self.connected_computers)
         return "\n".join(result)
-        
             
     def delays_creation(self):
         if self.delay_type=="Random":
@@ -82,8 +111,8 @@ class Initialization:
         else:
             self.constant_delay()
             
+    # Creates random delay for every edge
     def random_delay(self):
-        '''Creates random delay for every edge'''
         for comp in self.connected_computers:
             comp.delays = [None] * len(comp.connectedEdges)
             for i, connected in enumerate(comp.connectedEdges):
@@ -95,8 +124,8 @@ class Initialization:
                 
                 comp.delays[i] = self.edges_delays[edge_tuple]
                 
+    # Creates constant delay for every edge
     def constant_delay(self):
-        '''Creates constant delay for every edge'''
         for comp in self.connected_computers:
             comp.delays = [None] * len(comp.connectedEdges)
             for i, connected in enumerate(comp.connectedEdges):
@@ -109,8 +138,8 @@ class Initialization:
 
 
 
+    #Creates network topology
     def create_connected_computers(self):
-        '''Creates network topology'''
         topology_functions = {
             "Random": self.create_random_topology,
             "Line": self.create_line_topology,
@@ -123,28 +152,22 @@ class Initialization:
         topology_function()
         
         connected = self.is_connected()
-        while not connected:
+        while (not connected):
             topology_function()
             connected = self.is_connected()
 
     def is_connected(self):
-        visited = set()
-        stack = [self.connected_computers[0]]  # Start with an arbitrary node
+        uf = UnionFind(len(self.connected_computers))
 
-        while stack:
-            node = stack.pop()
-            if node not in visited:
-                visited.add(node)
-                for neighbor in node.connectedEdges:
-                    stack.append(self.network_dict[neighbor])
+        for node in self.connected_computers:
+            for neighbor in node.connectedEdges:
+                uf.union(self.connected_computers.index(node), self.connected_computers.index(self.network_dict[neighbor]))
 
-        # Check if all nodes were visited
-        return len(visited) == len(self.connected_computers)
-            
-        
-        
+        root = uf.find(0)
+        return all(uf.find(i) == root for i in range(len(self.connected_computers)))
+
+    # Create computer IDs based on the IdType
     def create_computer_ids(self):
-        '''Create computer IDs based on the IdType'''
         id_functions = {
         "Random": self.create_random_ids,
         "Sequential": self.create_sequential_ids,
@@ -154,8 +177,8 @@ class Initialization:
         id_function()
 
 
+    # Create random computer IDs (ensuring uniqueness)
     def create_random_ids(self):
-        '''Create random computer IDs (ensuring uniqueness)'''
         used_ids = set()
         for comp in self.connected_computers:
             comp_id = random.randint(100, 100 * self.computer_number - 1)
@@ -164,14 +187,14 @@ class Initialization:
             comp.id = comp_id
             used_ids.add(comp_id)
 
+    # Create sequential computer IDs
     def create_sequential_ids(self):
-        '''Create sequential computer IDs'''
         for i, comp in enumerate(self.connected_computers):
             comp.id = i
             
 
+    # Create a random topology for the network
     def create_random_topology(self):
-        '''Create a random topology for the network'''
         ids_list = [comp.id for comp in self.connected_computers]
 
         if len(self.connected_computers) == 2:
@@ -195,7 +218,7 @@ class Initialization:
             for u, v in chosen_edges:
                 self.connected_computers[u].connectedEdges.append(self.connected_computers[v].id)
                 self.connected_computers[v].connectedEdges.append(self.connected_computers[u].id)
-                
+
         else:
             for i, comp in enumerate(self.connected_computers):
                 # Determine a random number of edges (between 1 and 2 * log(computer_number - 1))
@@ -217,17 +240,16 @@ class Initialization:
             for comp in self.connected_computers:
                 comp.connectedEdges = list(set(comp.connectedEdges))
 
-
+    # Create line topology for the network
     def create_line_topology(self):
-        '''Create line topology for the network'''
         for i in range(self.computer_number - 1):
             # Connect each computer to the next one in line
             self.connected_computers[i].connectedEdges.append(self.connected_computers[i+1].id)
             self.connected_computers[i + 1].connectedEdges.append(self.connected_computers[i].id)  # Ensure bi-directional connection
 
 
-    def create_clique_topology(self):
-        '''Create clique topology for the network'''
+    # Create clique topology for the network
+    def create_clique_topology(self):        
         # Connect each computer to every other computer
         for i in range(self.computer_number):
             for j in range(i + 1, self.computer_number):
@@ -239,10 +261,7 @@ class Initialization:
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
 
-
-
     def create_tree_topology(self, max_height=None):
-        '''Create tree topology for the network'''
         if max_height is None:
             max_height = int(np.log2(self.computer_number)) + 1
 
@@ -270,7 +289,7 @@ class Initialization:
                 continue
             
             # Determine a random number of children for the current parent using Poisson distribution
-            children_count = np.random.poisson(self.lambda_value) # using lambda value from config
+            children_count = np.random.poisson(self.lambda_value)  # using lambda value from config
 
             # Ensure the number of children is at least 1 and does not exceed the remaining nodes
             children_count = min(max(1, children_count), self.computer_number - len(used_computers))
@@ -297,9 +316,7 @@ class Initialization:
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges))
 
-
     def create_star_topology(self):
-        '''Create star topology for the network'''
         root = None
         for comp in self.connected_computers:
             if getattr(comp, 'is_root', False):
@@ -313,13 +330,18 @@ class Initialization:
                 comp.connectedEdges.append(root.id)  # Ensure bi-directional connection
 
 
-
-
     def load_algorithms(self, algorithm_module_path):
-        '''Loads the algorithm'''
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
-            exit()
+            #exit()
+
+            directory, file_name = os.path.split("./algorithms/someAlgorithm.py")
+            base_file_name, _ = os.path.splitext(file_name)
+            sys.path.insert(0,directory)
+
+            algorithm_module = importlib.import_module(base_file_name)
+            for comp in self.connected_computers:
+                comp.algorithm_file = algorithm_module
         try:
             directory, file_name = os.path.split(algorithm_module_path)
             base_file_name, _ = os.path.splitext(file_name)
@@ -340,3 +362,16 @@ class Initialization:
         elif self.root_type=="Min ID":
             selected_computer = min(self.connected_computers, key=lambda computer: computer.id)
             selected_computer.is_root=True
+
+    def find_computer(self, id: int) -> Computer:
+        for comp in self.connected_computers:
+            if comp.id == id:
+                return comp
+        return None
+
+def main():
+    init = Initialization()
+    init.toString()
+
+if __name__=="__main__":
+    main()
