@@ -1,3 +1,85 @@
-31  is root
-******************************************
---- 0.42934250831604004 seconds ---
+Number of Computers: 11
+Topology: Tree
+ID Type: Sequential
+Display Type: Graph
+
+Computers:
+id = 0
+connected edges = [1]
+delays = []
+
+id = 1
+connected edges = [0, 2, 3, 4]
+delays = []
+
+id = 2
+connected edges = [1, 3, 4, 5]
+delays = []
+
+id = 3
+connected edges = [1, 2, 5, 6, 7, 8, 9]
+delays = []
+
+id = 4
+connected edges = [1, 2, 10, 6]
+delays = []
+
+id = 5
+connected edges = [2, 3]
+delays = []
+
+id = 6
+connected edges = [3, 4]
+delays = []
+
+id = 7
+connected edges = [3]
+delays = []
+
+id = 8
+connected edges = [3]
+delays = []
+
+id = 9
+connected edges = [3]
+delays = []
+
+id = 10
+connected edges = [4]
+delays = []
+
+0 is the root
+************************************************************************************
+{'source_id': 0, 'dest_id': 1, 'arrival_time': 0.24259894050465536, 'content': 'running a BFS with distance 0 from 0'}
+{'source_id': 1, 'dest_id': 4, 'arrival_time': 0.2911480363100881, 'content': 'running a BFS with distance 1.0 from 1'}
+{'source_id': 4, 'dest_id': 1, 'arrival_time': 0.4395818353976808, 'content': 'running a BFS with distance 2.0 from 4'}
+{'source_id': 4, 'dest_id': 10, 'arrival_time': 0.4735205697366597, 'content': 'running a BFS with distance 2.0 from 4'}
+{'source_id': 1, 'dest_id': 0, 'arrival_time': 0.6044793344027208, 'content': 'running a BFS with distance 1.0 from 1'}
+{'source_id': 4, 'dest_id': 6, 'arrival_time': 0.7823126114416937, 'content': 'running a BFS with distance 2.0 from 4'}
+{'source_id': 6, 'dest_id': 4, 'arrival_time': 0.8126486144853232, 'content': 'running a BFS with distance 3.0 from 6'}
+{'source_id': 1, 'dest_id': 3, 'arrival_time': 1.0291975725713245, 'content': 'running a BFS with distance 1.0 from 1'}
+{'source_id': 6, 'dest_id': 3, 'arrival_time': 1.0946481621441164, 'content': 'running a BFS with distance 3.0 from 6'}
+{'source_id': 4, 'dest_id': 2, 'arrival_time': 1.1272632919797012, 'content': 'running a BFS with distance 2.0 from 4'}
+{'source_id': 1, 'dest_id': 2, 'arrival_time': 1.1365551623264873, 'content': 'running a BFS with distance 1.0 from 1'}
+{'source_id': 2, 'dest_id': 3, 'arrival_time': 1.1407795844465536, 'content': 'running a BFS with distance 2.0 from 2'}
+{'source_id': 2, 'dest_id': 3, 'arrival_time': 1.2049938212445523, 'content': 'running a BFS with distance 3.0 from 2'}
+{'source_id': 2, 'dest_id': 5, 'arrival_time': 1.2970305613469104, 'content': 'running a BFS with distance 2.0 from 2'}
+{'source_id': 2, 'dest_id': 5, 'arrival_time': 1.318478503508758, 'content': 'running a BFS with distance 3.0 from 2'}
+{'source_id': 5, 'dest_id': 3, 'arrival_time': 1.3338084213001729, 'content': 'running a BFS with distance 3.0 from 5'}
+{'source_id': 10, 'dest_id': 4, 'arrival_time': 1.4261784860796478, 'content': 'running a BFS with distance 3.0 from 10'}
+{'source_id': 3, 'dest_id': 2, 'arrival_time': 1.4580072938677653, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 3, 'dest_id': 7, 'arrival_time': 1.4749438437751448, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 3, 'dest_id': 8, 'arrival_time': 1.5265798153159094, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 2, 'dest_id': 1, 'arrival_time': 1.5397698532725748, 'content': 'running a BFS with distance 3.0 from 2'}
+{'source_id': 3, 'dest_id': 5, 'arrival_time': 1.6927355344259427, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 2, 'dest_id': 1, 'arrival_time': 1.7631300136560952, 'content': 'running a BFS with distance 2.0 from 2'}
+{'source_id': 8, 'dest_id': 3, 'arrival_time': 1.8076591774266628, 'content': 'running a BFS with distance 3.0 from 8'}
+{'source_id': 3, 'dest_id': 9, 'arrival_time': 1.8177833913929557, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 3, 'dest_id': 1, 'arrival_time': 1.8820442819876635, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 2, 'dest_id': 4, 'arrival_time': 1.9148694994050266, 'content': 'running a BFS with distance 3.0 from 2'}
+{'source_id': 7, 'dest_id': 3, 'arrival_time': 1.9406256490603186, 'content': 'running a BFS with distance 3.0 from 7'}
+{'source_id': 3, 'dest_id': 6, 'arrival_time': 1.9920935111364446, 'content': 'running a BFS with distance 2.0 from 3'}
+{'source_id': 2, 'dest_id': 4, 'arrival_time': 1.9927199655926782, 'content': 'running a BFS with distance 2.0 from 2'}
+{'source_id': 5, 'dest_id': 2, 'arrival_time': 2.201204635948683, 'content': 'running a BFS with distance 3.0 from 5'}
+{'source_id': 9, 'dest_id': 3, 'arrival_time': 2.5635256891745137, 'content': 'running a BFS with distance 3.0 from 9'}
+--- 0.37731266021728516 seconds ---

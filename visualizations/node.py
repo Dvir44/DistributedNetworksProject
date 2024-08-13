@@ -30,10 +30,12 @@ class NodeInfoWindow(QWidget):
         # Create text content for display
         text_content = ""
         for key, value in values.items():
+            if key.startswith("_"):
+                continue
             if key == "algorithm_file":
                 filename = os.path.basename(str(value))
                 text_content += f"{key} : {filename}\n"
-            elif key not in ["delays", "_internal_clock"]:
+            elif key not in ["delays",]:
                 text_content += f"{key} : {value}\n"
 
         # Setup layout and text edit

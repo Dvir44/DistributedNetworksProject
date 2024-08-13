@@ -1,6 +1,7 @@
 import simulator.computer as computer
-import simulator.communication as communication
+from simulator.communication import Communication
 import numpy as np
+
 ''' 
 user implemented code that runs a BFS algorithm
 
@@ -12,7 +13,7 @@ we have the following data for each computer:
 
 colors = ["blue", "red", "green", "yellow", "purple", "pink", "orange", "cyan", "magenta", "lime", "teal", "lavender", "brown", "maroon", "navy", "olive", "coral", "salmon", "gold", "silver"]
 
-def mainAlgorithm(self: computer.Computer, communication: communication.Communication, message):
+def mainAlgorithm(self: computer.Computer, communication: Communication, _arrival_time, message = None):
     if self.state != "activated":
         try:
             message_parts = message.split(" ")
@@ -28,11 +29,10 @@ def mainAlgorithm(self: computer.Computer, communication: communication.Communic
             self.distance = dist + 1
             color_index = int(dist) % len(colors)
             self.color = colors[color_index]
-            communication.send_to_all(self.id, f"running a BFS with distance {self.distance} from {self.id}")
-            # Consider adding a condition here before deactivating
+            communication.send_to_all(self.id, f"running a BFS with distance {self.distance} from {self.id}", _arrival_time)
             self.state = "deactivated"
             
-def init(self: computer.Computer, communication : communication.Communication, message = None):
+def init(self: computer.Computer, communication : Communication):
     if self.is_root:
         print(f"{self.id} is the root")
         self.parent = self.id

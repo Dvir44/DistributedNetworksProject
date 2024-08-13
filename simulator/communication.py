@@ -1,70 +1,67 @@
 import json
 import os
+import random
 import re
 import time
 import numpy
+from simulator.computer import Computer
 import simulator.initializationModule as initializationModule
 
 
 class Communication:
     def __init__(self, network: initializationModule.Initialization):
         self.network = network
-        self.displayType = network.display_type 
         
     # Send a message from the source computer to the destination computer
-    def send_message(self, source, dest, message_info):
+    def send_message(self, source, dest, message_info, arrival_time = None):
         current_computer =  self.network.network_dict.get(source)
-            
-        edge_tuple = (min(source, dest), max(dest, source)) # represents edge source->dest or dest->source
-        delay = self.network.edges_delays.get(edge_tuple, 0)        
-        
-        # creating a new message which will be put into the queue
+
         if not current_computer.state == "terminated":
-            destination_computer = self.network.network_dict.get(dest)
-                      
-            # updating destination computer clock
-            if destination_computer._internal_clock != 0:
-                destination_computer._internal_clock = max(0, min(current_computer._internal_clock + delay, destination_computer._internal_clock))
-            else:
-                destination_computer._internal_clock = current_computer._internal_clock + delay
-            
+            # creating a new message which will be put into the queue
+            if arrival_time is None:
+                arrival_time = 0
+                  
+            if self.network.delay_type == 'Random':
+                delay = random.random()
+            elif self.network.delay_type == 'Constant':
+                delay = 1
+                
             message = {
             'source_id': source,
             'dest_id': dest,
-            'arrival_time': current_computer._internal_clock + delay,
-            'content': message_info
+            'arrival_time': arrival_time + delay,
+            'content': message_info,
             }
-            self.network.network_message_queue.push(message)
+            self.network.message_queue.push(message)
     
     
-        
-    def send_to_all(self, source_id, message_info):
+    def send_to_all(self, source_id, message_info, arrival_time = None):
         source_computer = self.network.network_dict.get(source_id)
         for index, connected_computer_id in enumerate(source_computer.connectedEdges):
-            self.send_message(source_id, connected_computer_id, message_info)
+            self.send_message(source_id, connected_computer_id, message_info, arrival_time)
+
             
     def receive_message(self, message : dict, comm):
-        #if self.logging_type=="Long":
         if self.network.logging_type=="Long":
             print(message)
             
-        current_id = message['dest_id']
-        source_id = message['source_id']
-        
-        current_computer = self.network.network_dict.get(current_id)
-        current_computer.receivedFrom = source_id
-        
-        algorithm_function = getattr(current_computer.algorithm_file, 'mainAlgorithm', None) 
-        
-        old_values = current_computer.__dict__.copy()
+        received_id = message['dest_id']
+        received_computer = self.network.network_dict.get(received_id)
+        self.run_algorithmm(received_computer, 'mainAlgorithm', message['arrival_time'], message['content'] )
 
+        
+        
+    def run_algorithmm(self, comp: Computer, function_name: str, arrival_time = None, message_content=None):
+        algorithm_function = getattr(comp.algorithm_file, function_name, None) 
         if callable(algorithm_function):
-            algorithm_function(current_computer, comm, message['content']) # run mainAlgorithm
-            if self.displayType=="Graph":
-                new_values = current_computer.__dict__
-                if old_values!=new_values: # if some values have changed then append to the change list for the graph display
-                    self.network.node_values_change.append(new_values)
-                
+            if function_name == 'init':
+                algorithm_function(comp, self)  # Call with two arguments
+            elif function_name == 'mainAlgorithm':
+                algorithm_function(comp, self, arrival_time, message_content)
+        
+            if self.network.display_type == "Graph" and comp.has_changed():
+                self.network.node_values_change.append(comp.__dict__.copy())
+                comp.reset_flag()
         else:
-            print(f"Error: Function 'mainAlgorithm' not found in {current_computer.algorithm_file}.py")
+            print(f"Error: Function '{function_name}' not found in {comp.algorithm_file}.py")
             return None

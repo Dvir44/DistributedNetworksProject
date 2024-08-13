@@ -1,9 +1,4 @@
-import http
-import http.server
 import json
-import os
-import re
-import socketserver
 import threading
 import sys
 import time
@@ -18,17 +13,19 @@ import simulator.initializationModule as initializationModule
 import simulator.MainMenu as MainMenu
 import visualizations.graphVisualization as graphVisualization
 
+NETWORK_VARIABLES = 'network_variables.json'
+OUTPUT_FILE = './output.txt'
 
 def main():
-    sys.stdout = open("./output.txt", "w") # change default output
+    sys.stdout = open(OUTPUT_FILE, "w") # change default output
     
-    MainMenu.menu()
+    data = MainMenu.menu(NETWORK_VARIABLES)
     start_time = time.time()
-    network= initializationModule.Initialization()
+    network= initializationModule.Initialization(NETWORK_VARIABLES)
     if network.logging_type!="Short":
         print(network)
     
-    with open('network_variables.json', 'r') as f:
+    with open(NETWORK_VARIABLES, 'r') as f:
         data = json.load(f)
 
     comm = communication.Communication(network)

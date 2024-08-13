@@ -6,7 +6,6 @@ import sys
 import os
 
 # Constants
-JSON_FILE = 'network_variables.json'
 CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 600)
 COMBOBOX_OPTIONS = {
     "Topology": "Random, Clique, Line, Tree, Star",
@@ -25,9 +24,10 @@ class SimulationInProgressWindow(QMainWindow):
         self.setWindowTitle("Simulation In Process")
 
 class MenuWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, network_variables_file):
         super().__init__()
-        self.checkbox_values = self.load_network_variables() # Dictionary to store checkbox values with default values 
+        self.network_variables_file = network_variables_file
+        self.checkbox_values = self.load_network_variables() # Dictionary to store checkbox values with default values
         self.setGeometry(0, 0, 1500, 900)
         self.setWindowTitle("Simulator for Distributed Networks")
         self.init_ui()
@@ -42,8 +42,8 @@ class MenuWindow(QMainWindow):
     def load_network_variables(self):
         """Load default variables from the JSON file."""
         try:
-            with open(JSON_FILE, 'r') as file:
-                return json.load(file)
+            with open(self.network_variables_file, 'r') as f:
+                return json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             return {}
 
@@ -161,14 +161,14 @@ class MenuWindow(QMainWindow):
    
     def on_submit_all(self):
         """Handle the final submission of all settings."""
-        with open(JSON_FILE, "w") as json_file:
-            json.dump(self.checkbox_values, json_file, indent=4)
+        with open(self.network_variables_file, "w") as f:
+            json.dump(self.checkbox_values, f, indent=4)
         self.close()
 
-def menu():
+def menu(network_variables_file: str):
     """Launch the menu application."""
     app = QApplication(sys.argv)
-    menu_window = MenuWindow()
+    menu_window = MenuWindow(network_variables_file)
     menu_window.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))
     stylesheet_file = os.path.join('./designFiles', 'main_window.qss')
     with open(stylesheet_file, 'r') as f:

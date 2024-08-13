@@ -35,7 +35,6 @@ class UnionFind:
                 self.rank[root1] += 1
 
 
-
 class CustomMinHeap:
     def __init__(self):
         self.heap = []
@@ -60,27 +59,30 @@ class Initialization:
     '''
     Initialization Class - sets up the network parameters and topology based on user input
     '''
-    def __init__(self):
-        self.load_config()
+    def __init__(self, network_variables_file):
+        self.load_config(network_variables_file)
         self.connected_computers = [Computer() for _ in range(self.computer_number)]
-        self.network_message_queue = CustomMinHeap()
+        self.message_queue = CustomMinHeap()
         self.node_values_change = [] # for graph display
-        self.edges_delays={} # holds the delays of each edge in the network
+        self.edges_delays = {} # holds the delays of each edge in the network
 
         self.create_computer_ids()
         
         self.network_dict = {}
-        for i in self.connected_computers:
-            self.network_dict[i.id] = i
+        for comp in self.connected_computers:
+            self.network_dict[comp.id] = comp
         self.root_selection()
 
         self.create_connected_computers()
         self.load_algorithms(self.algorithm_path)
-        self.delays_creation()
+        #self.delays_creation() # used for creating delays for edges, not used in current version     
+        
+        for comp in self.connected_computers: # resets the changed flag
+            comp.reset_flag()
         
         
-    def load_config(self):
-        with open('network_variables.json', 'r') as f:
+    def load_config(self, network_variables_file):
+        with open(network_variables_file, 'r') as f:
             data = json.load(f)
         self.computer_number = int(data.get('Number of Computers', 10))
         self.topologyType = data.get('Topology', 'Line')
@@ -89,7 +91,6 @@ class Initialization:
         self.root_type = data.get('Root', 'Random')
         self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
-        lambda_value_str = data.get('Lambda Value', 1.5)
         self.logging_type = data.get('Logging', 'Short')
 
         
@@ -105,11 +106,14 @@ class Initialization:
         result.extend(str(comp) for comp in self.connected_computers)
         return "\n".join(result)
             
-    def delays_creation(self):
-        if self.delay_type=="Random":
-            self.random_delay()
-        else:
-            self.constant_delay()
+    # used for creating delays for edges, not used in current version     
+    """ def delays_creation(self):
+        delay_functions = {
+        "Random": self.random_delay,
+        "Constant": self.constant_delay,
+        }
+        id_function = delay_functions[self.delay_type]
+        id_function()
             
     # Creates random delay for every edge
     def random_delay(self):
@@ -134,7 +138,7 @@ class Initialization:
                 if edge_tuple not in self.edges_delays: # if not already in edgesDelays, generate a delay of 1 and insert into edgesDelays
                     self.edges_delays[edge_tuple] =1
                 
-                comp.delays[i] = self.edges_delays[edge_tuple]
+                comp.delays[i] = self.edges_delays[edge_tuple] """
 
 
 
@@ -289,7 +293,7 @@ class Initialization:
                 continue
             
             # Determine a random number of children for the current parent using Poisson distribution
-            children_count = np.random.poisson(self.lambda_value)  # using lambda value from config
+            children_count = np.random.poisson(1.5)
 
             # Ensure the number of children is at least 1 and does not exceed the remaining nodes
             children_count = min(max(1, children_count), self.computer_number - len(used_computers))

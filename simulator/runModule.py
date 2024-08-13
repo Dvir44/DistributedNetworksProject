@@ -6,26 +6,15 @@ import simulator.initializationModule as initializationModule
 import simulator.communication as communication
 
 
-def initiateRun(network: initializationModule.Initialization, comm : communication):
-        '''runs the algorithm on the created network'''
-        # runs init() for every computer which must be defined, and puting messages into the network queue
-        for comp in network.connected_computers:
-            algorithm_function = getattr(comp.algorithm_file, 'init', None)
-            if callable(algorithm_function): # add the algorithm to each computer
-                old_values = comp.__dict__.copy()
+def initiateRun(network: initializationModule.Initialization, comm : communication.Communication):
+    '''runs the algorithm on the created network'''
+    # runs init() for every computer which must be defined, and puting messages into the network queue
+    for comp in network.connected_computers:
+        comm.run_algorithmm(comp, 'init')
 
-                algorithm_function(comp, comm)
+    print("************************************************************************************")
 
-                new_values = comp.__dict__
-                if old_values!=new_values: # if display is graph then update values. NEED TO CHANGE THE IF STATEMENT
-                    values = comp.__dict__.copy()
-                    network.node_values_change.append(values)
-            else:
-                print(f"Error: Function 'init' not found in {comp.algorithm_file}.py")
-                return None
-        print("******************************************")
-
-        ## runs mainAlgorithm
-        while not network.network_message_queue.empty():
-            mess=network.network_message_queue.pop()
-            comm.receive_message(mess, comm)
+    ## runs mainAlgorithm
+    while not network.message_queue.empty():
+        message = network.message_queue.pop()
+        comm.receive_message(message, comm)

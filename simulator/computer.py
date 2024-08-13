@@ -13,7 +13,9 @@ class Computer:
         _internal_clock: used for delay.
     """
     
-    def __init__(self):
+    def __init__(self,  ):     
+        self._has_changed = False
+                
         self.id = None
         self.connectedEdges = []
         self.delays = []
@@ -21,11 +23,21 @@ class Computer:
         self.state = None
         self.is_root = False
         self.color = "olivedrab"
-                
-        self._internal_clock = 0
-        
+
     def __str__(self):
         return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
+    
+    def __setattr__(self, name, value):
+        # Only set the flag if the attribute is not private
+        if not name.startswith('_') and getattr(self, name, None) != value:
+            self._has_changed = True
+        super().__setattr__(name, value)
+
+    def reset_flag(self):
+        self._has_changed = False
+
+    def has_changed(self):
+        return self._has_changed
     
     def getConnectedEdges(self):
         return self.connectedEdges
