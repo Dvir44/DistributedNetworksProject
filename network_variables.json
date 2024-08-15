@@ -1,7 +1,7 @@
 {
-    "Number of Computers": "25",
-    "Topology": "Tree",
-    "ID Type": "Sequential",
+    "Number of Computers": "10",
+    "Topology": "Star",
+    "ID Type": "Random",
     "Delay": "Random",
     "Display": "Graph",
     "Root": "Min ID",

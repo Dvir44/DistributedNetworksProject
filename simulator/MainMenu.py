@@ -6,6 +6,7 @@ import sys
 import os
 
 # Constants
+NETWORK_VARIABLES = 'network_variables.json'
 CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 600)
 COMBOBOX_OPTIONS = {
     "Topology": "Random, Clique, Line, Tree, Star",
@@ -24,10 +25,10 @@ class SimulationInProgressWindow(QMainWindow):
         self.setWindowTitle("Simulation In Process")
 
 class MenuWindow(QMainWindow):
-    def __init__(self, network_variables_file):
+    def __init__(self, network_variables_data):
         super().__init__()
-        self.network_variables_file = network_variables_file
-        self.checkbox_values = self.load_network_variables() # Dictionary to store checkbox values with default values
+        ##self.network_variables_file = network_variables_file
+        self.checkbox_values = network_variables_data # Dictionary to store checkbox values with default values
         self.setGeometry(0, 0, 1500, 900)
         self.setWindowTitle("Simulator for Distributed Networks")
         self.init_ui()
@@ -38,7 +39,11 @@ class MenuWindow(QMainWindow):
         self.create_labels()
         self.create_buttons()
         self.create_options()
-        
+
+    #############################################################################
+    # Currently not in use
+    # 
+    #    
     def load_network_variables(self):
         """Load default variables from the JSON file."""
         try:
@@ -46,7 +51,10 @@ class MenuWindow(QMainWindow):
                 return json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             return {}
-
+    #
+    #
+    #
+    #################################################################################
 
     def update_value(self, key: str, value: str):
         """Update the value of the specified label.
@@ -161,14 +169,14 @@ class MenuWindow(QMainWindow):
    
     def on_submit_all(self):
         """Handle the final submission of all settings."""
-        with open(self.network_variables_file, "w") as f:
+        with open(NETWORK_VARIABLES, "w") as f:
             json.dump(self.checkbox_values, f, indent=4)
         self.close()
 
-def menu(network_variables_file: str):
+def menu(network_variables: dict):
     """Launch the menu application."""
     app = QApplication(sys.argv)
-    menu_window = MenuWindow(network_variables_file)
+    menu_window = MenuWindow(network_variables)
     menu_window.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))
     stylesheet_file = os.path.join('./designFiles', 'main_window.qss')
     with open(stylesheet_file, 'r') as f:

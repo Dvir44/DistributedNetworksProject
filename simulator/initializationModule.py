@@ -59,8 +59,9 @@ class Initialization:
     '''
     Initialization Class - sets up the network parameters and topology based on user input
     '''
-    def __init__(self, network_variables_file):
-        self.load_config(network_variables_file)
+    def __init__(self, network_variables):
+        self.update_network_variables(network_variables)
+        ##self.load_config(network_variables_file)
         self.connected_computers = [Computer() for _ in range(self.computer_number)]
         self.message_queue = CustomMinHeap()
         self.node_values_change = [] # for graph display
@@ -80,7 +81,22 @@ class Initialization:
         for comp in self.connected_computers: # resets the changed flag
             comp.reset_flag()
         
-        
+    
+    def update_network_variables(self, network_variables_data):
+        self.computer_number = int(network_variables_data.get('Number of Computers', 10))
+        self.topologyType = network_variables_data.get('Topology', 'Line')
+        self.id_type = network_variables_data.get('ID Type', 'Sequential')
+        self.display_type = network_variables_data.get('Display', 'Text')
+        self.root_type = network_variables_data.get('Root', 'Random')
+        self.delay_type = network_variables_data.get('Delay', 'Random')
+        self.algorithm_path = network_variables_data.get('Algorithm', 'no_alg_provided')
+        self.logging_type = network_variables_data.get('Logging', 'Short')
+        pass
+    
+    #######################################################################################
+    # Currently not in use
+    #
+    #
     def load_config(self, network_variables_file):
         with open(network_variables_file, 'r') as f:
             data = json.load(f)
@@ -92,8 +108,10 @@ class Initialization:
         self.delay_type = data.get('Delay', 'Random')
         self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
         self.logging_type = data.get('Logging', 'Short')
-
-        
+    #
+    #
+    #
+    # #####################################################################################   
         
     def __str__(self) -> list:
         result = [

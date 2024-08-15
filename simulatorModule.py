@@ -16,21 +16,30 @@ import visualizations.graphVisualization as graphVisualization
 NETWORK_VARIABLES = 'network_variables.json'
 OUTPUT_FILE = './output.txt'
 
+def load_network_variables():
+        """Load default variables from the JSON file."""
+        try:
+            with open(NETWORK_VARIABLES, 'r') as f:
+                return json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}
+
 def main():
     sys.stdout = open(OUTPUT_FILE, "w") # change default output
     
-    data = MainMenu.menu(NETWORK_VARIABLES)
+    network_variables = load_network_variables()
+    data = MainMenu.menu(network_variables)
     start_time = time.time()
-    network= initializationModule.Initialization(NETWORK_VARIABLES)
+    network= initializationModule.Initialization(network_variables)
     if network.logging_type!="Short":
         print(network)
     
-    with open(NETWORK_VARIABLES, 'r') as f:
-        data = json.load(f)
+    # with open(NETWORK_VARIABLES, 'r') as f:
+    #     data = json.load(f)
 
     comm = communication.Communication(network)
 
-    if data['Display'] == "Graph":
+    if network_variables['Display'] == "Graph":
         app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
         thread = threading.Thread(target=runModule.initiateRun, args=(network, comm))
