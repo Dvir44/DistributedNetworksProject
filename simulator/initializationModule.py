@@ -276,47 +276,48 @@ class Initialization:
                 root = comp
                 break
 
+        if root is None:
+            raise ValueError("No root node found")
+
         # Initialize a queue with the root node and track their heights
         queue = [(root, 0)]
-        next_computer_index = 0
-        
         used_computers = set([root.id])
+
+        next_computer_index = 0
 
         # While there are still computers to connect
         while len(used_computers) < self.computer_number:
             if not queue:
                 break
+
             # Take the next node and its height from the queue
             parent, height = queue.pop(0)
-            
+
             if height >= max_height:
                 continue
-            
-            # Determine a random number of children for the current parent using Poisson distribution
-            children_count = np.random.poisson(1.5)
 
-            # Ensure the number of children is at least 1 and does not exceed the remaining nodes
-            children_count = min(max(1, children_count), self.computer_number - len(used_computers))
+            # Determine the number of children for the current parent
+            children_count = min(self.computer_number - len(used_computers), 2)  # Binary tree
 
             for _ in range(children_count):
-                if len(used_computers) >= self.computer_number:
-                    break
                 # Find the next available computer to connect
                 while next_computer_index in used_computers or next_computer_index >= self.computer_number:
                     next_computer_index += 1
+
                 if next_computer_index >= self.computer_number:
                     break
+
                 # Connect the parent to the child
                 child = self.connected_computers[next_computer_index]
                 parent.connectedEdges.append(child.id)
                 child.connectedEdges.append(parent.id)  # Ensure bi-directional connection
-                
+
                 # Add the child to the queue with its height
                 queue.append((child, height + 1))
-                used_computers.add(next_computer_index)
+                used_computers.add(child.id)
                 next_computer_index += 1
 
-        # Removing duplicates
+        # Ensure no duplicate connections
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges))
 

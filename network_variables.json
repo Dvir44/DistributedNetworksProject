@@ -1,10 +1,10 @@
 {
-    "Number of Computers": "11",
+    "Number of Computers": "25",
     "Topology": "Tree",
     "ID Type": "Sequential",
     "Delay": "Random",
     "Display": "Graph",
     "Root": "Min ID",
-    "Algorithm": "C:/Users/User/Desktop/DistributedNetworksProject/algorithms/BFSalgorithm.py",
+    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/algorithms/someAlgorithm.py",
     "Logging": "Long"
 }
