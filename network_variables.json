@@ -1,6 +1,6 @@
 {
-    "Number of Computers": "10",
-    "Topology": "Star",
+    "Number of Computers": "50",
+    "Topology": "Clique",
     "ID Type": "Random",
     "Delay": "Random",
     "Display": "Graph",

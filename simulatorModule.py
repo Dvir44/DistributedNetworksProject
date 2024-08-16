@@ -11,9 +11,9 @@ import simulator.runModule as runModule
 import simulator.communication as communication
 import simulator.initializationModule as initializationModule
 import simulator.MainMenu as MainMenu
+from simulator.MainMenu import NETWORK_VARIABLES
 import visualizations.graphVisualization as graphVisualization
 
-NETWORK_VARIABLES = 'network_variables.json'
 OUTPUT_FILE = './output.txt'
 
 def load_network_variables():
