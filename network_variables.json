@@ -1,10 +1,12 @@
 {
-    "Number of Computers": "50",
-    "Topology": "Clique",
+    "Number of Computers": "25",
+    "Topology": "Tree",
     "ID Type": "Random",
     "Delay": "Random",
     "Display": "Graph",
     "Root": "Min ID",
-    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/algorithms/someAlgorithm.py",
-    "Logging": "Long"
+    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/algorithms/BFSalgorithm.py",
+    "Logging": "Long",
+    "Branching Factor": 6,
+    "Max Depth": 3
 }

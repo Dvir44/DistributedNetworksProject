@@ -61,7 +61,6 @@ class Initialization:
     '''
     def __init__(self, network_variables):
         self.update_network_variables(network_variables)
-        ##self.load_config(network_variables_file)
         self.connected_computers = [Computer() for _ in range(self.computer_number)]
         self.message_queue = CustomMinHeap()
         self.node_values_change = [] # for graph display
@@ -91,28 +90,8 @@ class Initialization:
         self.delay_type = network_variables_data.get('Delay', 'Random')
         self.algorithm_path = network_variables_data.get('Algorithm', 'no_alg_provided')
         self.logging_type = network_variables_data.get('Logging', 'Short')
-        pass
+        self.max_depth = network_variables_data.get('Max Depth', 2)
     
-    #######################################################################################
-    # Currently not in use
-    #
-    #
-    def load_config(self, network_variables_file):
-        with open(network_variables_file, 'r') as f:
-            data = json.load(f)
-        self.computer_number = int(data.get('Number of Computers', 10))
-        self.topologyType = data.get('Topology', 'Line')
-        self.id_type = data.get('ID Type', 'Sequential')
-        self.display_type = data.get('Display', 'Text')
-        self.root_type = data.get('Root', 'Random')
-        self.delay_type = data.get('Delay', 'Random')
-        self.algorithm_path = data.get('Algorithm', 'no_alg_provided')
-        self.logging_type = data.get('Logging', 'Short')
-    #
-    #
-    #
-    # #####################################################################################   
-        
     def __str__(self) -> list:
         result = [
             f"Number of Computers: {self.computer_number}",
@@ -158,8 +137,6 @@ class Initialization:
                 
                 comp.delays[i] = self.edges_delays[edge_tuple] """
 
-
-
     #Creates network topology
     def create_connected_computers(self):
         topology_functions = {
@@ -171,7 +148,13 @@ class Initialization:
             }
         
         topology_function = topology_functions[self.topologyType]
-        topology_function()
+    
+        if self.topologyType == "Tree":
+            # Call the tree function with the Max Depth
+            topology_function(self.max_depth)
+        else:
+            # Call other topology functions without additional parameters
+            topology_function()
         
         connected = self.is_connected()
         while (not connected):
@@ -208,6 +191,9 @@ class Initialization:
                 comp_id = random.randint(100, 100 * self.computer_number - 1)
             comp.id = comp_id
             used_ids.add(comp_id)
+        
+        # Sort the connected_computers list by their ids after assigning them
+        self.connected_computers.sort(key=lambda x: x.id)
 
     # Create sequential computer IDs
     def create_sequential_ids(self):
@@ -260,7 +246,10 @@ class Initialization:
 
             # Remove duplicates
             for comp in self.connected_computers:
-                comp.connectedEdges = list(set(comp.connectedEdges))
+                comp.connectedEdges = sorted(list(set(comp.connectedEdges)))
+        
+        # Sort the connected_computers list by their ids (optional, if needed)
+        self.connected_computers.sort(key=lambda x: x.id)
 
     # Create line topology for the network
     def create_line_topology(self):
@@ -338,6 +327,7 @@ class Initialization:
         # Ensure no duplicate connections
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges))
+
 
     def create_star_topology(self):
         root = None

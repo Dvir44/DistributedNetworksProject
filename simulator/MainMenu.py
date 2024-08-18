@@ -40,22 +40,6 @@ class MenuWindow(QMainWindow):
         self.create_buttons()
         self.create_options()
 
-    #############################################################################
-    # Currently not in use
-    # 
-    #    
-    def load_network_variables(self):
-        """Load default variables from the JSON file."""
-        try:
-            with open(self.network_variables_file, 'r') as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {}
-    #
-    #
-    #
-    #################################################################################
-
     def update_value(self, key: str, value: str):
         """Update the value of the specified label.
 
@@ -63,7 +47,12 @@ class MenuWindow(QMainWindow):
             key (str): The key to update.
             value (str): The value to set.
         """
-        self.checkbox_values[key] = value
+        if key == "Max Depth":
+            # Ensure the Max Depth is stored as an integer
+            self.checkbox_values[key] = int(value) if value.isdigit() else 0
+        else:
+            self.checkbox_values[key] = value
+
         if key in self.label_values:
             self.label_values[key].setText(f"{key}: {value}")
             self.label_values[key].setWordWrap(True)
@@ -97,9 +86,9 @@ class MenuWindow(QMainWindow):
         upload_file_button.setGeometry(50, 150, 200, 30)
         upload_file_button.clicked.connect(lambda: self.on_upload_algorithm())
 
-        confirm_button = QPushButton("Submit", self)
-        confirm_button.setGeometry(550, 750, 150, 30)
-        confirm_button.clicked.connect(lambda: self.on_submit_all())
+        self.submit_button = QPushButton("Submit", self) 
+        self.submit_button.setGeometry(550, 750, 150, 30)
+        self.submit_button.clicked.connect(lambda: self.on_submit_all())
 
 
 
@@ -107,10 +96,27 @@ class MenuWindow(QMainWindow):
         """Create options using combo boxes and number input for computer number."""
         checkbox_layout = QVBoxLayout()
         
-        self.add_number_input(checkbox_layout) # adding the number of computers option
+        self.add_number_input(checkbox_layout)  # adding the number of computers option
         
         for key, options in COMBOBOX_OPTIONS.items():
             self.add_combo_box(checkbox_layout, key, options)
+
+        # Create Max Depth input (initially hidden)
+        self.max_depth_label = QLabel("Max Depth:", self)
+        self.max_depth_input = QSpinBox(self)
+        self.max_depth_input.setRange(1, 100)  # Set min and max value as needed
+        self.max_depth_input.setValue(2)  # Default value
+
+        # Initially hide the Max Depth input
+        self.max_depth_label.hide()
+        self.max_depth_input.hide()
+
+        # Connect the Max Depth input to update_value
+        self.max_depth_input.valueChanged.connect(lambda value: self.update_value("Max Depth", str(value)))
+
+        # Add to the layout
+        checkbox_layout.addWidget(self.max_depth_label)
+        checkbox_layout.addWidget(self.max_depth_input)
 
         checkbox_layout.setSpacing(20)
         checkbox_widget = QWidget(self)
@@ -126,14 +132,33 @@ class MenuWindow(QMainWindow):
         """
         number_label = QLabel("Number of Computers", self)
         layout.addWidget(number_label)
-        
-        number_input = QLineEdit(self)
-        number_input.setPlaceholderText("Enter a number")
-        layout.addWidget(number_input)
-        
-        number_input.textChanged.connect(lambda value: self.update_value("Number of Computers", value))
-        
 
+        self.number_input = QLineEdit(self)
+        self.number_input.setPlaceholderText("Enter a number")
+        layout.addWidget(self.number_input)
+
+        # Initially disable the submit button
+        self.submit_button.setEnabled(False)
+
+        # Connect textChanged signal to validation logic
+        self.number_input.textChanged.connect(self.validate_number_input)
+
+
+    def validate_number_input(self, value):
+        """Validate the number input and enable/disable the submit button."""
+        if value.isdigit():
+            number = int(value)
+            if number > 100:
+                QMessageBox.warning(self, 'Error', 'The number of computers cannot exceed 100.', QMessageBox.Ok)
+                self.submit_button.setEnabled(False)
+            else:
+                self.update_value("Number of Computers", value)
+                self.submit_button.setEnabled(True)
+        else:
+            # Disable the button if the input is not a valid number
+            self.submit_button.setEnabled(False)
+    
+    
     def add_combo_box(self, layout, label_text, options):
         """Add a combo box to the layout.
 
@@ -153,8 +178,23 @@ class MenuWindow(QMainWindow):
         layout.addWidget(combo_box)
 
         combo_box.currentTextChanged.connect(lambda value: self.update_value(label_text, value))
-        
 
+        # Connect the topology combo box to show/hide the Max Depth input
+        if label_text == "Topology":
+            combo_box.currentTextChanged.connect(self.handle_topology_selection)
+            
+    def handle_topology_selection(self, value):
+        """Show or hide the Max Depth input depending on the selected topology."""
+        if value == "Tree":
+            self.max_depth_label.show()
+            self.max_depth_input.show()
+        else:
+            self.max_depth_label.hide()
+            self.max_depth_input.hide()
+            # If it's not "Tree", set Max Depth to 0
+            self.update_value("Max Depth", "0")
+    
+    
     def on_upload_algorithm(self):
         """Handle the upload of a Python algorithm file."""
         fname, _ = QFileDialog.getOpenFileName(self, 'Upload Python File', '/home', "Python Files (*.py)")
