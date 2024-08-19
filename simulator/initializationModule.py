@@ -1,3 +1,10 @@
+"""
+Network Initialization and Topology Creation for Distributed Networks.
+
+This module contains classes and functions used to initialize and configure a simulated network
+using different topologies (Tree, Star, Line, Clique, etc.). The module also handles network algorithms,
+computer ID assignments, and delay creation for network edges.
+"""
 import importlib
 import json
 import os
@@ -11,16 +18,46 @@ import math
 from itertools import combinations
 
 class UnionFind:
+    """
+    A class to represent the Union-Find (Disjoint Set) data structure.
+    
+    Attributes:
+        parent (list): The parent pointers for each node.
+        rank (list): The rank of each tree (used for union by rank).
+    """
+
     def __init__(self, size):
+        """
+        Initializes the Union-Find structure with a given size.
+        
+        Args:
+            size (int): Number of elements (nodes).
+        """
         self.parent = list(range(size))
         self.rank = [1] * size
 
     def find(self, node):
+        """
+        Finds the root of the node with path compression.
+        
+        Args:
+            node (int): The node to find the root of.
+            
+        Returns:
+            int: The root of the node.
+        """
         if self.parent[node] != node:
             self.parent[node] = self.find(self.parent[node])  # Path compression
         return self.parent[node]
 
     def union(self, node1, node2):
+        """
+        Unites two sets by connecting the roots of the two nodes.
+        
+        Args:
+            node1 (int): First node.
+            node2 (int): Second node.
+        """
         root1 = self.find(node1)
         root2 = self.find(node2)
 
@@ -36,30 +73,80 @@ class UnionFind:
 
 
 class CustomMinHeap:
+    """
+    A class to represent a custom min-heap for managing messages.
+    
+    Attributes:
+        heap (list): A list used to represent the heap.
+        counter (int): A counter used to ensure unique priorities in the heap.
+    """
+
     def __init__(self):
+        """
+        Initializes the custom min-heap.
+        """
         self.heap = []
         self.counter = 0  # unique sequence count
         
     def push(self, message_format):
+        """
+        Pushes a message onto the heap.
+        
+        Args:
+            message_format (dict): The message format containing arrival time.
+        """
         heapq.heappush(self.heap, (message_format['arrival_time'], self.counter, message_format))
         self.counter += 1
         
     def pop(self) -> dict:
+        """
+        Pops the message with the smallest arrival time from the heap.
+        
+        Returns:
+            dict: The message with the smallest arrival time.
+        """
         priority, priority2, message_format = heapq.heappop(self.heap)
         return message_format
         
     def empty(self) -> bool: 
+        """
+        Checks whether the heap is empty.
+        
+        Returns:
+            bool: True if the heap is empty, False otherwise.
+        """
         return len(self.heap) == 0
 
     def size(self) -> int:
+        """
+        Returns the size of the heap.
+        
+        Returns:
+            int: The number of elements in the heap.
+        """
         return len(self.heap)
 
 
 class Initialization:
-    '''
-    Initialization Class - sets up the network parameters and topology based on user input
-    '''
+    """
+    Initialization class for setting up network parameters and topologies.
+
+    Attributes:
+        network_variables (dict): The dictionary containing network configuration data.
+        connected_computers (list): A list of Computer objects representing network nodes.
+        message_queue (CustomMinHeap): A custom min-heap for message management.
+        node_values_change (list): A list for tracking changes in node values for display.
+        edges_delays (dict): A dictionary of delays associated with network edges.
+        network_dict (dict): A dictionary mapping computer IDs to Computer objects.
+    """
+
     def __init__(self, network_variables):
+        """
+        Initializes the network by setting parameters and creating computers and topologies.
+
+        Args:
+            network_variables (dict): The network configuration dictionary.
+        """
         self.update_network_variables(network_variables)
         self.connected_computers = [Computer() for _ in range(self.computer_number)]
         self.message_queue = CustomMinHeap()
@@ -82,6 +169,12 @@ class Initialization:
         
     
     def update_network_variables(self, network_variables_data):
+        """
+        Updates network parameters from the given configuration dictionary.
+        
+        Args:
+            network_variables_data (dict): The dictionary containing network configuration data.
+        """
         self.computer_number = int(network_variables_data.get('Number of Computers', 10))
         self.topologyType = network_variables_data.get('Topology', 'Line')
         self.id_type = network_variables_data.get('ID Type', 'Sequential')
@@ -93,6 +186,12 @@ class Initialization:
         self.max_depth = network_variables_data.get('Max Depth', 2)
     
     def __str__(self) -> list:
+        """
+        Provides a string representation of the network configuration and connected computers.
+        
+        Returns:
+            str: The string representation of the network.
+        """
         result = [
             f"Number of Computers: {self.computer_number}",
             f"Topology: {self.topologyType}",
@@ -139,6 +238,9 @@ class Initialization:
 
     #Creates network topology
     def create_connected_computers(self):
+        """
+        Creates the network topology based on the specified topology type and configuration.
+        """
         topology_functions = {
             "Random": self.create_random_topology,
             "Line": self.create_line_topology,
@@ -162,6 +264,12 @@ class Initialization:
             connected = self.is_connected()
 
     def is_connected(self):
+        """
+        Checks if the network is connected by using Union-Find.
+
+        Returns:
+            bool: True if the network is connected, False otherwise.
+        """
         uf = UnionFind(len(self.connected_computers))
 
         for node in self.connected_computers:
@@ -173,6 +281,9 @@ class Initialization:
 
     # Create computer IDs based on the IdType
     def create_computer_ids(self):
+        """
+        Creates IDs for the computers in the network based on the selected ID type.
+        """
         id_functions = {
         "Random": self.create_random_ids,
         "Sequential": self.create_sequential_ids,
@@ -184,6 +295,9 @@ class Initialization:
 
     # Create random computer IDs (ensuring uniqueness)
     def create_random_ids(self):
+        """
+        Creates random, unique IDs for the computers.
+        """
         used_ids = set()
         for comp in self.connected_computers:
             comp_id = random.randint(100, 100 * self.computer_number - 1)
@@ -197,12 +311,18 @@ class Initialization:
 
     # Create sequential computer IDs
     def create_sequential_ids(self):
+        """
+        Creates sequential IDs for the computers.
+        """
         for i, comp in enumerate(self.connected_computers):
             comp.id = i
             
 
     # Create a random topology for the network
     def create_random_topology(self):
+        """
+        Creates a random topology for the network.
+        """
         ids_list = [comp.id for comp in self.connected_computers]
 
         if len(self.connected_computers) == 2:
@@ -253,6 +373,9 @@ class Initialization:
 
     # Create line topology for the network
     def create_line_topology(self):
+        """
+        Creates a line topology for the network, where each computer is connected to the next one in sequence.
+        """
         for i in range(self.computer_number - 1):
             # Connect each computer to the next one in line
             self.connected_computers[i].connectedEdges.append(self.connected_computers[i+1].id)
@@ -260,7 +383,10 @@ class Initialization:
 
 
     # Create clique topology for the network
-    def create_clique_topology(self):        
+    def create_clique_topology(self):     
+        """
+        Creates a clique topology for the network, where each computer is connected to every other computer.
+        """   
         # Connect each computer to every other computer
         for i in range(self.computer_number):
             for j in range(i + 1, self.computer_number):
@@ -273,6 +399,12 @@ class Initialization:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
 
     def create_tree_topology(self, max_height=None):
+        """
+        Creates a tree topology for the network based on a maximum height.
+
+        Args:
+            max_height (int, optional): The maximum height of the tree. If None, it will be calculated based on the number of computers.
+        """
         if max_height is None:
             max_height = int(np.log2(self.computer_number)) + 1
 
@@ -330,6 +462,9 @@ class Initialization:
 
 
     def create_star_topology(self):
+        """
+        Creates a star topology for the network, where all computers are connected to a central hub (root node).
+        """
         root = None
         for comp in self.connected_computers:
             if getattr(comp, 'is_root', False):
@@ -344,6 +479,12 @@ class Initialization:
 
 
     def load_algorithms(self, algorithm_module_path):
+        """
+        Loads the network algorithms for each computer from the specified path.
+
+        Args:
+            algorithm_module_path (str): The file path to the algorithm module.
+        """
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
             #exit()
@@ -369,6 +510,9 @@ class Initialization:
             return None
 
     def root_selection(self):
+        """
+        Selects the root node based on the specified root selection method.
+        """
         if self.root_type == "Random":
             selected_computer = random.choice(self.connected_computers)
             selected_computer.is_root=True
@@ -377,6 +521,15 @@ class Initialization:
             selected_computer.is_root=True
 
     def find_computer(self, id: int) -> Computer:
+        """
+        Finds a computer in the network by its ID.
+
+        Args:
+            id (int): The ID of the computer to find.
+
+        Returns:
+            Computer: The computer object with the specified ID, or None if not found.
+        """
         for comp in self.connected_computers:
             if comp.id == id:
                 return comp

@@ -1,98 +1,139 @@
 Number of Computers: 15
-Topology: Tree
+Topology: Random
 ID Type: Random
 Display Type: Graph
 
 Computers:
-id = 109
-connected edges = [224, 195, 109, 165]
+id = 117
+connected edges = [203, 671, 1216, 1498]
 delays = []
 
-id = 165
-connected edges = [109, 229, 389]
+id = 203
+connected edges = [117, 820, 951, 953, 1189, 1195]
 delays = []
 
-id = 195
-connected edges = [482, 563, 109]
+id = 368
+connected edges = [548, 770, 820, 951, 1023, 1189, 1498]
 delays = []
 
-id = 224
-connected edges = [681, 659, 109]
+id = 548
+connected edges = [368, 671, 951, 1023, 1462]
 delays = []
 
-id = 229
-connected edges = [939, 797, 165]
+id = 671
+connected edges = [117, 548, 820, 1189, 1462]
 delays = []
 
-id = 389
-connected edges = [1258, 165, 1431]
+id = 770
+connected edges = [368, 953, 1195]
 delays = []
 
-id = 482
-connected edges = [195, 1484]
+id = 820
+connected edges = [203, 368, 671, 951, 1195, 1216]
 delays = []
 
-id = 563
-connected edges = [195]
+id = 951
+connected edges = [203, 368, 548, 820, 1189]
 delays = []
 
-id = 659
-connected edges = [224]
+id = 953
+connected edges = [203, 770, 1195, 1462, 1498]
 delays = []
 
-id = 681
-connected edges = [224]
+id = 1023
+connected edges = [368, 548, 1462]
 delays = []
 
-id = 797
-connected edges = [229]
+id = 1189
+connected edges = [203, 368, 671, 951]
 delays = []
 
-id = 939
-connected edges = [229]
+id = 1195
+connected edges = [203, 770, 820, 953, 1498]
 delays = []
 
-id = 1258
-connected edges = [389]
+id = 1216
+connected edges = [117, 820]
 delays = []
 
-id = 1431
-connected edges = [389]
+id = 1462
+connected edges = [548, 671, 953, 1023, 1498]
 delays = []
 
-id = 1484
-connected edges = [482]
+id = 1498
+connected edges = [117, 368, 953, 1195, 1462]
 delays = []
 
-109 is the root
+117  is root
 ************************************************************************************
-{'source_id': 109, 'dest_id': 224, 'arrival_time': 0.025793854666142813, 'content': 'running a BFS with distance 0 from 109'}
-{'source_id': 224, 'dest_id': 681, 'arrival_time': 0.04219322910205603, 'content': 'running a BFS with distance 1.0 from 224'}
-{'source_id': 224, 'dest_id': 109, 'arrival_time': 0.11300647077212722, 'content': 'running a BFS with distance 1.0 from 224'}
-{'source_id': 224, 'dest_id': 659, 'arrival_time': 0.27964367978779736, 'content': 'running a BFS with distance 1.0 from 224'}
-{'source_id': 109, 'dest_id': 165, 'arrival_time': 0.31885859762462043, 'content': 'running a BFS with distance 0 from 109'}
-{'source_id': 109, 'dest_id': 195, 'arrival_time': 0.38226257671721764, 'content': 'running a BFS with distance 0 from 109'}
-{'source_id': 165, 'dest_id': 229, 'arrival_time': 0.4321487574451819, 'content': 'running a BFS with distance 1.0 from 165'}
-{'source_id': 109, 'dest_id': 109, 'arrival_time': 0.4915468488676664, 'content': 'running a BFS with distance 0 from 109'}
-{'source_id': 681, 'dest_id': 224, 'arrival_time': 0.59804890448425, 'content': 'running a BFS with distance 2.0 from 681'}
-{'source_id': 659, 'dest_id': 224, 'arrival_time': 0.6648987208764242, 'content': 'running a BFS with distance 2.0 from 659'}
-{'source_id': 165, 'dest_id': 389, 'arrival_time': 0.6797221901184508, 'content': 'running a BFS with distance 1.0 from 165'}
-{'source_id': 229, 'dest_id': 165, 'arrival_time': 0.6977245849098903, 'content': 'running a BFS with distance 2.0 from 229'}
-{'source_id': 229, 'dest_id': 939, 'arrival_time': 0.7270653711984508, 'content': 'running a BFS with distance 2.0 from 229'}
-{'source_id': 165, 'dest_id': 109, 'arrival_time': 0.8062822404989785, 'content': 'running a BFS with distance 1.0 from 165'}
-{'source_id': 389, 'dest_id': 1431, 'arrival_time': 0.8897637449610548, 'content': 'running a BFS with distance 2.0 from 389'}
-{'source_id': 389, 'dest_id': 1258, 'arrival_time': 1.012407915552813, 'content': 'running a BFS with distance 2.0 from 389'}
-{'source_id': 195, 'dest_id': 482, 'arrival_time': 1.1351070339916745, 'content': 'running a BFS with distance 1.0 from 195'}
-{'source_id': 195, 'dest_id': 109, 'arrival_time': 1.2959192650487794, 'content': 'running a BFS with distance 1.0 from 195'}
-{'source_id': 195, 'dest_id': 563, 'arrival_time': 1.375253815665844, 'content': 'running a BFS with distance 1.0 from 195'}
-{'source_id': 389, 'dest_id': 165, 'arrival_time': 1.3918757689038428, 'content': 'running a BFS with distance 2.0 from 389'}
-{'source_id': 229, 'dest_id': 797, 'arrival_time': 1.401995367877857, 'content': 'running a BFS with distance 2.0 from 229'}
-{'source_id': 563, 'dest_id': 195, 'arrival_time': 1.4195111059812686, 'content': 'running a BFS with distance 2.0 from 563'}
-{'source_id': 1431, 'dest_id': 389, 'arrival_time': 1.457781062293798, 'content': 'running a BFS with distance 3.0 from 1431'}
-{'source_id': 482, 'dest_id': 195, 'arrival_time': 1.594552706127129, 'content': 'running a BFS with distance 2.0 from 482'}
-{'source_id': 482, 'dest_id': 1484, 'arrival_time': 1.614516053935073, 'content': 'running a BFS with distance 2.0 from 482'}
-{'source_id': 939, 'dest_id': 229, 'arrival_time': 1.6706430119620408, 'content': 'running a BFS with distance 3.0 from 939'}
-{'source_id': 1258, 'dest_id': 389, 'arrival_time': 1.869174698016113, 'content': 'running a BFS with distance 3.0 from 1258'}
-{'source_id': 1484, 'dest_id': 482, 'arrival_time': 2.2228102893731405, 'content': 'running a BFS with distance 3.0 from 1484'}
-{'source_id': 797, 'dest_id': 229, 'arrival_time': 2.3584897464179306, 'content': 'running a BFS with distance 3.0 from 797'}
---- 0.44629549980163574 seconds ---
+{'source_id': 117, 'dest_id': 203, 'arrival_time': 0.3156100594619027, 'content': 'running a broadcast'}
+{'source_id': 117, 'dest_id': 1498, 'arrival_time': 0.38060119624104594, 'content': 'running a broadcast'}
+{'source_id': 117, 'dest_id': 1216, 'arrival_time': 0.40733070482895317, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 117, 'arrival_time': 0.41061517443656226, 'content': 'running a broadcast'}
+{'source_id': 1498, 'dest_id': 1462, 'arrival_time': 0.44365452422728235, 'content': 'running a broadcast'}
+{'source_id': 1216, 'dest_id': 820, 'arrival_time': 0.4876401745027439, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 671, 'arrival_time': 0.49362402292798, 'content': 'running a broadcast'}
+{'source_id': 1462, 'dest_id': 1498, 'arrival_time': 0.6272413961002734, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 951, 'arrival_time': 0.6311945196494663, 'content': 'running a broadcast'}
+{'source_id': 671, 'dest_id': 1462, 'arrival_time': 0.678474722454007, 'content': 'running a broadcast'}
+{'source_id': 117, 'dest_id': 671, 'arrival_time': 0.7124726476667367, 'content': 'running a broadcast'}
+{'source_id': 671, 'dest_id': 1189, 'arrival_time': 0.7221456032031282, 'content': 'running a broadcast'}
+{'source_id': 951, 'dest_id': 820, 'arrival_time': 0.7319647510400146, 'content': 'running a broadcast'}
+{'source_id': 1498, 'dest_id': 1195, 'arrival_time': 0.7446284307469994, 'content': 'running a broadcast'}
+{'source_id': 951, 'dest_id': 368, 'arrival_time': 0.7521471769662015, 'content': 'running a broadcast'}
+{'source_id': 951, 'dest_id': 1189, 'arrival_time': 0.8138050016260466, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 1189, 'arrival_time': 0.8164874068593859, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 820, 'arrival_time': 0.8260459370843438, 'content': 'running a broadcast'}
+{'source_id': 1195, 'dest_id': 1498, 'arrival_time': 0.8709016905098663, 'content': 'running a broadcast'}
+{'source_id': 1498, 'dest_id': 953, 'arrival_time': 0.8965457427325372, 'content': 'running a broadcast'}
+{'source_id': 1195, 'dest_id': 770, 'arrival_time': 0.9025501036900522, 'content': 'running a broadcast'}
+{'source_id': 1189, 'dest_id': 671, 'arrival_time': 0.9094487400874041, 'content': 'running a broadcast'}
+{'source_id': 1498, 'dest_id': 117, 'arrival_time': 1.0141808086498476, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 953, 'arrival_time': 1.043577250419863, 'content': 'running a broadcast'}
+{'source_id': 1462, 'dest_id': 548, 'arrival_time': 1.0513265811504473, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 951, 'arrival_time': 1.052948394233246, 'content': 'running a broadcast'}
+{'source_id': 953, 'dest_id': 770, 'arrival_time': 1.0661311025025453, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 1189, 'arrival_time': 1.0695505633842597, 'content': 'running a broadcast'}
+{'source_id': 770, 'dest_id': 953, 'arrival_time': 1.1257019175756173, 'content': 'running a broadcast'}
+{'source_id': 1498, 'dest_id': 368, 'arrival_time': 1.128314134259885, 'content': 'running a broadcast'}
+{'source_id': 1216, 'dest_id': 117, 'arrival_time': 1.163763704615667, 'content': 'running a broadcast'}
+{'source_id': 671, 'dest_id': 117, 'arrival_time': 1.1719632323044036, 'content': 'running a broadcast'}
+{'source_id': 671, 'dest_id': 548, 'arrival_time': 1.1771642947942018, 'content': 'running a broadcast'}
+{'source_id': 1195, 'dest_id': 820, 'arrival_time': 1.1810807915083372, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 1195, 'arrival_time': 1.2052459610524537, 'content': 'running a broadcast'}
+{'source_id': 548, 'dest_id': 951, 'arrival_time': 1.2113421293005375, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 368, 'arrival_time': 1.2121950854952475, 'content': 'running a broadcast'}
+{'source_id': 953, 'dest_id': 1195, 'arrival_time': 1.2203746360424381, 'content': 'running a broadcast'}
+{'source_id': 1195, 'dest_id': 953, 'arrival_time': 1.2240236540780804, 'content': 'running a broadcast'}
+{'source_id': 203, 'dest_id': 1195, 'arrival_time': 1.2317988277383625, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 548, 'arrival_time': 1.2411091377456285, 'content': 'running a broadcast'}
+{'source_id': 1189, 'dest_id': 203, 'arrival_time': 1.260776686766735, 'content': 'running a broadcast'}
+{'source_id': 548, 'dest_id': 368, 'arrival_time': 1.2614233217686333, 'content': 'running a broadcast'}
+{'source_id': 548, 'dest_id': 1023, 'arrival_time': 1.272124221531667, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 1216, 'arrival_time': 1.2813779179603464, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 951, 'arrival_time': 1.3178160778364938, 'content': 'running a broadcast'}
+{'source_id': 1023, 'dest_id': 368, 'arrival_time': 1.3215184576253156, 'content': 'running a broadcast'}
+{'source_id': 1462, 'dest_id': 953, 'arrival_time': 1.322699060339489, 'content': 'running a broadcast'}
+{'source_id': 1462, 'dest_id': 671, 'arrival_time': 1.3491837230573456, 'content': 'running a broadcast'}
+{'source_id': 671, 'dest_id': 820, 'arrival_time': 1.3574108441013095, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 1023, 'arrival_time': 1.367472107714444, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 1498, 'arrival_time': 1.3824511669119584, 'content': 'running a broadcast'}
+{'source_id': 1189, 'dest_id': 368, 'arrival_time': 1.392769020015894, 'content': 'running a broadcast'}
+{'source_id': 1189, 'dest_id': 951, 'arrival_time': 1.4077253733037427, 'content': 'running a broadcast'}
+{'source_id': 820, 'dest_id': 203, 'arrival_time': 1.4267357184528597, 'content': 'running a broadcast'}
+{'source_id': 1462, 'dest_id': 1023, 'arrival_time': 1.4337254577772498, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 770, 'arrival_time': 1.4474856056523722, 'content': 'running a broadcast'}
+{'source_id': 953, 'dest_id': 1498, 'arrival_time': 1.4984111207831627, 'content': 'running a broadcast'}
+{'source_id': 1023, 'dest_id': 548, 'arrival_time': 1.580078648928421, 'content': 'running a broadcast'}
+{'source_id': 951, 'dest_id': 203, 'arrival_time': 1.5962723134672707, 'content': 'running a broadcast'}
+{'source_id': 368, 'dest_id': 820, 'arrival_time': 1.6000136833836716, 'content': 'running a broadcast'}
+{'source_id': 951, 'dest_id': 548, 'arrival_time': 1.6055052437412083, 'content': 'running a broadcast'}
+{'source_id': 770, 'dest_id': 368, 'arrival_time': 1.6617826640497926, 'content': 'running a broadcast'}
+{'source_id': 1195, 'dest_id': 203, 'arrival_time': 1.6677269829125945, 'content': 'running a broadcast'}
+{'source_id': 953, 'dest_id': 203, 'arrival_time': 1.6712612554487587, 'content': 'running a broadcast'}
+{'source_id': 953, 'dest_id': 1462, 'arrival_time': 1.6893617288461624, 'content': 'running a broadcast'}
+{'source_id': 1023, 'dest_id': 1462, 'arrival_time': 1.8349293637001969, 'content': 'running a broadcast'}
+{'source_id': 770, 'dest_id': 1195, 'arrival_time': 1.8906124055539655, 'content': 'running a broadcast'}
+{'source_id': 548, 'dest_id': 1462, 'arrival_time': 1.9891072076177405, 'content': 'running a broadcast'}
+{'source_id': 548, 'dest_id': 671, 'arrival_time': 2.031124616439392, 'content': 'running a broadcast'}
+--- 0.38626646995544434 seconds ---

@@ -1,0 +1,1531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module visualizations.node</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="visualizations.html"><font color="#ffffff">visualizations</font></a>.node</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cdvi44%5Cdocuments%5Cgithub%5Cdistributednetworksproject%5Cvisualizations%5Cnode.py">c:\users\dvi44\documents\github\distributednetworksproject\visualizations\node.py</a></font></td></tr></table>
+    <p><tt><a href="#Node">Node</a>&nbsp;and&nbsp;<a href="#NodeInfoWindow">NodeInfoWindow</a>&nbsp;classes&nbsp;for&nbsp;graphical&nbsp;network&nbsp;visualization.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;defines&nbsp;the&nbsp;`<a href="#Node">Node</a>`&nbsp;and&nbsp;`<a href="#NodeInfoWindow">NodeInfoWindow</a>`&nbsp;classes,&nbsp;which&nbsp;are&nbsp;used&nbsp;to&nbsp;represent&nbsp;individual&nbsp;nodes&nbsp;in<br>
+a&nbsp;network&nbsp;and&nbsp;display&nbsp;their&nbsp;information&nbsp;in&nbsp;a&nbsp;graphical&nbsp;interface&nbsp;using&nbsp;PyQt5.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="https://www.riverbankcomputing.com/static/Docs/PyQt5/">PyQt5</a><br>
+<a href="simulator.initializationModule.html">simulator.initializationModule</a><br>
+</td><td width="25%" valign=top><a href="https://docs.python.org/3/library/math.html">math</a><br>
+<a href="https://numpy.org/doc/">numpy</a><br>
+</td><td width="25%" valign=top><a href="https://networkx.org/documentation/stable/reference/index.html">networkx</a><br>
+<a href="https://docs.python.org/3/library/os.html">os</a><br>
+</td><td width="25%" valign=top><a href="https://docs.python.org/3/library/random.html">random</a><br>
+<a href="https://docs.python.org/3/library/sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Node">class <strong>Node</strong></a>(<a href="PyQt5.QtWidgets.html#QGraphicsObject">PyQt5.QtWidgets.QGraphicsObject</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Node">Node</a>(name:&nbsp;str,&nbsp;num_nodes:&nbsp;int,&nbsp;network:&nbsp;simulator.initializationModule.Initialization,&nbsp;parent=None)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;graphical&nbsp;node&nbsp;in&nbsp;a&nbsp;network&nbsp;visualization.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;(str):&nbsp;The&nbsp;color&nbsp;of&nbsp;the&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;edges&nbsp;(list):&nbsp;A&nbsp;list&nbsp;of&nbsp;edges&nbsp;connected&nbsp;to&nbsp;this&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num_nodes&nbsp;(int):&nbsp;The&nbsp;total&nbsp;number&nbsp;of&nbsp;nodes&nbsp;in&nbsp;the&nbsp;network.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius&nbsp;(int):&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;node&nbsp;based&nbsp;on&nbsp;the&nbsp;total&nbsp;number&nbsp;of&nbsp;nodes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect&nbsp;(QRectF):&nbsp;The&nbsp;bounding&nbsp;rectangle&nbsp;of&nbsp;the&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;info_window&nbsp;(<a href="#NodeInfoWindow">NodeInfoWindow</a>):&nbsp;A&nbsp;reference&nbsp;to&nbsp;the&nbsp;node&nbsp;information&nbsp;window.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;values&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;holding&nbsp;the&nbsp;node's&nbsp;attributes.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Node-__init__"><strong>__init__</strong></a>(self, name: str, num_nodes: int, network: simulator.initializationModule.Initialization, parent=None)</dt><dd><tt>Initialize&nbsp;a&nbsp;<a href="#Node">Node</a>&nbsp;instance.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num_nodes&nbsp;(int):&nbsp;The&nbsp;total&nbsp;number&nbsp;of&nbsp;nodes&nbsp;in&nbsp;the&nbsp;network.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(initializationModule.Initialization):&nbsp;The&nbsp;network&nbsp;to&nbsp;which&nbsp;this&nbsp;node&nbsp;belongs.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;parent&nbsp;(QGraphicsItem,&nbsp;optional):&nbsp;The&nbsp;parent&nbsp;QGraphicsItem.&nbsp;Defaults&nbsp;to&nbsp;None.</tt></dd></dl>
+
+<dl><dt><a name="Node-add_edge"><strong>add_edge</strong></a>(self, edge)</dt><dd><tt>Add&nbsp;an&nbsp;edge&nbsp;to&nbsp;the&nbsp;node.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;edge&nbsp;(Edge):&nbsp;The&nbsp;edge&nbsp;to&nbsp;add.</tt></dd></dl>
+
+<dl><dt><a name="Node-boundingRect"><strong>boundingRect</strong></a>(self) -&gt; PyQt5.QtCore.QRectF</dt><dd><tt>Returns&nbsp;the&nbsp;bounding&nbsp;rectangle&nbsp;of&nbsp;the&nbsp;node.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;QRectF:&nbsp;The&nbsp;bounding&nbsp;rectangle&nbsp;of&nbsp;the&nbsp;node.</tt></dd></dl>
+
+<dl><dt><a name="Node-itemChange"><strong>itemChange</strong></a>(self, change: PyQt5.QtWidgets.QGraphicsItem.GraphicsItemChange, value)</dt><dd><tt>Handle&nbsp;changes&nbsp;to&nbsp;the&nbsp;node,&nbsp;such&nbsp;as&nbsp;position&nbsp;changes.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;change&nbsp;(QGraphicsItem.GraphicsItemChange):&nbsp;The&nbsp;type&nbsp;of&nbsp;change.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;new&nbsp;value&nbsp;for&nbsp;the&nbsp;change.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;result&nbsp;of&nbsp;the&nbsp;base&nbsp;class&nbsp;implementation&nbsp;of&nbsp;itemChange.</tt></dd></dl>
+
+<dl><dt><a name="Node-mouseDoubleClickEvent"><strong>mouseDoubleClickEvent</strong></a>(self, event)</dt><dd><tt>Handle&nbsp;double-click&nbsp;events&nbsp;on&nbsp;the&nbsp;node&nbsp;to&nbsp;display&nbsp;the&nbsp;node's&nbsp;information.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event&nbsp;(QMouseEvent):&nbsp;The&nbsp;mouse&nbsp;event.</tt></dd></dl>
+
+<dl><dt><a name="Node-paint"><strong>paint</strong></a>(self, painter: PyQt5.QtGui.QPainter, option: PyQt5.QtWidgets.QStyleOptionGraphicsItem, widget: PyQt5.QtWidgets.QWidget = None)</dt><dd><tt>Paint&nbsp;the&nbsp;node&nbsp;with&nbsp;its&nbsp;color&nbsp;and&nbsp;label.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;painter&nbsp;(QPainter):&nbsp;The&nbsp;painter&nbsp;object&nbsp;used&nbsp;to&nbsp;draw&nbsp;the&nbsp;node.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;option&nbsp;(QStyleOptionGraphicsItem):&nbsp;Provides&nbsp;style&nbsp;options&nbsp;for&nbsp;the&nbsp;item.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;widget&nbsp;(<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;optional):&nbsp;The&nbsp;widget&nbsp;being&nbsp;painted.&nbsp;Defaults&nbsp;to&nbsp;None.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>MAX_RADIUS</strong> = 60</dl>
+
+<dl><dt><strong>MIN_RADIUS</strong> = 10</dl>
+
+<dl><dt><strong>TEXT_COLOR</strong> = 'white'</dl>
+
+<hr>
+Methods inherited from <a href="PyQt5.QtWidgets.html#QGraphicsObject">PyQt5.QtWidgets.QGraphicsObject</a>:<br>
+<dl><dt><a name="Node-childEvent"><strong>childEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-connectNotify"><strong>connectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-contextMenuEvent"><strong>contextMenuEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-customEvent"><strong>customEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-disconnectNotify"><strong>disconnectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-dragEnterEvent"><strong>dragEnterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-dragLeaveEvent"><strong>dragLeaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-dragMoveEvent"><strong>dragMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-dropEvent"><strong>dropEvent</strong></a>(...)</dt></dl>
+
+<strong>enabledChanged</strong> = &lt;unbound PYQT_SIGNAL enabledChanged()&gt;
+<dl><dt><a name="Node-event"><strong>event</strong></a>(...)</dt><dd><tt><a href="#Node-event">event</a>(self,&nbsp;ev:&nbsp;QEvent)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-focusInEvent"><strong>focusInEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-focusOutEvent"><strong>focusOutEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-grabGesture"><strong>grabGesture</strong></a>(...)</dt><dd><tt><a href="#Node-grabGesture">grabGesture</a>(self,&nbsp;type:&nbsp;Qt.GestureType,&nbsp;flags:&nbsp;Union[Qt.GestureFlags,&nbsp;Qt.GestureFlag]&nbsp;=&nbsp;Qt.GestureFlags())</tt></dd></dl>
+
+<dl><dt><a name="Node-hoverEnterEvent"><strong>hoverEnterEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-hoverLeaveEvent"><strong>hoverLeaveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-hoverMoveEvent"><strong>hoverMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-inputMethodEvent"><strong>inputMethodEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-inputMethodQuery"><strong>inputMethodQuery</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-isSignalConnected"><strong>isSignalConnected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-keyPressEvent"><strong>keyPressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-keyReleaseEvent"><strong>keyReleaseEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-mouseMoveEvent"><strong>mouseMoveEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-mousePressEvent"><strong>mousePressEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-mouseReleaseEvent"><strong>mouseReleaseEvent</strong></a>(...)</dt></dl>
+
+<strong>opacityChanged</strong> = &lt;unbound PYQT_SIGNAL opacityChanged()&gt;
+<strong>parentChanged</strong> = &lt;unbound PYQT_SIGNAL parentChanged()&gt;
+<dl><dt><a name="Node-prepareGeometryChange"><strong>prepareGeometryChange</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-receivers"><strong>receivers</strong></a>(...)</dt></dl>
+
+<strong>rotationChanged</strong> = &lt;unbound PYQT_SIGNAL rotationChanged()&gt;
+<strong>scaleChanged</strong> = &lt;unbound PYQT_SIGNAL scaleChanged()&gt;
+<dl><dt><a name="Node-sceneEvent"><strong>sceneEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-sceneEventFilter"><strong>sceneEventFilter</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-sender"><strong>sender</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-senderSignalIndex"><strong>senderSignalIndex</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-timerEvent"><strong>timerEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Node-ungrabGesture"><strong>ungrabGesture</strong></a>(...)</dt><dd><tt><a href="#Node-ungrabGesture">ungrabGesture</a>(self,&nbsp;type:&nbsp;Qt.GestureType)</tt></dd></dl>
+
+<dl><dt><a name="Node-updateMicroFocus"><strong>updateMicroFocus</strong></a>(...)</dt><dd><tt><a href="#Node-updateMicroFocus">updateMicroFocus</a>(self)</tt></dd></dl>
+
+<strong>visibleChanged</strong> = &lt;unbound PYQT_SIGNAL visibleChanged()&gt;
+<dl><dt><a name="Node-wheelEvent"><strong>wheelEvent</strong></a>(...)</dt></dl>
+
+<strong>xChanged</strong> = &lt;unbound PYQT_SIGNAL xChanged()&gt;
+<strong>yChanged</strong> = &lt;unbound PYQT_SIGNAL yChanged()&gt;
+<strong>zChanged</strong> = &lt;unbound PYQT_SIGNAL zChanged()&gt;
+<hr>
+Methods inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><a name="Node-__getattr__"><strong>__getattr__</strong></a>(...)</dt><dd><tt><a href="#Node-__getattr__">__getattr__</a>(self,&nbsp;name:&nbsp;str)&nbsp;-&gt;&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="Node-blockSignals"><strong>blockSignals</strong></a>(...)</dt><dd><tt><a href="#Node-blockSignals">blockSignals</a>(self,&nbsp;b:&nbsp;bool)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-children"><strong>children</strong></a>(...)</dt><dd><tt><a href="#Node-children">children</a>(self)&nbsp;-&gt;&nbsp;List[QObject]</tt></dd></dl>
+
+<dl><dt><a name="Node-deleteLater"><strong>deleteLater</strong></a>(...)</dt><dd><tt><a href="#Node-deleteLater">deleteLater</a>(self)</tt></dd></dl>
+
+<strong>destroyed</strong> = &lt;unbound PYQT_SIGNAL destroyed(QObject*)&gt;
+<dl><dt><a name="Node-disconnect"><strong>disconnect</strong></a>(...)</dt><dd><tt><a href="#Node-disconnect">disconnect</a>(a0:&nbsp;QMetaObject.Connection)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#Node-disconnect">disconnect</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-dumpObjectInfo"><strong>dumpObjectInfo</strong></a>(...)</dt><dd><tt><a href="#Node-dumpObjectInfo">dumpObjectInfo</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-dumpObjectTree"><strong>dumpObjectTree</strong></a>(...)</dt><dd><tt><a href="#Node-dumpObjectTree">dumpObjectTree</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-dynamicPropertyNames"><strong>dynamicPropertyNames</strong></a>(...)</dt><dd><tt><a href="#Node-dynamicPropertyNames">dynamicPropertyNames</a>(self)&nbsp;-&gt;&nbsp;List[QByteArray]</tt></dd></dl>
+
+<dl><dt><a name="Node-eventFilter"><strong>eventFilter</strong></a>(...)</dt><dd><tt><a href="#Node-eventFilter">eventFilter</a>(self,&nbsp;a0:&nbsp;QObject,&nbsp;a1:&nbsp;QEvent)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-findChild"><strong>findChild</strong></a>(...)</dt><dd><tt><a href="#Node-findChild">findChild</a>(self,&nbsp;type:&nbsp;type,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;QObject<br>
+<a href="#Node-findChild">findChild</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;QObject</tt></dd></dl>
+
+<dl><dt><a name="Node-findChildren"><strong>findChildren</strong></a>(...)</dt><dd><tt><a href="#Node-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#Node-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#Node-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;regExp:&nbsp;QRegExp,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#Node-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;regExp:&nbsp;QRegExp,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#Node-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;re:&nbsp;QRegularExpression,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#Node-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;re:&nbsp;QRegularExpression,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]</tt></dd></dl>
+
+<dl><dt><a name="Node-inherits"><strong>inherits</strong></a>(...)</dt><dd><tt><a href="#Node-inherits">inherits</a>(self,&nbsp;classname:&nbsp;str)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-installEventFilter"><strong>installEventFilter</strong></a>(...)</dt><dd><tt><a href="#Node-installEventFilter">installEventFilter</a>(self,&nbsp;a0:&nbsp;QObject)</tt></dd></dl>
+
+<dl><dt><a name="Node-isWidgetType"><strong>isWidgetType</strong></a>(...)</dt><dd><tt><a href="#Node-isWidgetType">isWidgetType</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isWindowType"><strong>isWindowType</strong></a>(...)</dt><dd><tt><a href="#Node-isWindowType">isWindowType</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-killTimer"><strong>killTimer</strong></a>(...)</dt><dd><tt><a href="#Node-killTimer">killTimer</a>(self,&nbsp;id:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="Node-metaObject"><strong>metaObject</strong></a>(...)</dt><dd><tt><a href="#Node-metaObject">metaObject</a>(self)&nbsp;-&gt;&nbsp;QMetaObject</tt></dd></dl>
+
+<dl><dt><a name="Node-moveToThread"><strong>moveToThread</strong></a>(...)</dt><dd><tt><a href="#Node-moveToThread">moveToThread</a>(self,&nbsp;thread:&nbsp;QThread)</tt></dd></dl>
+
+<dl><dt><a name="Node-objectName"><strong>objectName</strong></a>(...)</dt><dd><tt><a href="#Node-objectName">objectName</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<strong>objectNameChanged</strong> = &lt;unbound PYQT_SIGNAL objectNameChanged(QString)&gt;
+<dl><dt><a name="Node-parent"><strong>parent</strong></a>(...)</dt><dd><tt><a href="#Node-parent">parent</a>(self)&nbsp;-&gt;&nbsp;QObject</tt></dd></dl>
+
+<dl><dt><a name="Node-property"><strong>property</strong></a>(...)</dt><dd><tt><a href="#Node-property">property</a>(self,&nbsp;name:&nbsp;str)&nbsp;-&gt;&nbsp;Any</tt></dd></dl>
+
+<dl><dt><a name="Node-pyqtConfigure"><strong>pyqtConfigure</strong></a>(...)</dt><dd><tt>QObject.<a href="#Node-pyqtConfigure">pyqtConfigure</a>(...)<br>
+&nbsp;<br>
+Each&nbsp;keyword&nbsp;argument&nbsp;is&nbsp;either&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;Qt&nbsp;property&nbsp;or&nbsp;a&nbsp;Qt&nbsp;signal.<br>
+For&nbsp;properties&nbsp;the&nbsp;property&nbsp;is&nbsp;set&nbsp;to&nbsp;the&nbsp;given&nbsp;value&nbsp;which&nbsp;should&nbsp;be&nbsp;of&nbsp;an<br>
+appropriate&nbsp;type.<br>
+For&nbsp;signals&nbsp;the&nbsp;signal&nbsp;is&nbsp;connected&nbsp;to&nbsp;the&nbsp;given&nbsp;value&nbsp;which&nbsp;should&nbsp;be&nbsp;a<br>
+callable.</tt></dd></dl>
+
+<dl><dt><a name="Node-removeEventFilter"><strong>removeEventFilter</strong></a>(...)</dt><dd><tt><a href="#Node-removeEventFilter">removeEventFilter</a>(self,&nbsp;a0:&nbsp;QObject)</tt></dd></dl>
+
+<dl><dt><a name="Node-setObjectName"><strong>setObjectName</strong></a>(...)</dt><dd><tt><a href="#Node-setObjectName">setObjectName</a>(self,&nbsp;name:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="Node-setParent"><strong>setParent</strong></a>(...)</dt><dd><tt><a href="#Node-setParent">setParent</a>(self,&nbsp;a0:&nbsp;QObject)</tt></dd></dl>
+
+<dl><dt><a name="Node-setProperty"><strong>setProperty</strong></a>(...)</dt><dd><tt><a href="#Node-setProperty">setProperty</a>(self,&nbsp;name:&nbsp;str,&nbsp;value:&nbsp;Any)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-signalsBlocked"><strong>signalsBlocked</strong></a>(...)</dt><dd><tt><a href="#Node-signalsBlocked">signalsBlocked</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-startTimer"><strong>startTimer</strong></a>(...)</dt><dd><tt><a href="#Node-startTimer">startTimer</a>(self,&nbsp;interval:&nbsp;int,&nbsp;timerType:&nbsp;Qt.TimerType&nbsp;=&nbsp;Qt.CoarseTimer)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="Node-thread"><strong>thread</strong></a>(...)</dt><dd><tt><a href="#Node-thread">thread</a>(self)&nbsp;-&gt;&nbsp;QThread</tt></dd></dl>
+
+<dl><dt><a name="Node-tr"><strong>tr</strong></a>(...)</dt><dd><tt><a href="#Node-tr">tr</a>(self,&nbsp;sourceText:&nbsp;str,&nbsp;disambiguation:&nbsp;typing.Optional[str]&nbsp;=&nbsp;None,&nbsp;n:&nbsp;int&nbsp;=&nbsp;-1)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><strong>staticMetaObject</strong> = &lt;PyQt5.QtCore.QMetaObject object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PyQt5.QtWidgets.html#QGraphicsItem">PyQt5.QtWidgets.QGraphicsItem</a>:<br>
+<dl><dt><a name="Node-acceptDrops"><strong>acceptDrops</strong></a>(...)</dt><dd><tt><a href="#Node-acceptDrops">acceptDrops</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-acceptHoverEvents"><strong>acceptHoverEvents</strong></a>(...)</dt><dd><tt><a href="#Node-acceptHoverEvents">acceptHoverEvents</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-acceptTouchEvents"><strong>acceptTouchEvents</strong></a>(...)</dt><dd><tt><a href="#Node-acceptTouchEvents">acceptTouchEvents</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-acceptedMouseButtons"><strong>acceptedMouseButtons</strong></a>(...)</dt><dd><tt><a href="#Node-acceptedMouseButtons">acceptedMouseButtons</a>(self)&nbsp;-&gt;&nbsp;Qt.MouseButtons</tt></dd></dl>
+
+<dl><dt><a name="Node-advance"><strong>advance</strong></a>(...)</dt><dd><tt><a href="#Node-advance">advance</a>(self,&nbsp;phase:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="Node-boundingRegion"><strong>boundingRegion</strong></a>(...)</dt><dd><tt><a href="#Node-boundingRegion">boundingRegion</a>(self,&nbsp;itemToDeviceTransform:&nbsp;QTransform)&nbsp;-&gt;&nbsp;QRegion</tt></dd></dl>
+
+<dl><dt><a name="Node-boundingRegionGranularity"><strong>boundingRegionGranularity</strong></a>(...)</dt><dd><tt><a href="#Node-boundingRegionGranularity">boundingRegionGranularity</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-cacheMode"><strong>cacheMode</strong></a>(...)</dt><dd><tt><a href="#Node-cacheMode">cacheMode</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem.CacheMode</tt></dd></dl>
+
+<dl><dt><a name="Node-childItems"><strong>childItems</strong></a>(...)</dt><dd><tt><a href="#Node-childItems">childItems</a>(self)&nbsp;-&gt;&nbsp;List[QGraphicsItem]</tt></dd></dl>
+
+<dl><dt><a name="Node-childrenBoundingRect"><strong>childrenBoundingRect</strong></a>(...)</dt><dd><tt><a href="#Node-childrenBoundingRect">childrenBoundingRect</a>(self)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-clearFocus"><strong>clearFocus</strong></a>(...)</dt><dd><tt><a href="#Node-clearFocus">clearFocus</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-clipPath"><strong>clipPath</strong></a>(...)</dt><dd><tt><a href="#Node-clipPath">clipPath</a>(self)&nbsp;-&gt;&nbsp;QPainterPath</tt></dd></dl>
+
+<dl><dt><a name="Node-collidesWithItem"><strong>collidesWithItem</strong></a>(...)</dt><dd><tt><a href="#Node-collidesWithItem">collidesWithItem</a>(self,&nbsp;other:&nbsp;QGraphicsItem,&nbsp;mode:&nbsp;Qt.ItemSelectionMode&nbsp;=&nbsp;Qt.IntersectsItemShape)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-collidesWithPath"><strong>collidesWithPath</strong></a>(...)</dt><dd><tt><a href="#Node-collidesWithPath">collidesWithPath</a>(self,&nbsp;path:&nbsp;QPainterPath,&nbsp;mode:&nbsp;Qt.ItemSelectionMode&nbsp;=&nbsp;Qt.IntersectsItemShape)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-collidingItems"><strong>collidingItems</strong></a>(...)</dt><dd><tt><a href="#Node-collidingItems">collidingItems</a>(self,&nbsp;mode:&nbsp;Qt.ItemSelectionMode&nbsp;=&nbsp;Qt.IntersectsItemShape)&nbsp;-&gt;&nbsp;List[QGraphicsItem]</tt></dd></dl>
+
+<dl><dt><a name="Node-commonAncestorItem"><strong>commonAncestorItem</strong></a>(...)</dt><dd><tt><a href="#Node-commonAncestorItem">commonAncestorItem</a>(self,&nbsp;other:&nbsp;QGraphicsItem)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-contains"><strong>contains</strong></a>(...)</dt><dd><tt><a href="#Node-contains">contains</a>(self,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-cursor"><strong>cursor</strong></a>(...)</dt><dd><tt><a href="#Node-cursor">cursor</a>(self)&nbsp;-&gt;&nbsp;QCursor</tt></dd></dl>
+
+<dl><dt><a name="Node-data"><strong>data</strong></a>(...)</dt><dd><tt><a href="#Node-data">data</a>(self,&nbsp;key:&nbsp;int)&nbsp;-&gt;&nbsp;Any</tt></dd></dl>
+
+<dl><dt><a name="Node-deviceTransform"><strong>deviceTransform</strong></a>(...)</dt><dd><tt><a href="#Node-deviceTransform">deviceTransform</a>(self,&nbsp;viewportTransform:&nbsp;QTransform)&nbsp;-&gt;&nbsp;QTransform</tt></dd></dl>
+
+<dl><dt><a name="Node-effectiveOpacity"><strong>effectiveOpacity</strong></a>(...)</dt><dd><tt><a href="#Node-effectiveOpacity">effectiveOpacity</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-ensureVisible"><strong>ensureVisible</strong></a>(...)</dt><dd><tt><a href="#Node-ensureVisible">ensureVisible</a>(self,&nbsp;rect:&nbsp;QRectF&nbsp;=&nbsp;QRectF(),&nbsp;xMargin:&nbsp;int&nbsp;=&nbsp;50,&nbsp;yMargin:&nbsp;int&nbsp;=&nbsp;50)<br>
+<a href="#Node-ensureVisible">ensureVisible</a>(self,&nbsp;x:&nbsp;float,&nbsp;y:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float,&nbsp;xMargin:&nbsp;int&nbsp;=&nbsp;50,&nbsp;yMargin:&nbsp;int&nbsp;=&nbsp;50)</tt></dd></dl>
+
+<dl><dt><a name="Node-filtersChildEvents"><strong>filtersChildEvents</strong></a>(...)</dt><dd><tt><a href="#Node-filtersChildEvents">filtersChildEvents</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-flags"><strong>flags</strong></a>(...)</dt><dd><tt><a href="#Node-flags">flags</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem.GraphicsItemFlags</tt></dd></dl>
+
+<dl><dt><a name="Node-focusItem"><strong>focusItem</strong></a>(...)</dt><dd><tt><a href="#Node-focusItem">focusItem</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-focusProxy"><strong>focusProxy</strong></a>(...)</dt><dd><tt><a href="#Node-focusProxy">focusProxy</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-grabKeyboard"><strong>grabKeyboard</strong></a>(...)</dt><dd><tt><a href="#Node-grabKeyboard">grabKeyboard</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-grabMouse"><strong>grabMouse</strong></a>(...)</dt><dd><tt><a href="#Node-grabMouse">grabMouse</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-graphicsEffect"><strong>graphicsEffect</strong></a>(...)</dt><dd><tt><a href="#Node-graphicsEffect">graphicsEffect</a>(self)&nbsp;-&gt;&nbsp;QGraphicsEffect</tt></dd></dl>
+
+<dl><dt><a name="Node-group"><strong>group</strong></a>(...)</dt><dd><tt><a href="#Node-group">group</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItemGroup</tt></dd></dl>
+
+<dl><dt><a name="Node-hasCursor"><strong>hasCursor</strong></a>(...)</dt><dd><tt><a href="#Node-hasCursor">hasCursor</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-hasFocus"><strong>hasFocus</strong></a>(...)</dt><dd><tt><a href="#Node-hasFocus">hasFocus</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-hide"><strong>hide</strong></a>(...)</dt><dd><tt><a href="#Node-hide">hide</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-inputMethodHints"><strong>inputMethodHints</strong></a>(...)</dt><dd><tt><a href="#Node-inputMethodHints">inputMethodHints</a>(self)&nbsp;-&gt;&nbsp;Qt.InputMethodHints</tt></dd></dl>
+
+<dl><dt><a name="Node-installSceneEventFilter"><strong>installSceneEventFilter</strong></a>(...)</dt><dd><tt><a href="#Node-installSceneEventFilter">installSceneEventFilter</a>(self,&nbsp;filterItem:&nbsp;QGraphicsItem)</tt></dd></dl>
+
+<dl><dt><a name="Node-isActive"><strong>isActive</strong></a>(...)</dt><dd><tt><a href="#Node-isActive">isActive</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isAncestorOf"><strong>isAncestorOf</strong></a>(...)</dt><dd><tt><a href="#Node-isAncestorOf">isAncestorOf</a>(self,&nbsp;child:&nbsp;QGraphicsItem)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isBlockedByModalPanel"><strong>isBlockedByModalPanel</strong></a>(...)</dt><dd><tt><a href="#Node-isBlockedByModalPanel">isBlockedByModalPanel</a>(self)&nbsp;-&gt;&nbsp;Tuple[bool,&nbsp;QGraphicsItem]</tt></dd></dl>
+
+<dl><dt><a name="Node-isClipped"><strong>isClipped</strong></a>(...)</dt><dd><tt><a href="#Node-isClipped">isClipped</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isEnabled"><strong>isEnabled</strong></a>(...)</dt><dd><tt><a href="#Node-isEnabled">isEnabled</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isObscured"><strong>isObscured</strong></a>(...)</dt><dd><tt><a href="#Node-isObscured">isObscured</a>(self,&nbsp;rect:&nbsp;QRectF&nbsp;=&nbsp;QRectF())&nbsp;-&gt;&nbsp;bool<br>
+<a href="#Node-isObscured">isObscured</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isObscuredBy"><strong>isObscuredBy</strong></a>(...)</dt><dd><tt><a href="#Node-isObscuredBy">isObscuredBy</a>(self,&nbsp;item:&nbsp;QGraphicsItem)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isPanel"><strong>isPanel</strong></a>(...)</dt><dd><tt><a href="#Node-isPanel">isPanel</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isSelected"><strong>isSelected</strong></a>(...)</dt><dd><tt><a href="#Node-isSelected">isSelected</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isUnderMouse"><strong>isUnderMouse</strong></a>(...)</dt><dd><tt><a href="#Node-isUnderMouse">isUnderMouse</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isVisible"><strong>isVisible</strong></a>(...)</dt><dd><tt><a href="#Node-isVisible">isVisible</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isVisibleTo"><strong>isVisibleTo</strong></a>(...)</dt><dd><tt><a href="#Node-isVisibleTo">isVisibleTo</a>(self,&nbsp;parent:&nbsp;QGraphicsItem)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isWidget"><strong>isWidget</strong></a>(...)</dt><dd><tt><a href="#Node-isWidget">isWidget</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-isWindow"><strong>isWindow</strong></a>(...)</dt><dd><tt><a href="#Node-isWindow">isWindow</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="Node-itemTransform"><strong>itemTransform</strong></a>(...)</dt><dd><tt><a href="#Node-itemTransform">itemTransform</a>(self,&nbsp;other:&nbsp;QGraphicsItem)&nbsp;-&gt;&nbsp;Tuple[QTransform,&nbsp;bool]</tt></dd></dl>
+
+<dl><dt><a name="Node-mapFromItem"><strong>mapFromItem</strong></a>(...)</dt><dd><tt><a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromItem">mapFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapFromParent"><strong>mapFromParent</strong></a>(...)</dt><dd><tt><a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromParent">mapFromParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapFromScene"><strong>mapFromScene</strong></a>(...)</dt><dd><tt><a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapFromScene">mapFromScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectFromItem"><strong>mapRectFromItem</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectFromItem">mapRectFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectFromItem">mapRectFromItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectFromParent"><strong>mapRectFromParent</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectFromParent">mapRectFromParent</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectFromParent">mapRectFromParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectFromScene"><strong>mapRectFromScene</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectFromScene">mapRectFromScene</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectFromScene">mapRectFromScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectToItem"><strong>mapRectToItem</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectToItem">mapRectToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectToItem">mapRectToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectToParent"><strong>mapRectToParent</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectToParent">mapRectToParent</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectToParent">mapRectToParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapRectToScene"><strong>mapRectToScene</strong></a>(...)</dt><dd><tt><a href="#Node-mapRectToScene">mapRectToScene</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QRectF<br>
+<a href="#Node-mapRectToScene">mapRectToScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapToItem"><strong>mapToItem</strong></a>(...)</dt><dd><tt><a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToItem">mapToItem</a>(self,&nbsp;item:&nbsp;QGraphicsItem,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapToParent"><strong>mapToParent</strong></a>(...)</dt><dd><tt><a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToParent">mapToParent</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-mapToScene"><strong>mapToScene</strong></a>(...)</dt><dd><tt><a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;point:&nbsp;Union[QPointF,&nbsp;QPoint])&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;rect:&nbsp;QRectF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;polygon:&nbsp;QPolygonF)&nbsp;-&gt;&nbsp;QPolygonF<br>
+<a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;path:&nbsp;QPainterPath)&nbsp;-&gt;&nbsp;QPainterPath<br>
+<a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)&nbsp;-&gt;&nbsp;QPointF<br>
+<a href="#Node-mapToScene">mapToScene</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;w:&nbsp;float,&nbsp;h:&nbsp;float)&nbsp;-&gt;&nbsp;QPolygonF</tt></dd></dl>
+
+<dl><dt><a name="Node-moveBy"><strong>moveBy</strong></a>(...)</dt><dd><tt><a href="#Node-moveBy">moveBy</a>(self,&nbsp;dx:&nbsp;float,&nbsp;dy:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-opacity"><strong>opacity</strong></a>(...)</dt><dd><tt><a href="#Node-opacity">opacity</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-opaqueArea"><strong>opaqueArea</strong></a>(...)</dt><dd><tt><a href="#Node-opaqueArea">opaqueArea</a>(self)&nbsp;-&gt;&nbsp;QPainterPath</tt></dd></dl>
+
+<dl><dt><a name="Node-panel"><strong>panel</strong></a>(...)</dt><dd><tt><a href="#Node-panel">panel</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-panelModality"><strong>panelModality</strong></a>(...)</dt><dd><tt><a href="#Node-panelModality">panelModality</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem.PanelModality</tt></dd></dl>
+
+<dl><dt><a name="Node-parentItem"><strong>parentItem</strong></a>(...)</dt><dd><tt><a href="#Node-parentItem">parentItem</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-parentObject"><strong>parentObject</strong></a>(...)</dt><dd><tt><a href="#Node-parentObject">parentObject</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QGraphicsObject">QGraphicsObject</a></tt></dd></dl>
+
+<dl><dt><a name="Node-parentWidget"><strong>parentWidget</strong></a>(...)</dt><dd><tt><a href="#Node-parentWidget">parentWidget</a>(self)&nbsp;-&gt;&nbsp;QGraphicsWidget</tt></dd></dl>
+
+<dl><dt><a name="Node-pos"><strong>pos</strong></a>(...)</dt><dd><tt><a href="#Node-pos">pos</a>(self)&nbsp;-&gt;&nbsp;QPointF</tt></dd></dl>
+
+<dl><dt><a name="Node-removeSceneEventFilter"><strong>removeSceneEventFilter</strong></a>(...)</dt><dd><tt><a href="#Node-removeSceneEventFilter">removeSceneEventFilter</a>(self,&nbsp;filterItem:&nbsp;QGraphicsItem)</tt></dd></dl>
+
+<dl><dt><a name="Node-resetTransform"><strong>resetTransform</strong></a>(...)</dt><dd><tt><a href="#Node-resetTransform">resetTransform</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-rotation"><strong>rotation</strong></a>(...)</dt><dd><tt><a href="#Node-rotation">rotation</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-scale"><strong>scale</strong></a>(...)</dt><dd><tt><a href="#Node-scale">scale</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-scene"><strong>scene</strong></a>(...)</dt><dd><tt><a href="#Node-scene">scene</a>(self)&nbsp;-&gt;&nbsp;QGraphicsScene</tt></dd></dl>
+
+<dl><dt><a name="Node-sceneBoundingRect"><strong>sceneBoundingRect</strong></a>(...)</dt><dd><tt><a href="#Node-sceneBoundingRect">sceneBoundingRect</a>(self)&nbsp;-&gt;&nbsp;QRectF</tt></dd></dl>
+
+<dl><dt><a name="Node-scenePos"><strong>scenePos</strong></a>(...)</dt><dd><tt><a href="#Node-scenePos">scenePos</a>(self)&nbsp;-&gt;&nbsp;QPointF</tt></dd></dl>
+
+<dl><dt><a name="Node-sceneTransform"><strong>sceneTransform</strong></a>(...)</dt><dd><tt><a href="#Node-sceneTransform">sceneTransform</a>(self)&nbsp;-&gt;&nbsp;QTransform</tt></dd></dl>
+
+<dl><dt><a name="Node-scroll"><strong>scroll</strong></a>(...)</dt><dd><tt><a href="#Node-scroll">scroll</a>(self,&nbsp;dx:&nbsp;float,&nbsp;dy:&nbsp;float,&nbsp;rect:&nbsp;QRectF&nbsp;=&nbsp;QRectF())</tt></dd></dl>
+
+<dl><dt><a name="Node-setAcceptDrops"><strong>setAcceptDrops</strong></a>(...)</dt><dd><tt><a href="#Node-setAcceptDrops">setAcceptDrops</a>(self,&nbsp;on:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setAcceptHoverEvents"><strong>setAcceptHoverEvents</strong></a>(...)</dt><dd><tt><a href="#Node-setAcceptHoverEvents">setAcceptHoverEvents</a>(self,&nbsp;enabled:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setAcceptTouchEvents"><strong>setAcceptTouchEvents</strong></a>(...)</dt><dd><tt><a href="#Node-setAcceptTouchEvents">setAcceptTouchEvents</a>(self,&nbsp;enabled:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setAcceptedMouseButtons"><strong>setAcceptedMouseButtons</strong></a>(...)</dt><dd><tt><a href="#Node-setAcceptedMouseButtons">setAcceptedMouseButtons</a>(self,&nbsp;buttons:&nbsp;Union[Qt.MouseButtons,&nbsp;Qt.MouseButton])</tt></dd></dl>
+
+<dl><dt><a name="Node-setActive"><strong>setActive</strong></a>(...)</dt><dd><tt><a href="#Node-setActive">setActive</a>(self,&nbsp;active:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setBoundingRegionGranularity"><strong>setBoundingRegionGranularity</strong></a>(...)</dt><dd><tt><a href="#Node-setBoundingRegionGranularity">setBoundingRegionGranularity</a>(self,&nbsp;granularity:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setCacheMode"><strong>setCacheMode</strong></a>(...)</dt><dd><tt><a href="#Node-setCacheMode">setCacheMode</a>(self,&nbsp;mode:&nbsp;QGraphicsItem.CacheMode,&nbsp;logicalCacheSize:&nbsp;QSize&nbsp;=&nbsp;QSize())</tt></dd></dl>
+
+<dl><dt><a name="Node-setCursor"><strong>setCursor</strong></a>(...)</dt><dd><tt><a href="#Node-setCursor">setCursor</a>(self,&nbsp;cursor:&nbsp;Union[QCursor,&nbsp;Qt.CursorShape])</tt></dd></dl>
+
+<dl><dt><a name="Node-setData"><strong>setData</strong></a>(...)</dt><dd><tt><a href="#Node-setData">setData</a>(self,&nbsp;key:&nbsp;int,&nbsp;value:&nbsp;Any)</tt></dd></dl>
+
+<dl><dt><a name="Node-setEnabled"><strong>setEnabled</strong></a>(...)</dt><dd><tt><a href="#Node-setEnabled">setEnabled</a>(self,&nbsp;enabled:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setFiltersChildEvents"><strong>setFiltersChildEvents</strong></a>(...)</dt><dd><tt><a href="#Node-setFiltersChildEvents">setFiltersChildEvents</a>(self,&nbsp;enabled:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setFlag"><strong>setFlag</strong></a>(...)</dt><dd><tt><a href="#Node-setFlag">setFlag</a>(self,&nbsp;flag:&nbsp;QGraphicsItem.GraphicsItemFlag,&nbsp;enabled:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="Node-setFlags"><strong>setFlags</strong></a>(...)</dt><dd><tt><a href="#Node-setFlags">setFlags</a>(self,&nbsp;flags:&nbsp;Union[QGraphicsItem.GraphicsItemFlags,&nbsp;QGraphicsItem.GraphicsItemFlag])</tt></dd></dl>
+
+<dl><dt><a name="Node-setFocus"><strong>setFocus</strong></a>(...)</dt><dd><tt><a href="#Node-setFocus">setFocus</a>(self,&nbsp;focusReason:&nbsp;Qt.FocusReason&nbsp;=&nbsp;Qt.OtherFocusReason)</tt></dd></dl>
+
+<dl><dt><a name="Node-setFocusProxy"><strong>setFocusProxy</strong></a>(...)</dt><dd><tt><a href="#Node-setFocusProxy">setFocusProxy</a>(self,&nbsp;item:&nbsp;QGraphicsItem)</tt></dd></dl>
+
+<dl><dt><a name="Node-setGraphicsEffect"><strong>setGraphicsEffect</strong></a>(...)</dt><dd><tt><a href="#Node-setGraphicsEffect">setGraphicsEffect</a>(self,&nbsp;effect:&nbsp;QGraphicsEffect)</tt></dd></dl>
+
+<dl><dt><a name="Node-setGroup"><strong>setGroup</strong></a>(...)</dt><dd><tt><a href="#Node-setGroup">setGroup</a>(self,&nbsp;group:&nbsp;QGraphicsItemGroup)</tt></dd></dl>
+
+<dl><dt><a name="Node-setInputMethodHints"><strong>setInputMethodHints</strong></a>(...)</dt><dd><tt><a href="#Node-setInputMethodHints">setInputMethodHints</a>(self,&nbsp;hints:&nbsp;Union[Qt.InputMethodHints,&nbsp;Qt.InputMethodHint])</tt></dd></dl>
+
+<dl><dt><a name="Node-setOpacity"><strong>setOpacity</strong></a>(...)</dt><dd><tt><a href="#Node-setOpacity">setOpacity</a>(self,&nbsp;opacity:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setPanelModality"><strong>setPanelModality</strong></a>(...)</dt><dd><tt><a href="#Node-setPanelModality">setPanelModality</a>(self,&nbsp;panelModality:&nbsp;QGraphicsItem.PanelModality)</tt></dd></dl>
+
+<dl><dt><a name="Node-setParentItem"><strong>setParentItem</strong></a>(...)</dt><dd><tt><a href="#Node-setParentItem">setParentItem</a>(self,&nbsp;parent:&nbsp;QGraphicsItem)</tt></dd></dl>
+
+<dl><dt><a name="Node-setPos"><strong>setPos</strong></a>(...)</dt><dd><tt><a href="#Node-setPos">setPos</a>(self,&nbsp;pos:&nbsp;Union[QPointF,&nbsp;QPoint])<br>
+<a href="#Node-setPos">setPos</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setRotation"><strong>setRotation</strong></a>(...)</dt><dd><tt><a href="#Node-setRotation">setRotation</a>(self,&nbsp;angle:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setScale"><strong>setScale</strong></a>(...)</dt><dd><tt><a href="#Node-setScale">setScale</a>(self,&nbsp;scale:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setSelected"><strong>setSelected</strong></a>(...)</dt><dd><tt><a href="#Node-setSelected">setSelected</a>(self,&nbsp;selected:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setToolTip"><strong>setToolTip</strong></a>(...)</dt><dd><tt><a href="#Node-setToolTip">setToolTip</a>(self,&nbsp;toolTip:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="Node-setTransform"><strong>setTransform</strong></a>(...)</dt><dd><tt><a href="#Node-setTransform">setTransform</a>(self,&nbsp;matrix:&nbsp;QTransform,&nbsp;combine:&nbsp;bool&nbsp;=&nbsp;False)</tt></dd></dl>
+
+<dl><dt><a name="Node-setTransformOriginPoint"><strong>setTransformOriginPoint</strong></a>(...)</dt><dd><tt><a href="#Node-setTransformOriginPoint">setTransformOriginPoint</a>(self,&nbsp;origin:&nbsp;Union[QPointF,&nbsp;QPoint])<br>
+<a href="#Node-setTransformOriginPoint">setTransformOriginPoint</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setTransformations"><strong>setTransformations</strong></a>(...)</dt><dd><tt><a href="#Node-setTransformations">setTransformations</a>(self,&nbsp;transformations:&nbsp;Iterable[QGraphicsTransform])</tt></dd></dl>
+
+<dl><dt><a name="Node-setVisible"><strong>setVisible</strong></a>(...)</dt><dd><tt><a href="#Node-setVisible">setVisible</a>(self,&nbsp;visible:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="Node-setX"><strong>setX</strong></a>(...)</dt><dd><tt><a href="#Node-setX">setX</a>(self,&nbsp;x:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setY"><strong>setY</strong></a>(...)</dt><dd><tt><a href="#Node-setY">setY</a>(self,&nbsp;y:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-setZValue"><strong>setZValue</strong></a>(...)</dt><dd><tt><a href="#Node-setZValue">setZValue</a>(self,&nbsp;z:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-shape"><strong>shape</strong></a>(...)</dt><dd><tt><a href="#Node-shape">shape</a>(self)&nbsp;-&gt;&nbsp;QPainterPath</tt></dd></dl>
+
+<dl><dt><a name="Node-show"><strong>show</strong></a>(...)</dt><dd><tt><a href="#Node-show">show</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-stackBefore"><strong>stackBefore</strong></a>(...)</dt><dd><tt><a href="#Node-stackBefore">stackBefore</a>(self,&nbsp;sibling:&nbsp;QGraphicsItem)</tt></dd></dl>
+
+<dl><dt><a name="Node-toGraphicsObject"><strong>toGraphicsObject</strong></a>(...)</dt><dd><tt><a href="#Node-toGraphicsObject">toGraphicsObject</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QGraphicsObject">QGraphicsObject</a></tt></dd></dl>
+
+<dl><dt><a name="Node-toolTip"><strong>toolTip</strong></a>(...)</dt><dd><tt><a href="#Node-toolTip">toolTip</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="Node-topLevelItem"><strong>topLevelItem</strong></a>(...)</dt><dd><tt><a href="#Node-topLevelItem">topLevelItem</a>(self)&nbsp;-&gt;&nbsp;QGraphicsItem</tt></dd></dl>
+
+<dl><dt><a name="Node-topLevelWidget"><strong>topLevelWidget</strong></a>(...)</dt><dd><tt><a href="#Node-topLevelWidget">topLevelWidget</a>(self)&nbsp;-&gt;&nbsp;QGraphicsWidget</tt></dd></dl>
+
+<dl><dt><a name="Node-transform"><strong>transform</strong></a>(...)</dt><dd><tt><a href="#Node-transform">transform</a>(self)&nbsp;-&gt;&nbsp;QTransform</tt></dd></dl>
+
+<dl><dt><a name="Node-transformOriginPoint"><strong>transformOriginPoint</strong></a>(...)</dt><dd><tt><a href="#Node-transformOriginPoint">transformOriginPoint</a>(self)&nbsp;-&gt;&nbsp;QPointF</tt></dd></dl>
+
+<dl><dt><a name="Node-transformations"><strong>transformations</strong></a>(...)</dt><dd><tt><a href="#Node-transformations">transformations</a>(self)&nbsp;-&gt;&nbsp;List[QGraphicsTransform]</tt></dd></dl>
+
+<dl><dt><a name="Node-type"><strong>type</strong></a>(...)</dt><dd><tt><a href="#Node-type">type</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="Node-ungrabKeyboard"><strong>ungrabKeyboard</strong></a>(...)</dt><dd><tt><a href="#Node-ungrabKeyboard">ungrabKeyboard</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-ungrabMouse"><strong>ungrabMouse</strong></a>(...)</dt><dd><tt><a href="#Node-ungrabMouse">ungrabMouse</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-unsetCursor"><strong>unsetCursor</strong></a>(...)</dt><dd><tt><a href="#Node-unsetCursor">unsetCursor</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="Node-update"><strong>update</strong></a>(...)</dt><dd><tt><a href="#Node-update">update</a>(self,&nbsp;rect:&nbsp;QRectF&nbsp;=&nbsp;QRectF())<br>
+<a href="#Node-update">update</a>(self,&nbsp;ax:&nbsp;float,&nbsp;ay:&nbsp;float,&nbsp;width:&nbsp;float,&nbsp;height:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="Node-window"><strong>window</strong></a>(...)</dt><dd><tt><a href="#Node-window">window</a>(self)&nbsp;-&gt;&nbsp;QGraphicsWidget</tt></dd></dl>
+
+<dl><dt><a name="Node-x"><strong>x</strong></a>(...)</dt><dd><tt><a href="#Node-x">x</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-y"><strong>y</strong></a>(...)</dt><dd><tt><a href="#Node-y">y</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="Node-zValue"><strong>zValue</strong></a>(...)</dt><dd><tt><a href="#Node-zValue">zValue</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PyQt5.QtWidgets.html#QGraphicsItem">PyQt5.QtWidgets.QGraphicsItem</a>:<br>
+<dl><dt><strong>CacheMode</strong> = &lt;class 'PyQt5.QtWidgets.QGraphicsItem.CacheMode'&gt;</dl>
+
+<dl><dt><strong>DeviceCoordinateCache</strong> = 2</dl>
+
+<dl><dt><strong>GraphicsItemChange</strong> = &lt;class 'PyQt5.QtWidgets.QGraphicsItem.GraphicsItemChange'&gt;</dl>
+
+<dl><dt><strong>GraphicsItemFlag</strong> = &lt;class 'PyQt5.QtWidgets.QGraphicsItem.GraphicsItemFlag'&gt;</dl>
+
+<dl><dt><strong>GraphicsItemFlags</strong> = &lt;class 'PyQt5.QtWidgets.QGraphicsItem.GraphicsItemFlags'&gt;<dd><tt>QGraphicsItem.<a href="#Node-GraphicsItemFlags">GraphicsItemFlags</a>()<br>
+QGraphicsItem.<a href="#Node-GraphicsItemFlags">GraphicsItemFlags</a>(f:&nbsp;Union[QGraphicsItem.GraphicsItemFlags,&nbsp;QGraphicsItem.GraphicsItemFlag])<br>
+QGraphicsItem.<a href="#Node-GraphicsItemFlags">GraphicsItemFlags</a>(a0:&nbsp;QGraphicsItem.GraphicsItemFlags)</tt></dl>
+
+<dl><dt><strong>ItemAcceptsInputMethod</strong> = 4096</dl>
+
+<dl><dt><strong>ItemChildAddedChange</strong> = 6</dl>
+
+<dl><dt><strong>ItemChildRemovedChange</strong> = 7</dl>
+
+<dl><dt><strong>ItemClipsChildrenToShape</strong> = 16</dl>
+
+<dl><dt><strong>ItemClipsToShape</strong> = 8</dl>
+
+<dl><dt><strong>ItemContainsChildrenInShape</strong> = 524288</dl>
+
+<dl><dt><strong>ItemCoordinateCache</strong> = 1</dl>
+
+<dl><dt><strong>ItemCursorChange</strong> = 17</dl>
+
+<dl><dt><strong>ItemCursorHasChanged</strong> = 18</dl>
+
+<dl><dt><strong>ItemDoesntPropagateOpacityToChildren</strong> = 128</dl>
+
+<dl><dt><strong>ItemEnabledChange</strong> = 3</dl>
+
+<dl><dt><strong>ItemEnabledHasChanged</strong> = 13</dl>
+
+<dl><dt><strong>ItemFlagsChange</strong> = 21</dl>
+
+<dl><dt><strong>ItemFlagsHaveChanged</strong> = 22</dl>
+
+<dl><dt><strong>ItemHasNoContents</strong> = 1024</dl>
+
+<dl><dt><strong>ItemIgnoresParentOpacity</strong> = 64</dl>
+
+<dl><dt><strong>ItemIgnoresTransformations</strong> = 32</dl>
+
+<dl><dt><strong>ItemIsFocusable</strong> = 4</dl>
+
+<dl><dt><strong>ItemIsMovable</strong> = 1</dl>
+
+<dl><dt><strong>ItemIsPanel</strong> = 16384</dl>
+
+<dl><dt><strong>ItemIsSelectable</strong> = 2</dl>
+
+<dl><dt><strong>ItemMatrixChange</strong> = 1</dl>
+
+<dl><dt><strong>ItemNegativeZStacksBehindParent</strong> = 8192</dl>
+
+<dl><dt><strong>ItemOpacityChange</strong> = 25</dl>
+
+<dl><dt><strong>ItemOpacityHasChanged</strong> = 26</dl>
+
+<dl><dt><strong>ItemParentChange</strong> = 5</dl>
+
+<dl><dt><strong>ItemParentHasChanged</strong> = 15</dl>
+
+<dl><dt><strong>ItemPositionChange</strong> = 0</dl>
+
+<dl><dt><strong>ItemPositionHasChanged</strong> = 9</dl>
+
+<dl><dt><strong>ItemRotationChange</strong> = 28</dl>
+
+<dl><dt><strong>ItemRotationHasChanged</strong> = 29</dl>
+
+<dl><dt><strong>ItemScaleChange</strong> = 30</dl>
+
+<dl><dt><strong>ItemScaleHasChanged</strong> = 31</dl>
+
+<dl><dt><strong>ItemSceneChange</strong> = 11</dl>
+
+<dl><dt><strong>ItemSceneHasChanged</strong> = 16</dl>
+
+<dl><dt><strong>ItemScenePositionHasChanged</strong> = 27</dl>
+
+<dl><dt><strong>ItemSelectedChange</strong> = 4</dl>
+
+<dl><dt><strong>ItemSelectedHasChanged</strong> = 14</dl>
+
+<dl><dt><strong>ItemSendsGeometryChanges</strong> = 2048</dl>
+
+<dl><dt><strong>ItemSendsScenePositionChanges</strong> = 65536</dl>
+
+<dl><dt><strong>ItemStacksBehindParent</strong> = 256</dl>
+
+<dl><dt><strong>ItemToolTipChange</strong> = 19</dl>
+
+<dl><dt><strong>ItemToolTipHasChanged</strong> = 20</dl>
+
+<dl><dt><strong>ItemTransformChange</strong> = 8</dl>
+
+<dl><dt><strong>ItemTransformHasChanged</strong> = 10</dl>
+
+<dl><dt><strong>ItemTransformOriginPointChange</strong> = 32</dl>
+
+<dl><dt><strong>ItemTransformOriginPointHasChanged</strong> = 33</dl>
+
+<dl><dt><strong>ItemUsesExtendedStyleOption</strong> = 512</dl>
+
+<dl><dt><strong>ItemVisibleChange</strong> = 2</dl>
+
+<dl><dt><strong>ItemVisibleHasChanged</strong> = 12</dl>
+
+<dl><dt><strong>ItemZValueChange</strong> = 23</dl>
+
+<dl><dt><strong>ItemZValueHasChanged</strong> = 24</dl>
+
+<dl><dt><strong>NoCache</strong> = 0</dl>
+
+<dl><dt><strong>NonModal</strong> = 0</dl>
+
+<dl><dt><strong>PanelModal</strong> = 1</dl>
+
+<dl><dt><strong>PanelModality</strong> = &lt;class 'PyQt5.QtWidgets.QGraphicsItem.PanelModality'&gt;</dl>
+
+<dl><dt><strong>SceneModal</strong> = 2</dl>
+
+<dl><dt><strong>Type</strong> = 1</dl>
+
+<dl><dt><strong>UserType</strong> = 65536</dl>
+
+<hr>
+Static methods inherited from <a href="PyQt5.sip.html#simplewrapper">sip.simplewrapper</a>:<br>
+<dl><dt><a name="Node-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="PyQt5.sip.html#wrappertype">sip.wrappertype</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="PyQt5.sip.html#simplewrapper">sip.simplewrapper</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NodeInfoWindow">class <strong>NodeInfoWindow</strong></a>(<a href="PyQt5.QtWidgets.html#QWidget">PyQt5.QtWidgets.QWidget</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#NodeInfoWindow">NodeInfoWindow</a>(node,&nbsp;parent=None)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;window&nbsp;that&nbsp;displays&nbsp;information&nbsp;about&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;network.<br>
+&nbsp;<br>
+This&nbsp;window&nbsp;displays&nbsp;various&nbsp;attributes&nbsp;of&nbsp;the&nbsp;node,&nbsp;such&nbsp;as&nbsp;its&nbsp;ID,&nbsp;color,&nbsp;and&nbsp;algorithm&nbsp;file.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="visualizations.node.html#NodeInfoWindow">NodeInfoWindow</a></dd>
+<dd><a href="PyQt5.QtWidgets.html#QWidget">PyQt5.QtWidgets.QWidget</a></dd>
+<dd><a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a></dd>
+<dd><a href="PyQt5.sip.html#wrapper">sip.wrapper</a></dd>
+<dd><a href="PyQt5.QtGui.html#QPaintDevice">PyQt5.QtGui.QPaintDevice</a></dd>
+<dd><a href="PyQt5.sip.html#simplewrapper">sip.simplewrapper</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="NodeInfoWindow-__init__"><strong>__init__</strong></a>(self, node, parent=None)</dt><dd><tt>Initialize&nbsp;a&nbsp;<a href="#NodeInfoWindow">NodeInfoWindow</a>&nbsp;instance.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;(<a href="#Node">Node</a>):&nbsp;The&nbsp;node&nbsp;whose&nbsp;information&nbsp;will&nbsp;be&nbsp;displayed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;parent&nbsp;(<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;optional):&nbsp;The&nbsp;parent&nbsp;widget.&nbsp;Defaults&nbsp;to&nbsp;None.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="PyQt5.QtWidgets.html#QWidget">PyQt5.QtWidgets.QWidget</a>:<br>
+<dl><dt><a name="NodeInfoWindow-acceptDrops"><strong>acceptDrops</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-acceptDrops">acceptDrops</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-accessibleDescription"><strong>accessibleDescription</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-accessibleDescription">accessibleDescription</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-accessibleName"><strong>accessibleName</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-accessibleName">accessibleName</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-actionEvent"><strong>actionEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-actionEvent">actionEvent</a>(self,&nbsp;a0:&nbsp;QActionEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-actions"><strong>actions</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-actions">actions</a>(self)&nbsp;-&gt;&nbsp;List[QAction]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-activateWindow"><strong>activateWindow</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-activateWindow">activateWindow</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-addAction"><strong>addAction</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-addAction">addAction</a>(self,&nbsp;action:&nbsp;QAction)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-addActions"><strong>addActions</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-addActions">addActions</a>(self,&nbsp;actions:&nbsp;Iterable[QAction])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-adjustSize"><strong>adjustSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-adjustSize">adjustSize</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-autoFillBackground"><strong>autoFillBackground</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-autoFillBackground">autoFillBackground</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-backgroundRole"><strong>backgroundRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-backgroundRole">backgroundRole</a>(self)&nbsp;-&gt;&nbsp;QPalette.ColorRole</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-baseSize"><strong>baseSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-baseSize">baseSize</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-changeEvent"><strong>changeEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-changeEvent">changeEvent</a>(self,&nbsp;a0:&nbsp;QEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-childAt"><strong>childAt</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-childAt">childAt</a>(self,&nbsp;p:&nbsp;QPoint)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a><br>
+<a href="#NodeInfoWindow-childAt">childAt</a>(self,&nbsp;ax:&nbsp;int,&nbsp;ay:&nbsp;int)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-childEvent"><strong>childEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-childrenRect"><strong>childrenRect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-childrenRect">childrenRect</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-childrenRegion"><strong>childrenRegion</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-childrenRegion">childrenRegion</a>(self)&nbsp;-&gt;&nbsp;QRegion</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-clearFocus"><strong>clearFocus</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-clearFocus">clearFocus</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-clearMask"><strong>clearMask</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-clearMask">clearMask</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-close"><strong>close</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-close">close</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-closeEvent"><strong>closeEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-closeEvent">closeEvent</a>(self,&nbsp;a0:&nbsp;QCloseEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-connectNotify"><strong>connectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-contentsMargins"><strong>contentsMargins</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-contentsMargins">contentsMargins</a>(self)&nbsp;-&gt;&nbsp;QMargins</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-contentsRect"><strong>contentsRect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-contentsRect">contentsRect</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-contextMenuEvent"><strong>contextMenuEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-contextMenuEvent">contextMenuEvent</a>(self,&nbsp;a0:&nbsp;QContextMenuEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-contextMenuPolicy"><strong>contextMenuPolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-contextMenuPolicy">contextMenuPolicy</a>(self)&nbsp;-&gt;&nbsp;Qt.ContextMenuPolicy</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-create"><strong>create</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-create">create</a>(self,&nbsp;window:&nbsp;PyQt5.sip.voidptr&nbsp;=&nbsp;0,&nbsp;initializeWindow:&nbsp;bool&nbsp;=&nbsp;True,&nbsp;destroyOldWindow:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-createWindowContainer"><strong>createWindowContainer</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-createWindowContainer">createWindowContainer</a>(window:&nbsp;QWindow,&nbsp;parent:&nbsp;typing.Optional[<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>]&nbsp;=&nbsp;None,&nbsp;flags:&nbsp;Union[Qt.WindowFlags,&nbsp;Qt.WindowType]&nbsp;=&nbsp;0)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-cursor"><strong>cursor</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-cursor">cursor</a>(self)&nbsp;-&gt;&nbsp;QCursor</tt></dd></dl>
+
+<strong>customContextMenuRequested</strong> = &lt;unbound PYQT_SIGNAL customContextMenuRequested(QPoint)&gt;
+<dl><dt><a name="NodeInfoWindow-customEvent"><strong>customEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-destroy"><strong>destroy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-destroy">destroy</a>(self,&nbsp;destroyWindow:&nbsp;bool&nbsp;=&nbsp;True,&nbsp;destroySubWindows:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-devType"><strong>devType</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-devType">devType</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-disconnectNotify"><strong>disconnectNotify</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-dragEnterEvent"><strong>dragEnterEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dragEnterEvent">dragEnterEvent</a>(self,&nbsp;a0:&nbsp;QDragEnterEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dragLeaveEvent"><strong>dragLeaveEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dragLeaveEvent">dragLeaveEvent</a>(self,&nbsp;a0:&nbsp;QDragLeaveEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dragMoveEvent"><strong>dragMoveEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dragMoveEvent">dragMoveEvent</a>(self,&nbsp;a0:&nbsp;QDragMoveEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dropEvent"><strong>dropEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dropEvent">dropEvent</a>(self,&nbsp;a0:&nbsp;QDropEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-effectiveWinId"><strong>effectiveWinId</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-effectiveWinId">effectiveWinId</a>(self)&nbsp;-&gt;&nbsp;PyQt5.sip.voidptr</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-ensurePolished"><strong>ensurePolished</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-ensurePolished">ensurePolished</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-enterEvent"><strong>enterEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-enterEvent">enterEvent</a>(self,&nbsp;a0:&nbsp;QEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-event"><strong>event</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-event">event</a>(self,&nbsp;a0:&nbsp;QEvent)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-find"><strong>find</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-find">find</a>(a0:&nbsp;PyQt5.sip.voidptr)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusInEvent"><strong>focusInEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusInEvent">focusInEvent</a>(self,&nbsp;a0:&nbsp;QFocusEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusNextChild"><strong>focusNextChild</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusNextChild">focusNextChild</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusNextPrevChild"><strong>focusNextPrevChild</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusNextPrevChild">focusNextPrevChild</a>(self,&nbsp;next:&nbsp;bool)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusOutEvent"><strong>focusOutEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusOutEvent">focusOutEvent</a>(self,&nbsp;a0:&nbsp;QFocusEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusPolicy"><strong>focusPolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusPolicy">focusPolicy</a>(self)&nbsp;-&gt;&nbsp;Qt.FocusPolicy</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusPreviousChild"><strong>focusPreviousChild</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusPreviousChild">focusPreviousChild</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusProxy"><strong>focusProxy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusProxy">focusProxy</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-focusWidget"><strong>focusWidget</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-focusWidget">focusWidget</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-font"><strong>font</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-font">font</a>(self)&nbsp;-&gt;&nbsp;QFont</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-fontInfo"><strong>fontInfo</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-fontInfo">fontInfo</a>(self)&nbsp;-&gt;&nbsp;QFontInfo</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-fontMetrics"><strong>fontMetrics</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-fontMetrics">fontMetrics</a>(self)&nbsp;-&gt;&nbsp;QFontMetrics</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-foregroundRole"><strong>foregroundRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-foregroundRole">foregroundRole</a>(self)&nbsp;-&gt;&nbsp;QPalette.ColorRole</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-frameGeometry"><strong>frameGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-frameGeometry">frameGeometry</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-frameSize"><strong>frameSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-frameSize">frameSize</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-geometry"><strong>geometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-geometry">geometry</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-getContentsMargins"><strong>getContentsMargins</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-getContentsMargins">getContentsMargins</a>(self)&nbsp;-&gt;&nbsp;Tuple[int,&nbsp;int,&nbsp;int,&nbsp;int]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-grab"><strong>grab</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-grab">grab</a>(self,&nbsp;rectangle:&nbsp;QRect&nbsp;=&nbsp;QRect(QPoint(0,0),QSize(-1,-1)))&nbsp;-&gt;&nbsp;QPixmap</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-grabGesture"><strong>grabGesture</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-grabGesture">grabGesture</a>(self,&nbsp;type:&nbsp;Qt.GestureType,&nbsp;flags:&nbsp;Union[Qt.GestureFlags,&nbsp;Qt.GestureFlag]&nbsp;=&nbsp;Qt.GestureFlags())</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-grabKeyboard"><strong>grabKeyboard</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-grabKeyboard">grabKeyboard</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-grabMouse"><strong>grabMouse</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-grabMouse">grabMouse</a>(self)<br>
+<a href="#NodeInfoWindow-grabMouse">grabMouse</a>(self,&nbsp;a0:&nbsp;Union[QCursor,&nbsp;Qt.CursorShape])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-grabShortcut"><strong>grabShortcut</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-grabShortcut">grabShortcut</a>(self,&nbsp;key:&nbsp;Union[QKeySequence,&nbsp;QKeySequence.StandardKey,&nbsp;str,&nbsp;int],&nbsp;context:&nbsp;Qt.ShortcutContext&nbsp;=&nbsp;Qt.WindowShortcut)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-graphicsEffect"><strong>graphicsEffect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-graphicsEffect">graphicsEffect</a>(self)&nbsp;-&gt;&nbsp;QGraphicsEffect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-graphicsProxyWidget"><strong>graphicsProxyWidget</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-graphicsProxyWidget">graphicsProxyWidget</a>(self)&nbsp;-&gt;&nbsp;QGraphicsProxyWidget</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hasFocus"><strong>hasFocus</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hasFocus">hasFocus</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hasHeightForWidth"><strong>hasHeightForWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hasHeightForWidth">hasHeightForWidth</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hasMouseTracking"><strong>hasMouseTracking</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hasMouseTracking">hasMouseTracking</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hasTabletTracking"><strong>hasTabletTracking</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hasTabletTracking">hasTabletTracking</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-height"><strong>height</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-height">height</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-heightForWidth"><strong>heightForWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-heightForWidth">heightForWidth</a>(self,&nbsp;a0:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hide"><strong>hide</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hide">hide</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-hideEvent"><strong>hideEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-hideEvent">hideEvent</a>(self,&nbsp;a0:&nbsp;QHideEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-initPainter"><strong>initPainter</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-initPainter">initPainter</a>(self,&nbsp;painter:&nbsp;QPainter)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-inputMethodEvent"><strong>inputMethodEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-inputMethodEvent">inputMethodEvent</a>(self,&nbsp;a0:&nbsp;QInputMethodEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-inputMethodHints"><strong>inputMethodHints</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-inputMethodHints">inputMethodHints</a>(self)&nbsp;-&gt;&nbsp;Qt.InputMethodHints</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-inputMethodQuery"><strong>inputMethodQuery</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-inputMethodQuery">inputMethodQuery</a>(self,&nbsp;a0:&nbsp;Qt.InputMethodQuery)&nbsp;-&gt;&nbsp;Any</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-insertAction"><strong>insertAction</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-insertAction">insertAction</a>(self,&nbsp;before:&nbsp;QAction,&nbsp;action:&nbsp;QAction)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-insertActions"><strong>insertActions</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-insertActions">insertActions</a>(self,&nbsp;before:&nbsp;QAction,&nbsp;actions:&nbsp;Iterable[QAction])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isActiveWindow"><strong>isActiveWindow</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isActiveWindow">isActiveWindow</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isAncestorOf"><strong>isAncestorOf</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isAncestorOf">isAncestorOf</a>(self,&nbsp;child:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isEnabled"><strong>isEnabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isEnabled">isEnabled</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isEnabledTo"><strong>isEnabledTo</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isEnabledTo">isEnabledTo</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isFullScreen"><strong>isFullScreen</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isFullScreen">isFullScreen</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isHidden"><strong>isHidden</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isHidden">isHidden</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isLeftToRight"><strong>isLeftToRight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isLeftToRight">isLeftToRight</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isMaximized"><strong>isMaximized</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isMaximized">isMaximized</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isMinimized"><strong>isMinimized</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isMinimized">isMinimized</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isModal"><strong>isModal</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isModal">isModal</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isRightToLeft"><strong>isRightToLeft</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isRightToLeft">isRightToLeft</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isSignalConnected"><strong>isSignalConnected</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-isVisible"><strong>isVisible</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isVisible">isVisible</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isVisibleTo"><strong>isVisibleTo</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isVisibleTo">isVisibleTo</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isWindow"><strong>isWindow</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isWindow">isWindow</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isWindowModified"><strong>isWindowModified</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isWindowModified">isWindowModified</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-keyPressEvent"><strong>keyPressEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-keyPressEvent">keyPressEvent</a>(self,&nbsp;a0:&nbsp;QKeyEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-keyReleaseEvent"><strong>keyReleaseEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-keyReleaseEvent">keyReleaseEvent</a>(self,&nbsp;a0:&nbsp;QKeyEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-keyboardGrabber"><strong>keyboardGrabber</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-keyboardGrabber">keyboardGrabber</a>()&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-layout"><strong>layout</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-layout">layout</a>(self)&nbsp;-&gt;&nbsp;QLayout</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-layoutDirection"><strong>layoutDirection</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-layoutDirection">layoutDirection</a>(self)&nbsp;-&gt;&nbsp;Qt.LayoutDirection</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-leaveEvent"><strong>leaveEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-leaveEvent">leaveEvent</a>(self,&nbsp;a0:&nbsp;QEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-locale"><strong>locale</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-locale">locale</a>(self)&nbsp;-&gt;&nbsp;QLocale</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-lower"><strong>lower</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-lower">lower</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapFrom"><strong>mapFrom</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapFrom">mapFrom</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;a1:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapFromGlobal"><strong>mapFromGlobal</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapFromGlobal">mapFromGlobal</a>(self,&nbsp;a0:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapFromParent"><strong>mapFromParent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapFromParent">mapFromParent</a>(self,&nbsp;a0:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapTo"><strong>mapTo</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapTo">mapTo</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;a1:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapToGlobal"><strong>mapToGlobal</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapToGlobal">mapToGlobal</a>(self,&nbsp;a0:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mapToParent"><strong>mapToParent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mapToParent">mapToParent</a>(self,&nbsp;a0:&nbsp;QPoint)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mask"><strong>mask</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mask">mask</a>(self)&nbsp;-&gt;&nbsp;QRegion</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-maximumHeight"><strong>maximumHeight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-maximumHeight">maximumHeight</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-maximumSize"><strong>maximumSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-maximumSize">maximumSize</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-maximumWidth"><strong>maximumWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-maximumWidth">maximumWidth</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-metric"><strong>metric</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-metric">metric</a>(self,&nbsp;a0:&nbsp;QPaintDevice.PaintDeviceMetric)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-minimumHeight"><strong>minimumHeight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-minimumHeight">minimumHeight</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-minimumSize"><strong>minimumSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-minimumSize">minimumSize</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-minimumSizeHint"><strong>minimumSizeHint</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-minimumSizeHint">minimumSizeHint</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-minimumWidth"><strong>minimumWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-minimumWidth">minimumWidth</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mouseDoubleClickEvent"><strong>mouseDoubleClickEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mouseDoubleClickEvent">mouseDoubleClickEvent</a>(self,&nbsp;a0:&nbsp;QMouseEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mouseGrabber"><strong>mouseGrabber</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mouseGrabber">mouseGrabber</a>()&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mouseMoveEvent"><strong>mouseMoveEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mouseMoveEvent">mouseMoveEvent</a>(self,&nbsp;a0:&nbsp;QMouseEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mousePressEvent"><strong>mousePressEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mousePressEvent">mousePressEvent</a>(self,&nbsp;a0:&nbsp;QMouseEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-mouseReleaseEvent"><strong>mouseReleaseEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-mouseReleaseEvent">mouseReleaseEvent</a>(self,&nbsp;a0:&nbsp;QMouseEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-move"><strong>move</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-move">move</a>(self,&nbsp;a0:&nbsp;QPoint)<br>
+<a href="#NodeInfoWindow-move">move</a>(self,&nbsp;ax:&nbsp;int,&nbsp;ay:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-moveEvent"><strong>moveEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-moveEvent">moveEvent</a>(self,&nbsp;a0:&nbsp;QMoveEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-nativeEvent"><strong>nativeEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-nativeEvent">nativeEvent</a>(self,&nbsp;eventType:&nbsp;Union[QByteArray,&nbsp;bytes,&nbsp;bytearray],&nbsp;message:&nbsp;PyQt5.sip.voidptr)&nbsp;-&gt;&nbsp;Tuple[bool,&nbsp;int]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-nativeParentWidget"><strong>nativeParentWidget</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-nativeParentWidget">nativeParentWidget</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-nextInFocusChain"><strong>nextInFocusChain</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-nextInFocusChain">nextInFocusChain</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-normalGeometry"><strong>normalGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-normalGeometry">normalGeometry</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-overrideWindowFlags"><strong>overrideWindowFlags</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-overrideWindowFlags">overrideWindowFlags</a>(self,&nbsp;type:&nbsp;Union[Qt.WindowFlags,&nbsp;Qt.WindowType])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-overrideWindowState"><strong>overrideWindowState</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-overrideWindowState">overrideWindowState</a>(self,&nbsp;state:&nbsp;Union[Qt.WindowStates,&nbsp;Qt.WindowState])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-paintEngine"><strong>paintEngine</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-paintEngine">paintEngine</a>(self)&nbsp;-&gt;&nbsp;QPaintEngine</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-paintEvent"><strong>paintEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-paintEvent">paintEvent</a>(self,&nbsp;a0:&nbsp;QPaintEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-palette"><strong>palette</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-palette">palette</a>(self)&nbsp;-&gt;&nbsp;QPalette</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-parentWidget"><strong>parentWidget</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-parentWidget">parentWidget</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-pos"><strong>pos</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-pos">pos</a>(self)&nbsp;-&gt;&nbsp;QPoint</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-previousInFocusChain"><strong>previousInFocusChain</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-previousInFocusChain">previousInFocusChain</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-raise_"><strong>raise_</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-raise_">raise_</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-receivers"><strong>receivers</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-rect"><strong>rect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-rect">rect</a>(self)&nbsp;-&gt;&nbsp;QRect</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-releaseKeyboard"><strong>releaseKeyboard</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-releaseKeyboard">releaseKeyboard</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-releaseMouse"><strong>releaseMouse</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-releaseMouse">releaseMouse</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-releaseShortcut"><strong>releaseShortcut</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-releaseShortcut">releaseShortcut</a>(self,&nbsp;id:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-removeAction"><strong>removeAction</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-removeAction">removeAction</a>(self,&nbsp;action:&nbsp;QAction)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-render"><strong>render</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-render">render</a>(self,&nbsp;target:&nbsp;QPaintDevice,&nbsp;targetOffset:&nbsp;QPoint&nbsp;=&nbsp;QPoint(),&nbsp;sourceRegion:&nbsp;QRegion&nbsp;=&nbsp;QRegion(),&nbsp;flags:&nbsp;Union[<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlags,&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag]&nbsp;=&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.<a href="#NodeInfoWindow-RenderFlags">RenderFlags</a>(<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag.DrawWindowBackground|<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag.DrawChildren))<br>
+<a href="#NodeInfoWindow-render">render</a>(self,&nbsp;painter:&nbsp;QPainter,&nbsp;targetOffset:&nbsp;QPoint&nbsp;=&nbsp;QPoint(),&nbsp;sourceRegion:&nbsp;QRegion&nbsp;=&nbsp;QRegion(),&nbsp;flags:&nbsp;Union[<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlags,&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag]&nbsp;=&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.<a href="#NodeInfoWindow-RenderFlags">RenderFlags</a>(<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag.DrawWindowBackground|<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag.DrawChildren))</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-repaint"><strong>repaint</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-repaint">repaint</a>(self)<br>
+<a href="#NodeInfoWindow-repaint">repaint</a>(self,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int)<br>
+<a href="#NodeInfoWindow-repaint">repaint</a>(self,&nbsp;a0:&nbsp;QRect)<br>
+<a href="#NodeInfoWindow-repaint">repaint</a>(self,&nbsp;a0:&nbsp;QRegion)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-resize"><strong>resize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-resize">resize</a>(self,&nbsp;a0:&nbsp;QSize)<br>
+<a href="#NodeInfoWindow-resize">resize</a>(self,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-resizeEvent"><strong>resizeEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-resizeEvent">resizeEvent</a>(self,&nbsp;a0:&nbsp;QResizeEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-restoreGeometry"><strong>restoreGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-restoreGeometry">restoreGeometry</a>(self,&nbsp;geometry:&nbsp;Union[QByteArray,&nbsp;bytes,&nbsp;bytearray])&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-saveGeometry"><strong>saveGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-saveGeometry">saveGeometry</a>(self)&nbsp;-&gt;&nbsp;QByteArray</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-screen"><strong>screen</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-screen">screen</a>(self)&nbsp;-&gt;&nbsp;QScreen</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-scroll"><strong>scroll</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-scroll">scroll</a>(self,&nbsp;dx:&nbsp;int,&nbsp;dy:&nbsp;int)<br>
+<a href="#NodeInfoWindow-scroll">scroll</a>(self,&nbsp;dx:&nbsp;int,&nbsp;dy:&nbsp;int,&nbsp;a2:&nbsp;QRect)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-sender"><strong>sender</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-senderSignalIndex"><strong>senderSignalIndex</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-setAcceptDrops"><strong>setAcceptDrops</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setAcceptDrops">setAcceptDrops</a>(self,&nbsp;on:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setAccessibleDescription"><strong>setAccessibleDescription</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setAccessibleDescription">setAccessibleDescription</a>(self,&nbsp;description:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setAccessibleName"><strong>setAccessibleName</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setAccessibleName">setAccessibleName</a>(self,&nbsp;name:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setAttribute"><strong>setAttribute</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setAttribute">setAttribute</a>(self,&nbsp;attribute:&nbsp;Qt.WidgetAttribute,&nbsp;on:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setAutoFillBackground"><strong>setAutoFillBackground</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setAutoFillBackground">setAutoFillBackground</a>(self,&nbsp;enabled:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setBackgroundRole"><strong>setBackgroundRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setBackgroundRole">setBackgroundRole</a>(self,&nbsp;a0:&nbsp;QPalette.ColorRole)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setBaseSize"><strong>setBaseSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setBaseSize">setBaseSize</a>(self,&nbsp;basew:&nbsp;int,&nbsp;baseh:&nbsp;int)<br>
+<a href="#NodeInfoWindow-setBaseSize">setBaseSize</a>(self,&nbsp;s:&nbsp;QSize)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setContentsMargins"><strong>setContentsMargins</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setContentsMargins">setContentsMargins</a>(self,&nbsp;left:&nbsp;int,&nbsp;top:&nbsp;int,&nbsp;right:&nbsp;int,&nbsp;bottom:&nbsp;int)<br>
+<a href="#NodeInfoWindow-setContentsMargins">setContentsMargins</a>(self,&nbsp;margins:&nbsp;QMargins)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setContextMenuPolicy"><strong>setContextMenuPolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setContextMenuPolicy">setContextMenuPolicy</a>(self,&nbsp;policy:&nbsp;Qt.ContextMenuPolicy)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setCursor"><strong>setCursor</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setCursor">setCursor</a>(self,&nbsp;a0:&nbsp;Union[QCursor,&nbsp;Qt.CursorShape])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setDisabled"><strong>setDisabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setDisabled">setDisabled</a>(self,&nbsp;a0:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setEnabled"><strong>setEnabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setEnabled">setEnabled</a>(self,&nbsp;a0:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFixedHeight"><strong>setFixedHeight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFixedHeight">setFixedHeight</a>(self,&nbsp;h:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFixedSize"><strong>setFixedSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFixedSize">setFixedSize</a>(self,&nbsp;a0:&nbsp;QSize)<br>
+<a href="#NodeInfoWindow-setFixedSize">setFixedSize</a>(self,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFixedWidth"><strong>setFixedWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFixedWidth">setFixedWidth</a>(self,&nbsp;w:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFocus"><strong>setFocus</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFocus">setFocus</a>(self)<br>
+<a href="#NodeInfoWindow-setFocus">setFocus</a>(self,&nbsp;reason:&nbsp;Qt.FocusReason)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFocusPolicy"><strong>setFocusPolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFocusPolicy">setFocusPolicy</a>(self,&nbsp;policy:&nbsp;Qt.FocusPolicy)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFocusProxy"><strong>setFocusProxy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFocusProxy">setFocusProxy</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setFont"><strong>setFont</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setFont">setFont</a>(self,&nbsp;a0:&nbsp;QFont)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setForegroundRole"><strong>setForegroundRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setForegroundRole">setForegroundRole</a>(self,&nbsp;a0:&nbsp;QPalette.ColorRole)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setGeometry"><strong>setGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setGeometry">setGeometry</a>(self,&nbsp;a0:&nbsp;QRect)<br>
+<a href="#NodeInfoWindow-setGeometry">setGeometry</a>(self,&nbsp;ax:&nbsp;int,&nbsp;ay:&nbsp;int,&nbsp;aw:&nbsp;int,&nbsp;ah:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setGraphicsEffect"><strong>setGraphicsEffect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setGraphicsEffect">setGraphicsEffect</a>(self,&nbsp;effect:&nbsp;QGraphicsEffect)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setHidden"><strong>setHidden</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setHidden">setHidden</a>(self,&nbsp;hidden:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setInputMethodHints"><strong>setInputMethodHints</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setInputMethodHints">setInputMethodHints</a>(self,&nbsp;hints:&nbsp;Union[Qt.InputMethodHints,&nbsp;Qt.InputMethodHint])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setLayout"><strong>setLayout</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setLayout">setLayout</a>(self,&nbsp;a0:&nbsp;QLayout)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setLayoutDirection"><strong>setLayoutDirection</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setLayoutDirection">setLayoutDirection</a>(self,&nbsp;direction:&nbsp;Qt.LayoutDirection)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setLocale"><strong>setLocale</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setLocale">setLocale</a>(self,&nbsp;locale:&nbsp;QLocale)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMask"><strong>setMask</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMask">setMask</a>(self,&nbsp;a0:&nbsp;QBitmap)<br>
+<a href="#NodeInfoWindow-setMask">setMask</a>(self,&nbsp;a0:&nbsp;QRegion)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMaximumHeight"><strong>setMaximumHeight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMaximumHeight">setMaximumHeight</a>(self,&nbsp;maxh:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMaximumSize"><strong>setMaximumSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMaximumSize">setMaximumSize</a>(self,&nbsp;maxw:&nbsp;int,&nbsp;maxh:&nbsp;int)<br>
+<a href="#NodeInfoWindow-setMaximumSize">setMaximumSize</a>(self,&nbsp;s:&nbsp;QSize)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMaximumWidth"><strong>setMaximumWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMaximumWidth">setMaximumWidth</a>(self,&nbsp;maxw:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMinimumHeight"><strong>setMinimumHeight</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMinimumHeight">setMinimumHeight</a>(self,&nbsp;minh:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMinimumSize"><strong>setMinimumSize</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMinimumSize">setMinimumSize</a>(self,&nbsp;minw:&nbsp;int,&nbsp;minh:&nbsp;int)<br>
+<a href="#NodeInfoWindow-setMinimumSize">setMinimumSize</a>(self,&nbsp;s:&nbsp;QSize)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMinimumWidth"><strong>setMinimumWidth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMinimumWidth">setMinimumWidth</a>(self,&nbsp;minw:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setMouseTracking"><strong>setMouseTracking</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setMouseTracking">setMouseTracking</a>(self,&nbsp;enable:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setPalette"><strong>setPalette</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setPalette">setPalette</a>(self,&nbsp;a0:&nbsp;QPalette)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setParent"><strong>setParent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setParent">setParent</a>(self,&nbsp;parent:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)<br>
+<a href="#NodeInfoWindow-setParent">setParent</a>(self,&nbsp;parent:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;f:&nbsp;Union[Qt.WindowFlags,&nbsp;Qt.WindowType])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setShortcutAutoRepeat"><strong>setShortcutAutoRepeat</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setShortcutAutoRepeat">setShortcutAutoRepeat</a>(self,&nbsp;id:&nbsp;int,&nbsp;enabled:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setShortcutEnabled"><strong>setShortcutEnabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setShortcutEnabled">setShortcutEnabled</a>(self,&nbsp;id:&nbsp;int,&nbsp;enabled:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setSizeIncrement"><strong>setSizeIncrement</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setSizeIncrement">setSizeIncrement</a>(self,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int)<br>
+<a href="#NodeInfoWindow-setSizeIncrement">setSizeIncrement</a>(self,&nbsp;s:&nbsp;QSize)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setSizePolicy"><strong>setSizePolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setSizePolicy">setSizePolicy</a>(self,&nbsp;a0:&nbsp;QSizePolicy)<br>
+<a href="#NodeInfoWindow-setSizePolicy">setSizePolicy</a>(self,&nbsp;hor:&nbsp;QSizePolicy.Policy,&nbsp;ver:&nbsp;QSizePolicy.Policy)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setStatusTip"><strong>setStatusTip</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setStatusTip">setStatusTip</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setStyle"><strong>setStyle</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setStyle">setStyle</a>(self,&nbsp;a0:&nbsp;QStyle)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setStyleSheet"><strong>setStyleSheet</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setStyleSheet">setStyleSheet</a>(self,&nbsp;styleSheet:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setTabOrder"><strong>setTabOrder</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setTabOrder">setTabOrder</a>(a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>,&nbsp;a1:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setTabletTracking"><strong>setTabletTracking</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setTabletTracking">setTabletTracking</a>(self,&nbsp;enable:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setToolTip"><strong>setToolTip</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setToolTip">setToolTip</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setToolTipDuration"><strong>setToolTipDuration</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setToolTipDuration">setToolTipDuration</a>(self,&nbsp;msec:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setUpdatesEnabled"><strong>setUpdatesEnabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setUpdatesEnabled">setUpdatesEnabled</a>(self,&nbsp;enable:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setVisible"><strong>setVisible</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setVisible">setVisible</a>(self,&nbsp;visible:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWhatsThis"><strong>setWhatsThis</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWhatsThis">setWhatsThis</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowFilePath"><strong>setWindowFilePath</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowFilePath">setWindowFilePath</a>(self,&nbsp;filePath:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowFlag"><strong>setWindowFlag</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowFlag">setWindowFlag</a>(self,&nbsp;a0:&nbsp;Qt.WindowType,&nbsp;on:&nbsp;bool&nbsp;=&nbsp;True)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowFlags"><strong>setWindowFlags</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowFlags">setWindowFlags</a>(self,&nbsp;type:&nbsp;Union[Qt.WindowFlags,&nbsp;Qt.WindowType])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowIcon"><strong>setWindowIcon</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowIcon">setWindowIcon</a>(self,&nbsp;icon:&nbsp;QIcon)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowIconText"><strong>setWindowIconText</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowIconText">setWindowIconText</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowModality"><strong>setWindowModality</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowModality">setWindowModality</a>(self,&nbsp;windowModality:&nbsp;Qt.WindowModality)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowModified"><strong>setWindowModified</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowModified">setWindowModified</a>(self,&nbsp;a0:&nbsp;bool)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowOpacity"><strong>setWindowOpacity</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowOpacity">setWindowOpacity</a>(self,&nbsp;level:&nbsp;float)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowRole"><strong>setWindowRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowRole">setWindowRole</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowState"><strong>setWindowState</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowState">setWindowState</a>(self,&nbsp;state:&nbsp;Union[Qt.WindowStates,&nbsp;Qt.WindowState])</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setWindowTitle"><strong>setWindowTitle</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setWindowTitle">setWindowTitle</a>(self,&nbsp;a0:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-sharedPainter"><strong>sharedPainter</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-sharedPainter">sharedPainter</a>(self)&nbsp;-&gt;&nbsp;QPainter</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-show"><strong>show</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-show">show</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-showEvent"><strong>showEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-showEvent">showEvent</a>(self,&nbsp;a0:&nbsp;QShowEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-showFullScreen"><strong>showFullScreen</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-showFullScreen">showFullScreen</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-showMaximized"><strong>showMaximized</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-showMaximized">showMaximized</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-showMinimized"><strong>showMinimized</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-showMinimized">showMinimized</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-showNormal"><strong>showNormal</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-showNormal">showNormal</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-size"><strong>size</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-size">size</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-sizeHint"><strong>sizeHint</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-sizeHint">sizeHint</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-sizeIncrement"><strong>sizeIncrement</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-sizeIncrement">sizeIncrement</a>(self)&nbsp;-&gt;&nbsp;QSize</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-sizePolicy"><strong>sizePolicy</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-sizePolicy">sizePolicy</a>(self)&nbsp;-&gt;&nbsp;QSizePolicy</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-stackUnder"><strong>stackUnder</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-stackUnder">stackUnder</a>(self,&nbsp;a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-statusTip"><strong>statusTip</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-statusTip">statusTip</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-style"><strong>style</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-style">style</a>(self)&nbsp;-&gt;&nbsp;QStyle</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-styleSheet"><strong>styleSheet</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-styleSheet">styleSheet</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-tabletEvent"><strong>tabletEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-tabletEvent">tabletEvent</a>(self,&nbsp;a0:&nbsp;QTabletEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-testAttribute"><strong>testAttribute</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-testAttribute">testAttribute</a>(self,&nbsp;attribute:&nbsp;Qt.WidgetAttribute)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-timerEvent"><strong>timerEvent</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NodeInfoWindow-toolTip"><strong>toolTip</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-toolTip">toolTip</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-toolTipDuration"><strong>toolTipDuration</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-toolTipDuration">toolTipDuration</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-underMouse"><strong>underMouse</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-underMouse">underMouse</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-ungrabGesture"><strong>ungrabGesture</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-ungrabGesture">ungrabGesture</a>(self,&nbsp;type:&nbsp;Qt.GestureType)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-unsetCursor"><strong>unsetCursor</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-unsetCursor">unsetCursor</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-unsetLayoutDirection"><strong>unsetLayoutDirection</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-unsetLayoutDirection">unsetLayoutDirection</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-unsetLocale"><strong>unsetLocale</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-unsetLocale">unsetLocale</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-update"><strong>update</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-update">update</a>(self)<br>
+<a href="#NodeInfoWindow-update">update</a>(self,&nbsp;a0:&nbsp;QRect)<br>
+<a href="#NodeInfoWindow-update">update</a>(self,&nbsp;a0:&nbsp;QRegion)<br>
+<a href="#NodeInfoWindow-update">update</a>(self,&nbsp;ax:&nbsp;int,&nbsp;ay:&nbsp;int,&nbsp;aw:&nbsp;int,&nbsp;ah:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-updateGeometry"><strong>updateGeometry</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-updateGeometry">updateGeometry</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-updateMicroFocus"><strong>updateMicroFocus</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-updateMicroFocus">updateMicroFocus</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-updatesEnabled"><strong>updatesEnabled</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-updatesEnabled">updatesEnabled</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-visibleRegion"><strong>visibleRegion</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-visibleRegion">visibleRegion</a>(self)&nbsp;-&gt;&nbsp;QRegion</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-whatsThis"><strong>whatsThis</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-whatsThis">whatsThis</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-wheelEvent"><strong>wheelEvent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-wheelEvent">wheelEvent</a>(self,&nbsp;a0:&nbsp;QWheelEvent)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-width"><strong>width</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-width">width</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-winId"><strong>winId</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-winId">winId</a>(self)&nbsp;-&gt;&nbsp;PyQt5.sip.voidptr</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-window"><strong>window</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-window">window</a>(self)&nbsp;-&gt;&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a></tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowFilePath"><strong>windowFilePath</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowFilePath">windowFilePath</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowFlags"><strong>windowFlags</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowFlags">windowFlags</a>(self)&nbsp;-&gt;&nbsp;Qt.WindowFlags</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowHandle"><strong>windowHandle</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowHandle">windowHandle</a>(self)&nbsp;-&gt;&nbsp;QWindow</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowIcon"><strong>windowIcon</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowIcon">windowIcon</a>(self)&nbsp;-&gt;&nbsp;QIcon</tt></dd></dl>
+
+<strong>windowIconChanged</strong> = &lt;unbound PYQT_SIGNAL windowIconChanged(QIcon)&gt;
+<dl><dt><a name="NodeInfoWindow-windowIconText"><strong>windowIconText</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowIconText">windowIconText</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<strong>windowIconTextChanged</strong> = &lt;unbound PYQT_SIGNAL windowIconTextChanged(QString)&gt;
+<dl><dt><a name="NodeInfoWindow-windowModality"><strong>windowModality</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowModality">windowModality</a>(self)&nbsp;-&gt;&nbsp;Qt.WindowModality</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowOpacity"><strong>windowOpacity</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowOpacity">windowOpacity</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowRole"><strong>windowRole</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowRole">windowRole</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowState"><strong>windowState</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowState">windowState</a>(self)&nbsp;-&gt;&nbsp;Qt.WindowStates</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-windowTitle"><strong>windowTitle</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowTitle">windowTitle</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<strong>windowTitleChanged</strong> = &lt;unbound PYQT_SIGNAL windowTitleChanged(QString)&gt;
+<dl><dt><a name="NodeInfoWindow-windowType"><strong>windowType</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-windowType">windowType</a>(self)&nbsp;-&gt;&nbsp;Qt.WindowType</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-x"><strong>x</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-x">x</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-y"><strong>y</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-y">y</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PyQt5.QtWidgets.html#QWidget">PyQt5.QtWidgets.QWidget</a>:<br>
+<dl><dt><strong>DrawChildren</strong> = 2</dl>
+
+<dl><dt><strong>DrawWindowBackground</strong> = 1</dl>
+
+<dl><dt><strong>IgnoreMask</strong> = 4</dl>
+
+<dl><dt><strong>RenderFlag</strong> = &lt;class 'PyQt5.QtWidgets.QWidget.RenderFlag'&gt;</dl>
+
+<dl><dt><strong>RenderFlags</strong> = &lt;class 'PyQt5.QtWidgets.QWidget.RenderFlags'&gt;<dd><tt><a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.<a href="#NodeInfoWindow-RenderFlags">RenderFlags</a>()<br>
+<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.<a href="#NodeInfoWindow-RenderFlags">RenderFlags</a>(f:&nbsp;Union[<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlags,&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlag])<br>
+<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.<a href="#NodeInfoWindow-RenderFlags">RenderFlags</a>(a0:&nbsp;<a href="PyQt5.QtWidgets.html#QWidget">QWidget</a>.RenderFlags)</tt></dl>
+
+<hr>
+Methods inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><a name="NodeInfoWindow-__getattr__"><strong>__getattr__</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-__getattr__">__getattr__</a>(self,&nbsp;name:&nbsp;str)&nbsp;-&gt;&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-blockSignals"><strong>blockSignals</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-blockSignals">blockSignals</a>(self,&nbsp;b:&nbsp;bool)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-children"><strong>children</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-children">children</a>(self)&nbsp;-&gt;&nbsp;List[QObject]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-deleteLater"><strong>deleteLater</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-deleteLater">deleteLater</a>(self)</tt></dd></dl>
+
+<strong>destroyed</strong> = &lt;unbound PYQT_SIGNAL destroyed(QObject*)&gt;
+<dl><dt><a name="NodeInfoWindow-disconnect"><strong>disconnect</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-disconnect">disconnect</a>(a0:&nbsp;QMetaObject.Connection)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#NodeInfoWindow-disconnect">disconnect</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dumpObjectInfo"><strong>dumpObjectInfo</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dumpObjectInfo">dumpObjectInfo</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dumpObjectTree"><strong>dumpObjectTree</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dumpObjectTree">dumpObjectTree</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-dynamicPropertyNames"><strong>dynamicPropertyNames</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-dynamicPropertyNames">dynamicPropertyNames</a>(self)&nbsp;-&gt;&nbsp;List[QByteArray]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-eventFilter"><strong>eventFilter</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-eventFilter">eventFilter</a>(self,&nbsp;a0:&nbsp;QObject,&nbsp;a1:&nbsp;QEvent)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-findChild"><strong>findChild</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-findChild">findChild</a>(self,&nbsp;type:&nbsp;type,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;QObject<br>
+<a href="#NodeInfoWindow-findChild">findChild</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;QObject</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-findChildren"><strong>findChildren</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;name:&nbsp;str&nbsp;=&nbsp;'',&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;regExp:&nbsp;QRegExp,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;regExp:&nbsp;QRegExp,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;type:&nbsp;type,&nbsp;re:&nbsp;QRegularExpression,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]<br>
+<a href="#NodeInfoWindow-findChildren">findChildren</a>(self,&nbsp;types:&nbsp;Tuple,&nbsp;re:&nbsp;QRegularExpression,&nbsp;options:&nbsp;Union[Qt.FindChildOptions,&nbsp;Qt.FindChildOption]&nbsp;=&nbsp;Qt.FindChildrenRecursively)&nbsp;-&gt;&nbsp;List[QObject]</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-inherits"><strong>inherits</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-inherits">inherits</a>(self,&nbsp;classname:&nbsp;str)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-installEventFilter"><strong>installEventFilter</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-installEventFilter">installEventFilter</a>(self,&nbsp;a0:&nbsp;QObject)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isWidgetType"><strong>isWidgetType</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isWidgetType">isWidgetType</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-isWindowType"><strong>isWindowType</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-isWindowType">isWindowType</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-killTimer"><strong>killTimer</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-killTimer">killTimer</a>(self,&nbsp;id:&nbsp;int)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-metaObject"><strong>metaObject</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-metaObject">metaObject</a>(self)&nbsp;-&gt;&nbsp;QMetaObject</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-moveToThread"><strong>moveToThread</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-moveToThread">moveToThread</a>(self,&nbsp;thread:&nbsp;QThread)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-objectName"><strong>objectName</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-objectName">objectName</a>(self)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<strong>objectNameChanged</strong> = &lt;unbound PYQT_SIGNAL objectNameChanged(QString)&gt;
+<dl><dt><a name="NodeInfoWindow-parent"><strong>parent</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-parent">parent</a>(self)&nbsp;-&gt;&nbsp;QObject</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-property"><strong>property</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-property">property</a>(self,&nbsp;name:&nbsp;str)&nbsp;-&gt;&nbsp;Any</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-pyqtConfigure"><strong>pyqtConfigure</strong></a>(...)</dt><dd><tt>QObject.<a href="#NodeInfoWindow-pyqtConfigure">pyqtConfigure</a>(...)<br>
+&nbsp;<br>
+Each&nbsp;keyword&nbsp;argument&nbsp;is&nbsp;either&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;Qt&nbsp;property&nbsp;or&nbsp;a&nbsp;Qt&nbsp;signal.<br>
+For&nbsp;properties&nbsp;the&nbsp;property&nbsp;is&nbsp;set&nbsp;to&nbsp;the&nbsp;given&nbsp;value&nbsp;which&nbsp;should&nbsp;be&nbsp;of&nbsp;an<br>
+appropriate&nbsp;type.<br>
+For&nbsp;signals&nbsp;the&nbsp;signal&nbsp;is&nbsp;connected&nbsp;to&nbsp;the&nbsp;given&nbsp;value&nbsp;which&nbsp;should&nbsp;be&nbsp;a<br>
+callable.</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-removeEventFilter"><strong>removeEventFilter</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-removeEventFilter">removeEventFilter</a>(self,&nbsp;a0:&nbsp;QObject)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setObjectName"><strong>setObjectName</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setObjectName">setObjectName</a>(self,&nbsp;name:&nbsp;str)</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-setProperty"><strong>setProperty</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-setProperty">setProperty</a>(self,&nbsp;name:&nbsp;str,&nbsp;value:&nbsp;Any)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-signalsBlocked"><strong>signalsBlocked</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-signalsBlocked">signalsBlocked</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-startTimer"><strong>startTimer</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-startTimer">startTimer</a>(self,&nbsp;interval:&nbsp;int,&nbsp;timerType:&nbsp;Qt.TimerType&nbsp;=&nbsp;Qt.CoarseTimer)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-thread"><strong>thread</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-thread">thread</a>(self)&nbsp;-&gt;&nbsp;QThread</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-tr"><strong>tr</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-tr">tr</a>(self,&nbsp;sourceText:&nbsp;str,&nbsp;disambiguation:&nbsp;typing.Optional[str]&nbsp;=&nbsp;None,&nbsp;n:&nbsp;int&nbsp;=&nbsp;-1)&nbsp;-&gt;&nbsp;str</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="PyQt5.QtCore.html#QObject">PyQt5.QtCore.QObject</a>:<br>
+<dl><dt><strong>staticMetaObject</strong> = &lt;PyQt5.QtCore.QMetaObject object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="PyQt5.QtGui.html#QPaintDevice">PyQt5.QtGui.QPaintDevice</a>:<br>
+<dl><dt><a name="NodeInfoWindow-colorCount"><strong>colorCount</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-colorCount">colorCount</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-depth"><strong>depth</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-depth">depth</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-devicePixelRatio"><strong>devicePixelRatio</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-devicePixelRatio">devicePixelRatio</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-devicePixelRatioF"><strong>devicePixelRatioF</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-devicePixelRatioF">devicePixelRatioF</a>(self)&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-devicePixelRatioFScale"><strong>devicePixelRatioFScale</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-devicePixelRatioFScale">devicePixelRatioFScale</a>()&nbsp;-&gt;&nbsp;float</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-heightMM"><strong>heightMM</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-heightMM">heightMM</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-logicalDpiX"><strong>logicalDpiX</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-logicalDpiX">logicalDpiX</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-logicalDpiY"><strong>logicalDpiY</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-logicalDpiY">logicalDpiY</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-paintingActive"><strong>paintingActive</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-paintingActive">paintingActive</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-physicalDpiX"><strong>physicalDpiX</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-physicalDpiX">physicalDpiX</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-physicalDpiY"><strong>physicalDpiY</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-physicalDpiY">physicalDpiY</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="NodeInfoWindow-widthMM"><strong>widthMM</strong></a>(...)</dt><dd><tt><a href="#NodeInfoWindow-widthMM">widthMM</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="PyQt5.QtGui.html#QPaintDevice">PyQt5.QtGui.QPaintDevice</a>:<br>
+<dl><dt><strong>PaintDeviceMetric</strong> = &lt;class 'PyQt5.QtGui.QPaintDevice.PaintDeviceMetric'&gt;</dl>
+
+<dl><dt><strong>PdmDepth</strong> = 6</dl>
+
+<dl><dt><strong>PdmDevicePixelRatio</strong> = 11</dl>
+
+<dl><dt><strong>PdmDevicePixelRatioScaled</strong> = 12</dl>
+
+<dl><dt><strong>PdmDpiX</strong> = 7</dl>
+
+<dl><dt><strong>PdmDpiY</strong> = 8</dl>
+
+<dl><dt><strong>PdmHeight</strong> = 2</dl>
+
+<dl><dt><strong>PdmHeightMM</strong> = 4</dl>
+
+<dl><dt><strong>PdmNumColors</strong> = 5</dl>
+
+<dl><dt><strong>PdmPhysicalDpiX</strong> = 9</dl>
+
+<dl><dt><strong>PdmPhysicalDpiY</strong> = 10</dl>
+
+<dl><dt><strong>PdmWidth</strong> = 1</dl>
+
+<dl><dt><strong>PdmWidthMM</strong> = 3</dl>
+
+<hr>
+Static methods inherited from <a href="PyQt5.sip.html#simplewrapper">sip.simplewrapper</a>:<br>
+<dl><dt><a name="NodeInfoWindow-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="PyQt5.sip.html#wrappertype">sip.wrappertype</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="PyQt5.sip.html#simplewrapper">sip.simplewrapper</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-qAlpha"><strong>qAlpha</strong></a>(...)</dt><dd><tt><a href="#-qAlpha">qAlpha</a>(rgb:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;int<br>
+<a href="#-qAlpha">qAlpha</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qBlue"><strong>qBlue</strong></a>(...)</dt><dd><tt><a href="#-qBlue">qBlue</a>(rgb:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;int<br>
+<a href="#-qBlue">qBlue</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qDrawBorderPixmap"><strong>qDrawBorderPixmap</strong></a>(...)</dt><dd><tt><a href="#-qDrawBorderPixmap">qDrawBorderPixmap</a>(painter:&nbsp;QPainter,&nbsp;target:&nbsp;QRect,&nbsp;margins:&nbsp;QMargins,&nbsp;pixmap:&nbsp;QPixmap)</tt></dd></dl>
+ <dl><dt><a name="-qDrawPlainRect"><strong>qDrawPlainRect</strong></a>(...)</dt><dd><tt><a href="#-qDrawPlainRect">qDrawPlainRect</a>(p:&nbsp;QPainter,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;a5:&nbsp;Union[QColor,&nbsp;Qt.GlobalColor],&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)<br>
+<a href="#-qDrawPlainRect">qDrawPlainRect</a>(p:&nbsp;QPainter,&nbsp;r:&nbsp;QRect,&nbsp;a2:&nbsp;Union[QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient],&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)</tt></dd></dl>
+ <dl><dt><a name="-qDrawShadeLine"><strong>qDrawShadeLine</strong></a>(...)</dt><dd><tt><a href="#-qDrawShadeLine">qDrawShadeLine</a>(p:&nbsp;QPainter,&nbsp;x1:&nbsp;int,&nbsp;y1:&nbsp;int,&nbsp;x2:&nbsp;int,&nbsp;y2:&nbsp;int,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;True,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;midLineWidth:&nbsp;int&nbsp;=&nbsp;0)<br>
+<a href="#-qDrawShadeLine">qDrawShadeLine</a>(p:&nbsp;QPainter,&nbsp;p1:&nbsp;QPoint,&nbsp;p2:&nbsp;QPoint,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;True,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;midLineWidth:&nbsp;int&nbsp;=&nbsp;0)</tt></dd></dl>
+ <dl><dt><a name="-qDrawShadePanel"><strong>qDrawShadePanel</strong></a>(...)</dt><dd><tt><a href="#-qDrawShadePanel">qDrawShadePanel</a>(p:&nbsp;QPainter,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)<br>
+<a href="#-qDrawShadePanel">qDrawShadePanel</a>(p:&nbsp;QPainter,&nbsp;r:&nbsp;QRect,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)</tt></dd></dl>
+ <dl><dt><a name="-qDrawShadeRect"><strong>qDrawShadeRect</strong></a>(...)</dt><dd><tt><a href="#-qDrawShadeRect">qDrawShadeRect</a>(p:&nbsp;QPainter,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;midLineWidth:&nbsp;int&nbsp;=&nbsp;0,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)<br>
+<a href="#-qDrawShadeRect">qDrawShadeRect</a>(p:&nbsp;QPainter,&nbsp;r:&nbsp;QRect,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;lineWidth:&nbsp;int&nbsp;=&nbsp;1,&nbsp;midLineWidth:&nbsp;int&nbsp;=&nbsp;0,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)</tt></dd></dl>
+ <dl><dt><a name="-qDrawWinButton"><strong>qDrawWinButton</strong></a>(...)</dt><dd><tt><a href="#-qDrawWinButton">qDrawWinButton</a>(p:&nbsp;QPainter,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)<br>
+<a href="#-qDrawWinButton">qDrawWinButton</a>(p:&nbsp;QPainter,&nbsp;r:&nbsp;QRect,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)</tt></dd></dl>
+ <dl><dt><a name="-qDrawWinPanel"><strong>qDrawWinPanel</strong></a>(...)</dt><dd><tt><a href="#-qDrawWinPanel">qDrawWinPanel</a>(p:&nbsp;QPainter,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)<br>
+<a href="#-qDrawWinPanel">qDrawWinPanel</a>(p:&nbsp;QPainter,&nbsp;r:&nbsp;QRect,&nbsp;pal:&nbsp;QPalette,&nbsp;sunken:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;fill:&nbsp;typing.Optional[Union[QBrush,&nbsp;QColor,&nbsp;Qt.GlobalColor,&nbsp;QGradient]]&nbsp;=&nbsp;None)</tt></dd></dl>
+ <dl><dt><a name="-qFuzzyCompare"><strong>qFuzzyCompare</strong></a>(...)</dt><dd><tt><a href="#-qFuzzyCompare">qFuzzyCompare</a>(m1:&nbsp;QMatrix4x4,&nbsp;m2:&nbsp;QMatrix4x4)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#-qFuzzyCompare">qFuzzyCompare</a>(q1:&nbsp;QQuaternion,&nbsp;q2:&nbsp;QQuaternion)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#-qFuzzyCompare">qFuzzyCompare</a>(t1:&nbsp;QTransform,&nbsp;t2:&nbsp;QTransform)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#-qFuzzyCompare">qFuzzyCompare</a>(v1:&nbsp;QVector2D,&nbsp;v2:&nbsp;QVector2D)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#-qFuzzyCompare">qFuzzyCompare</a>(v1:&nbsp;QVector3D,&nbsp;v2:&nbsp;QVector3D)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#-qFuzzyCompare">qFuzzyCompare</a>(v1:&nbsp;QVector4D,&nbsp;v2:&nbsp;QVector4D)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+ <dl><dt><a name="-qGray"><strong>qGray</strong></a>(...)</dt><dd><tt><a href="#-qGray">qGray</a>(r:&nbsp;int,&nbsp;g:&nbsp;int,&nbsp;b:&nbsp;int)&nbsp;-&gt;&nbsp;int<br>
+<a href="#-qGray">qGray</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qGreen"><strong>qGreen</strong></a>(...)</dt><dd><tt><a href="#-qGreen">qGreen</a>(rgb:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;int<br>
+<a href="#-qGreen">qGreen</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qIsGray"><strong>qIsGray</strong></a>(...)</dt><dd><tt><a href="#-qIsGray">qIsGray</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatAlpha"><strong>qPixelFormatAlpha</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatAlpha">qPixelFormatAlpha</a>(channelSize:&nbsp;int,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.UnsignedInteger)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatCmyk"><strong>qPixelFormatCmyk</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatCmyk">qPixelFormatCmyk</a>(channelSize:&nbsp;int,&nbsp;alphaSize:&nbsp;int&nbsp;=&nbsp;0,&nbsp;alphaUsage:&nbsp;QPixelFormat.AlphaUsage&nbsp;=&nbsp;QPixelFormat.IgnoresAlpha,&nbsp;alphaPosition:&nbsp;QPixelFormat.AlphaPosition&nbsp;=&nbsp;QPixelFormat.AtBeginning,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.UnsignedInteger)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatGrayscale"><strong>qPixelFormatGrayscale</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatGrayscale">qPixelFormatGrayscale</a>(channelSize:&nbsp;int,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.UnsignedInteger)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatHsl"><strong>qPixelFormatHsl</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatHsl">qPixelFormatHsl</a>(channelSize:&nbsp;int,&nbsp;alphaSize:&nbsp;int&nbsp;=&nbsp;0,&nbsp;alphaUsage:&nbsp;QPixelFormat.AlphaUsage&nbsp;=&nbsp;QPixelFormat.IgnoresAlpha,&nbsp;alphaPosition:&nbsp;QPixelFormat.AlphaPosition&nbsp;=&nbsp;QPixelFormat.AtBeginning,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.FloatingPoint)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatHsv"><strong>qPixelFormatHsv</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatHsv">qPixelFormatHsv</a>(channelSize:&nbsp;int,&nbsp;alphaSize:&nbsp;int&nbsp;=&nbsp;0,&nbsp;alphaUsage:&nbsp;QPixelFormat.AlphaUsage&nbsp;=&nbsp;QPixelFormat.IgnoresAlpha,&nbsp;alphaPosition:&nbsp;QPixelFormat.AlphaPosition&nbsp;=&nbsp;QPixelFormat.AtBeginning,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.FloatingPoint)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatRgba"><strong>qPixelFormatRgba</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatRgba">qPixelFormatRgba</a>(red:&nbsp;int,&nbsp;green:&nbsp;int,&nbsp;blue:&nbsp;int,&nbsp;alfa:&nbsp;int,&nbsp;usage:&nbsp;QPixelFormat.AlphaUsage,&nbsp;position:&nbsp;QPixelFormat.AlphaPosition,&nbsp;premultiplied:&nbsp;QPixelFormat.AlphaPremultiplied&nbsp;=&nbsp;QPixelFormat.NotPremultiplied,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.UnsignedInteger)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPixelFormatYuv"><strong>qPixelFormatYuv</strong></a>(...)</dt><dd><tt><a href="#-qPixelFormatYuv">qPixelFormatYuv</a>(layout:&nbsp;QPixelFormat.YUVLayout,&nbsp;alphaSize:&nbsp;int&nbsp;=&nbsp;0,&nbsp;alphaUsage:&nbsp;QPixelFormat.AlphaUsage&nbsp;=&nbsp;QPixelFormat.IgnoresAlpha,&nbsp;alphaPosition:&nbsp;QPixelFormat.AlphaPosition&nbsp;=&nbsp;QPixelFormat.AtBeginning,&nbsp;premultiplied:&nbsp;QPixelFormat.AlphaPremultiplied&nbsp;=&nbsp;QPixelFormat.NotPremultiplied,&nbsp;typeInterpretation:&nbsp;QPixelFormat.TypeInterpretation&nbsp;=&nbsp;QPixelFormat.UnsignedByte,&nbsp;byteOrder:&nbsp;QPixelFormat.ByteOrder&nbsp;=&nbsp;QPixelFormat.LittleEndian)&nbsp;-&gt;&nbsp;QPixelFormat</tt></dd></dl>
+ <dl><dt><a name="-qPremultiply"><strong>qPremultiply</strong></a>(...)</dt><dd><tt><a href="#-qPremultiply">qPremultiply</a>(c:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;QRgba64<br>
+<a href="#-qPremultiply">qPremultiply</a>(x:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qRed"><strong>qRed</strong></a>(...)</dt><dd><tt><a href="#-qRed">qRed</a>(rgb:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;int<br>
+<a href="#-qRed">qRed</a>(rgb:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qRgb"><strong>qRgb</strong></a>(...)</dt><dd><tt><a href="#-qRgb">qRgb</a>(r:&nbsp;int,&nbsp;g:&nbsp;int,&nbsp;b:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qRgba"><strong>qRgba</strong></a>(...)</dt><dd><tt><a href="#-qRgba">qRgba</a>(r:&nbsp;int,&nbsp;g:&nbsp;int,&nbsp;b:&nbsp;int,&nbsp;a:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qRgba64"><strong>qRgba64</strong></a>(...)</dt><dd><tt><a href="#-qRgba64">qRgba64</a>(r:&nbsp;int,&nbsp;g:&nbsp;int,&nbsp;b:&nbsp;int,&nbsp;a:&nbsp;int)&nbsp;-&gt;&nbsp;QRgba64<br>
+<a href="#-qRgba64">qRgba64</a>(c:&nbsp;int)&nbsp;-&gt;&nbsp;QRgba64</tt></dd></dl>
+ <dl><dt><a name="-qUnpremultiply"><strong>qUnpremultiply</strong></a>(...)</dt><dd><tt><a href="#-qUnpremultiply">qUnpremultiply</a>(c:&nbsp;QRgba64)&nbsp;-&gt;&nbsp;QRgba64<br>
+<a href="#-qUnpremultiply">qUnpremultiply</a>(p:&nbsp;int)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+ <dl><dt><a name="-qt_set_sequence_auto_mnemonic"><strong>qt_set_sequence_auto_mnemonic</strong></a>(...)</dt><dd><tt><a href="#-qt_set_sequence_auto_mnemonic">qt_set_sequence_auto_mnemonic</a>(b:&nbsp;bool)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>QWIDGETSIZE_MAX</strong> = 16777215<br>
+<strong>qApp</strong> = &lt;PyQt5.QtWidgets.QApplication object&gt;</td></tr></table>
+</body></html>

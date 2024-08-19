@@ -1,3 +1,9 @@
+"""
+Edge module for graphical representation of network connections.
+
+This module defines the `Edge` class, which represents an edge between two nodes in a graphical network visualization using PyQt5.
+"""
+
 import math
 import os
 import random
@@ -16,6 +22,13 @@ from visualizations.node import Node
 class Edge(QGraphicsItem):
     """
     A class representing an edge between two nodes in a graphical network.
+
+    Attributes:
+        source (Node): The source node for the edge.
+        dest (Node): The destination node for the edge.
+        boldness (int): The thickness of the edge line.
+        color (str): The color of the edge.
+        line (QLineF): The graphical line representation of the edge.
     """
     
     DEFAULT_BOLDNESS = 2
@@ -45,6 +58,7 @@ class Edge(QGraphicsItem):
     def adjust(self):
         """
         Update edge position based on source and destination node positions.
+        
         This method is called when a node is moved.
         """
         self.prepareGeometryChange()
@@ -54,6 +68,11 @@ class Edge(QGraphicsItem):
     def boundingRect(self) -> QRectF:
         """
         Returns the bounding rectangle of the edge, adjusted for line boldness.
+
+        This method defines the region of the scene that the edge occupies, taking into account the line thickness.
+        
+        Returns:
+            QRectF: The bounding rectangle of the edge.
         """
         return (
             QRectF(self.line.p1(), self.line.p2())
@@ -63,6 +82,11 @@ class Edge(QGraphicsItem):
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget=None):
         """
         Paints the edge as a line between the source and destination nodes.
+
+        Args:
+            painter (QPainter): The QPainter object used to draw the edge.
+            option (QStyleOptionGraphicsItem): Provides style options for the item.
+            widget (optional): The widget that is being painted. Defaults to None.
         """
         if self.source and self.dest:
             painter.setRenderHints(QPainter.Antialiasing)

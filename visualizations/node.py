@@ -1,3 +1,10 @@
+"""
+Node and NodeInfoWindow classes for graphical network visualization.
+
+This module defines the `Node` and `NodeInfoWindow` classes, which are used to represent individual nodes in
+a network and display their information in a graphical interface using PyQt5.
+"""
+
 import math
 import os
 import random
@@ -15,7 +22,20 @@ import networkx as nx
 
 
 class NodeInfoWindow(QWidget):
+    """
+    A class representing a window that displays information about a node in the network.
+    
+    This window displays various attributes of the node, such as its ID, color, and algorithm file.
+    """
+
     def __init__(self, node, parent=None):
+        """
+        Initialize a NodeInfoWindow instance.
+
+        Args:
+            node (Node): The node whose information will be displayed.
+            parent (QWidget, optional): The parent widget. Defaults to None.
+        """
         super().__init__(parent)
 
         # Set stylesheet and icon
@@ -50,7 +70,17 @@ class NodeInfoWindow(QWidget):
 
 class Node(QGraphicsObject):
     """
-    A class representing a graphical node in a network.
+    A class representing a graphical node in a network visualization.
+    
+    Attributes:
+        name (str): The name of the node.
+        color (str): The color of the node.
+        edges (list): A list of edges connected to this node.
+        num_nodes (int): The total number of nodes in the network.
+        radius (int): The radius of the node based on the total number of nodes.
+        rect (QRectF): The bounding rectangle of the node.
+        info_window (NodeInfoWindow): A reference to the node information window.
+        values (dict): A dictionary holding the node's attributes.
     """
     
     MAX_RADIUS = 60
@@ -94,12 +124,20 @@ class Node(QGraphicsObject):
     def boundingRect(self) -> QRectF:
         """
         Returns the bounding rectangle of the node.
+
+        Returns:
+            QRectF: The bounding rectangle of the node.
         """
         return self.rect
         
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = None):
         """
-        Paint the node.
+        Paint the node with its color and label.
+
+        Args:
+            painter (QPainter): The painter object used to draw the node.
+            option (QStyleOptionGraphicsItem): Provides style options for the item.
+            widget (QWidget, optional): The widget being painted. Defaults to None.
         """
         painter.setRenderHints(QPainter.Antialiasing)
         painter.setPen(QPen(QColor(self.color).darker(), 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
@@ -124,7 +162,10 @@ class Node(QGraphicsObject):
     
     def mouseDoubleClickEvent(self, event):
         """
-        Handle double click events on the node.
+        Handle double-click events on the node to display the node's information.
+
+        Args:
+            event (QMouseEvent): The mouse event.
         """
         if event.button() == Qt.LeftButton:        
             self.info_window = NodeInfoWindow(self)
@@ -134,12 +175,22 @@ class Node(QGraphicsObject):
     def add_edge(self, edge):
         """
         Add an edge to the node.
+
+        Args:
+            edge (Edge): The edge to add.
         """
         self.edges.append(edge)
         
     def itemChange(self, change: QGraphicsItem.GraphicsItemChange, value):
         """
-        Handle item changes, such as position changes.
+        Handle changes to the node, such as position changes.
+
+        Args:
+            change (QGraphicsItem.GraphicsItemChange): The type of change.
+            value: The new value for the change.
+
+        Returns:
+            The result of the base class implementation of itemChange.
         """
         if change == QGraphicsItem.ItemPositionHasChanged:
             for edge in self.edges:

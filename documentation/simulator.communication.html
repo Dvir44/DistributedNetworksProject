@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module simulator.communication</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="simulator.html"><font color="#ffffff">simulator</font></a>.communication</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cdvi44%5Cdocuments%5Cgithub%5Cdistributednetworksproject%5Csimulator%5Ccommunication.py">c:\users\dvi44\documents\github\distributednetworksproject\simulator\communication.py</a></font></td></tr></table>
+    <p><tt><a href="#Communication">Communication</a>&nbsp;module&nbsp;for&nbsp;handling&nbsp;message&nbsp;passing&nbsp;between&nbsp;computers&nbsp;in&nbsp;a&nbsp;simulated&nbsp;network.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;handles&nbsp;the&nbsp;sending&nbsp;and&nbsp;receiving&nbsp;of&nbsp;messages&nbsp;between&nbsp;computers&nbsp;in&nbsp;the&nbsp;network,&nbsp;including&nbsp;broadcasting&nbsp;messages&nbsp;and&nbsp;running&nbsp;algorithms.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="simulator.initializationModule.html">simulator.initializationModule</a><br>
+<a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="https://numpy.org/doc/">numpy</a><br>
+<a href="https://docs.python.org/3/library/os.html">os</a><br>
+</td><td width="25%" valign=top><a href="https://docs.python.org/3/library/random.html">random</a><br>
+<a href="https://docs.python.org/3/library/re.html">re</a><br>
+</td><td width="25%" valign=top><a href="https://docs.python.org/3/library/time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="simulator.communication.html#Communication">Communication</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Communication">class <strong>Communication</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Communication">Communication</a>(network:&nbsp;simulator.initializationModule.Initialization)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;to&nbsp;handle&nbsp;communication&nbsp;between&nbsp;computers&nbsp;in&nbsp;a&nbsp;distributed&nbsp;network&nbsp;simulation.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(Initialization):&nbsp;The&nbsp;network&nbsp;initialization&nbsp;<a href="builtins.html#object">object</a>&nbsp;containing&nbsp;the&nbsp;computers&nbsp;and&nbsp;configurations.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Communication-__init__"><strong>__init__</strong></a>(self, network: simulator.initializationModule.Initialization)</dt><dd><tt>Initializes&nbsp;the&nbsp;<a href="#Communication">Communication</a>&nbsp;instance&nbsp;with&nbsp;the&nbsp;given&nbsp;network.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(Initialization):&nbsp;The&nbsp;initialized&nbsp;network&nbsp;containing&nbsp;the&nbsp;computers.</tt></dd></dl>
+
+<dl><dt><a name="Communication-receive_message"><strong>receive_message</strong></a>(self, message: dict, comm)</dt><dd><tt>Receives&nbsp;a&nbsp;message&nbsp;and&nbsp;runs&nbsp;the&nbsp;appropriate&nbsp;algorithm&nbsp;on&nbsp;the&nbsp;destination&nbsp;computer.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;(dict):&nbsp;The&nbsp;message&nbsp;that&nbsp;was&nbsp;received.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;comm&nbsp;(<a href="#Communication">Communication</a>):&nbsp;The&nbsp;communication&nbsp;<a href="builtins.html#object">object</a>&nbsp;handling&nbsp;the&nbsp;message&nbsp;passing.</tt></dd></dl>
+
+<dl><dt><a name="Communication-run_algorithmm"><strong>run_algorithmm</strong></a>(self, comp: simulator.computer.Computer, function_name: str, arrival_time=None, message_content=None)</dt><dd><tt>Runs&nbsp;the&nbsp;specified&nbsp;algorithm&nbsp;on&nbsp;the&nbsp;given&nbsp;computer,&nbsp;handling&nbsp;the&nbsp;provided&nbsp;message&nbsp;content&nbsp;and&nbsp;arrival&nbsp;time.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;comp&nbsp;(Computer):&nbsp;The&nbsp;computer&nbsp;<a href="builtins.html#object">object</a>&nbsp;on&nbsp;which&nbsp;to&nbsp;run&nbsp;the&nbsp;algorithm.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;function_name&nbsp;(str):&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;function&nbsp;(algorithm)&nbsp;to&nbsp;be&nbsp;executed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arrival_time&nbsp;(float,&nbsp;optional):&nbsp;The&nbsp;time&nbsp;the&nbsp;message&nbsp;arrived,&nbsp;if&nbsp;applicable.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message_content&nbsp;(str,&nbsp;optional):&nbsp;The&nbsp;content&nbsp;of&nbsp;the&nbsp;message&nbsp;being&nbsp;processed&nbsp;by&nbsp;the&nbsp;algorithm.</tt></dd></dl>
+
+<dl><dt><a name="Communication-send_message"><strong>send_message</strong></a>(self, source, dest, message_info, arrival_time=None)</dt><dd><tt>Sends&nbsp;a&nbsp;message&nbsp;from&nbsp;the&nbsp;source&nbsp;computer&nbsp;to&nbsp;the&nbsp;destination&nbsp;computer,&nbsp;with&nbsp;optional&nbsp;arrival&nbsp;time.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source&nbsp;(int):&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;source&nbsp;computer&nbsp;sending&nbsp;the&nbsp;message.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dest&nbsp;(int):&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;destination&nbsp;computer&nbsp;receiving&nbsp;the&nbsp;message.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message_info&nbsp;(str):&nbsp;The&nbsp;content&nbsp;of&nbsp;the&nbsp;message&nbsp;being&nbsp;sent.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arrival_time&nbsp;(float,&nbsp;optional):&nbsp;The&nbsp;time&nbsp;at&nbsp;which&nbsp;the&nbsp;message&nbsp;should&nbsp;arrive.&nbsp;If&nbsp;None,&nbsp;it&nbsp;defaults&nbsp;to&nbsp;0.</tt></dd></dl>
+
+<dl><dt><a name="Communication-send_to_all"><strong>send_to_all</strong></a>(self, source_id, message_info, arrival_time=None)</dt><dd><tt>Sends&nbsp;a&nbsp;message&nbsp;from&nbsp;the&nbsp;source&nbsp;computer&nbsp;to&nbsp;all&nbsp;connected&nbsp;computers.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source_id&nbsp;(int):&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;source&nbsp;computer&nbsp;sending&nbsp;the&nbsp;message.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message_info&nbsp;(str):&nbsp;The&nbsp;content&nbsp;of&nbsp;the&nbsp;message&nbsp;being&nbsp;sent.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arrival_time&nbsp;(float,&nbsp;optional):&nbsp;The&nbsp;time&nbsp;at&nbsp;which&nbsp;the&nbsp;message&nbsp;should&nbsp;arrive.&nbsp;If&nbsp;None,&nbsp;it&nbsp;defaults&nbsp;to&nbsp;0.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

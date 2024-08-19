@@ -1,3 +1,10 @@
+"""
+Main menu module for the Distributed Networks Simulator.
+
+This module defines the PyQt5-based GUI for configuring network simulation settings, including
+choosing a topology, specifying the number of computers, uploading algorithms, and setting other parameters.
+"""
+
 import json
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
@@ -19,13 +26,35 @@ COMBOBOX_OPTIONS = {
 
 
 class SimulationInProgressWindow(QMainWindow):
+    """
+    A class representing the window that appears when the simulation is in progress.
+    """
+
     def __init__(self):
+        """
+        Initialize the SimulationInProgressWindow.
+        """
         super().__init__()
         self.setGeometry(0, 0, 800, 600)
         self.setWindowTitle("Simulation In Process")
 
+
 class MenuWindow(QMainWindow):
+    """
+    The main menu window for configuring and running the network simulation.
+
+    Attributes:
+        checkbox_values (dict): A dictionary to store selected values for network variables.
+        label_values (dict): A dictionary to store QLabel widgets for displaying selected values.
+    """
+
     def __init__(self, network_variables_data):
+        """
+        Initialize the menu window with the provided network variables.
+        
+        Args:
+            network_variables_data (dict): The initial network variable values.
+        """
         super().__init__()
         ##self.network_variables_file = network_variables_file
         self.checkbox_values = network_variables_data # Dictionary to store checkbox values with default values
@@ -34,14 +63,17 @@ class MenuWindow(QMainWindow):
         self.init_ui()
         
     def init_ui(self):
-        """Initialize the UI components."""
+        """
+        Initialize the UI components, including labels, buttons, and input options.
+        """
         self.label_values = {}  
         self.create_labels()
         self.create_buttons()
         self.create_options()
 
     def update_value(self, key: str, value: str):
-        """Update the value of the specified label.
+        """
+        Update the value of the specified label and save it in the checkbox_values dictionary.
 
         Args:
             key (str): The key to update.
@@ -59,7 +91,9 @@ class MenuWindow(QMainWindow):
 
 
     def create_labels(self):
-        """Create labels for displaying network variable values."""
+        """
+        Create labels for displaying the network variable values.
+        """
         y_offset = 200
         for key, value in self.checkbox_values.items():
             label = QLabel(f"{key}: {value}", self)
@@ -81,7 +115,9 @@ class MenuWindow(QMainWindow):
 
 
     def create_buttons(self):
-        """Create buttons for the menu."""
+        """
+        Create buttons for uploading a Python file and submitting the form.
+        """
         upload_file_button = QPushButton("Upload Python File", self)
         upload_file_button.setGeometry(50, 150, 200, 30)
         upload_file_button.clicked.connect(lambda: self.on_upload_algorithm())
@@ -93,7 +129,9 @@ class MenuWindow(QMainWindow):
 
 
     def create_options(self):
-        """Create options using combo boxes and number input for computer number."""
+        """
+        Create options using combo boxes and number input for configuring network variables.
+        """
         checkbox_layout = QVBoxLayout()
         
         self.add_number_input(checkbox_layout)  # adding the number of computers option
@@ -125,7 +163,8 @@ class MenuWindow(QMainWindow):
 
 
     def add_number_input(self, layout):
-        """Add number input field to the layout.
+        """
+        Add a number input field to the layout for entering the number of computers.
 
         Args:
             layout (QVBoxLayout): The layout to add the number input to.
@@ -145,7 +184,12 @@ class MenuWindow(QMainWindow):
 
 
     def validate_number_input(self, value):
-        """Validate the number input and enable/disable the submit button."""
+        """
+        Validate the number input and enable/disable the submit button.
+
+        Args:
+            value (str): The input value to validate.
+        """
         if value.isdigit():
             number = int(value)
             if number > 100:
@@ -160,7 +204,8 @@ class MenuWindow(QMainWindow):
     
     
     def add_combo_box(self, layout, label_text, options):
-        """Add a combo box to the layout.
+        """
+        Add a combo box to the layout for selecting various options like topology, delay, etc.
 
         Args:
             layout (QVBoxLayout): The layout to add the combo box to.
@@ -184,7 +229,12 @@ class MenuWindow(QMainWindow):
             combo_box.currentTextChanged.connect(self.handle_topology_selection)
             
     def handle_topology_selection(self, value):
-        """Show or hide the Max Depth input depending on the selected topology."""
+        """
+        Show or hide the Max Depth input depending on the selected topology.
+
+        Args:
+            value (str): The selected topology option.
+        """
         if value == "Tree":
             self.max_depth_label.show()
             self.max_depth_input.show()
@@ -196,7 +246,9 @@ class MenuWindow(QMainWindow):
     
     
     def on_upload_algorithm(self):
-        """Handle the upload of a Python algorithm file."""
+        """
+        Handle the upload of a Python algorithm file.
+        """        
         fname, _ = QFileDialog.getOpenFileName(self, 'Upload Python File', '/home', "Python Files (*.py)")
         if fname:
             _, file_extension = os.path.splitext(fname)
@@ -208,13 +260,20 @@ class MenuWindow(QMainWindow):
 
    
     def on_submit_all(self):
-        """Handle the final submission of all settings."""
+        """
+        Handle the final submission of all settings and save them to a JSON file.
+        """
         with open(NETWORK_VARIABLES, "w") as f:
             json.dump(self.checkbox_values, f, indent=4)
         self.close()
 
 def menu(network_variables: dict):
-    """Launch the menu application."""
+    """
+    Launch the menu application for configuring network variables.
+
+    Args:
+        network_variables (dict): A dictionary of default or previously saved network variables.
+    """
     app = QApplication(sys.argv)
     menu_window = MenuWindow(network_variables)
     menu_window.setWindowIcon(QIcon('./designFiles/app_icon.jpeg'))

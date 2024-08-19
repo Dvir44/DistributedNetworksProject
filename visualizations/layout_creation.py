@@ -1,3 +1,11 @@
+"""
+Layout creation and visualization module for network graph.
+
+This module defines functions for creating and updating the layout of a network graph in a graphical
+interface using PyQt5. It supports various layouts such as circular, random, and customized layouts
+for small and large graphs.
+"""
+
 import math
 import random
 
@@ -10,7 +18,13 @@ from visualizations.edge import Edge
 
 
 def layoutCreation(self):
-    '''create graph visualization layout'''
+    """
+    Create and configure the graph visualization layout.
+
+    This function initializes the layout, including combo boxes for layout selection, buttons for
+    controlling the simulation (e.g., 'regenerate', 'next phase', 'reset'), sliders for adjusting timer intervals,
+    and other UI elements for controlling the graph.
+    """
 
     self.choice_combo = QComboBox()
     self.choice_combo.addItems(self.get_nx_layouts())
@@ -67,7 +81,14 @@ def layoutCreation(self):
     
     
 def set_nx_layout_large_graph(self, positions):
-    ''' creates layout if number of nodes>200'''
+    """
+    Set a layout for large graphs (number of nodes > 200).
+
+    This function positions nodes randomly within the window bounds, and sets lower boldness for edges to handle larger graphs.
+
+    Args:
+        positions (dict): Dictionary of node positions in the layout.
+    """
     for node, pos in positions.items():
         window_size = self.size()
         item = self.nodes_map[node]
@@ -82,7 +103,14 @@ def set_nx_layout_large_graph(self, positions):
                 
                 
 def set_nx_layout_circular_graph(self, positions):
-    ''' creates circular layout'''
+    """
+    Set a circular layout for the graph.
+
+    This function positions nodes in a circular pattern based on the layout positions provided.
+
+    Args:
+        positions (dict): Dictionary of node positions in the layout.
+    """
     for node, pos in positions.items():
         x, y = pos
         x *= self.graph_scale
@@ -93,7 +121,15 @@ def set_nx_layout_circular_graph(self, positions):
             
 
 def set_nx_layout_random_small_graph(self, name, positions):
-    ''' creates random layout if number of nodes <= 200'''
+    """
+    Set a random layout for smaller graphs (number of nodes <= 200).
+
+    This function ensures that nodes are spaced apart by adjusting their positions iteratively to prevent overlaps.
+
+    Args:
+        name (str): The name of the layout.
+        positions (dict): Dictionary of node positions in the layout.
+    """
     if name in self.nx_layout and self.nx_layout[name] is not None:
         item_radius = next(iter(self.nodes_map.values())).radius
         threshold_distance = 2 * item_radius / self.graph_scale

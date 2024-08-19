@@ -1,3 +1,8 @@
+"""
+Communication module for handling message passing between computers in a simulated network.
+
+This module handles the sending and receiving of messages between computers in the network, including broadcasting messages and running algorithms.
+"""
 import json
 import os
 import random
@@ -9,11 +14,33 @@ import simulator.initializationModule as initializationModule
 
 
 class Communication:
+    """
+    A class to handle communication between computers in a distributed network simulation.
+    
+    Attributes:
+        network (Initialization): The network initialization object containing the computers and configurations.
+    """
+
     def __init__(self, network: initializationModule.Initialization):
+        """
+        Initializes the Communication instance with the given network.
+        
+        Args:
+            network (Initialization): The initialized network containing the computers.
+        """
         self.network = network
         
     # Send a message from the source computer to the destination computer
     def send_message(self, source, dest, message_info, arrival_time = None):
+        """
+        Sends a message from the source computer to the destination computer, with optional arrival time.
+        
+        Args:
+            source (int): The ID of the source computer sending the message.
+            dest (int): The ID of the destination computer receiving the message.
+            message_info (str): The content of the message being sent.
+            arrival_time (float, optional): The time at which the message should arrive. If None, it defaults to 0.
+        """
         current_computer =  self.network.network_dict.get(source)
 
         if not current_computer.state == "terminated":
@@ -36,12 +63,27 @@ class Communication:
     
     
     def send_to_all(self, source_id, message_info, arrival_time = None):
+        """
+        Sends a message from the source computer to all connected computers.
+        
+        Args:
+            source_id (int): The ID of the source computer sending the message.
+            message_info (str): The content of the message being sent.
+            arrival_time (float, optional): The time at which the message should arrive. If None, it defaults to 0.
+        """
         source_computer = self.network.network_dict.get(source_id)
         for index, connected_computer_id in enumerate(source_computer.connectedEdges):
             self.send_message(source_id, connected_computer_id, message_info, arrival_time)
 
             
     def receive_message(self, message : dict, comm):
+        """
+        Receives a message and runs the appropriate algorithm on the destination computer.
+        
+        Args:
+            message (dict): The message that was received.
+            comm (Communication): The communication object handling the message passing.
+        """
         if self.network.logging_type=="Long":
             print(message)
             
@@ -52,6 +94,15 @@ class Communication:
         
         
     def run_algorithmm(self, comp: Computer, function_name: str, arrival_time = None, message_content=None):
+        """
+        Runs the specified algorithm on the given computer, handling the provided message content and arrival time.
+        
+        Args:
+            comp (Computer): The computer object on which to run the algorithm.
+            function_name (str): The name of the function (algorithm) to be executed.
+            arrival_time (float, optional): The time the message arrived, if applicable.
+            message_content (str, optional): The content of the message being processed by the algorithm.
+        """
         algorithm_function = getattr(comp.algorithm_file, function_name, None) 
         if callable(algorithm_function):
             if function_name == 'init':

@@ -17,15 +17,29 @@ import visualizations.graphVisualization as graphVisualization
 OUTPUT_FILE = './output.txt'
 
 def load_network_variables():
-        '''Load default variables from the JSON file.'''
-        try:
-            with open(NETWORK_VARIABLES, 'r') as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {}
+    """
+    Load default variables from the NETWORK_VARIABLES JSON file.
+    
+    Returns:
+        dict: A dictionary of network variables loaded from the JSON file.
+        
+    Raises:
+        FileNotFoundError: If the file is not found.
+        json.JSONDecodeError: If the JSON is improperly formatted.
+    """
+    try:
+        with open(NETWORK_VARIABLES, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
 def initializeSimulator():
-    '''Initializes the simulator by creating a network and communication instances and loading the network_variables dictionary.''' 
+    """
+    Initializes the simulator by creating the network, communication instances, and loading network variables.
+    
+    Returns:
+        tuple: A tuple containing the initialized network, communication instance, and the loaded network variables.
+    """
     network_variables = load_network_variables()
     MainMenu.menu(network_variables)
     
@@ -38,7 +52,18 @@ def initializeSimulator():
  
  
 def runSimulator(network: initializationModule.Initialization, comm:communication.Communication, network_variables: dict, start_time):
-    '''Runs the simulator according to user provided network configuration and algorithm'''
+    """
+    Runs the simulator based on user-provided network configuration and algorithm.
+    
+    Args:
+        network (initializationModule.Initialization): The initialized network object.
+        comm (communication.Communication): The communication object handling network communication.
+        network_variables (dict): Dictionary of network parameters.
+        start_time (float): The time when the simulation started.
+
+    Returns:
+        None
+    """
     if network_variables['Display'] == "Graph":
         app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
@@ -54,7 +79,10 @@ def runSimulator(network: initializationModule.Initialization, comm:communicatio
 
 
 if __name__=="__main__":
-    sys.stdout = open(OUTPUT_FILE, "w") # change default output
+    """
+    Main entry point for the simulator. Redirects standard output to a log file and runs the simulator.
+    """
+    sys.stdout = open(OUTPUT_FILE, "w")
     network, comm, network_variables = initializeSimulator()
     
     start_time = time.time()
