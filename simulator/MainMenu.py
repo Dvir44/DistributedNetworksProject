@@ -70,6 +70,7 @@ class MenuWindow(QMainWindow):
         self.create_labels()
         self.create_buttons()
         self.create_options()
+        self.submit_button.setEnabled(True)
 
     def update_value(self, key: str, value: str):
         """
