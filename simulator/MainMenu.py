@@ -80,11 +80,11 @@ class MenuWindow(QMainWindow):
             key (str): The key to update.
             value (str): The value to set.
         """
-        if key == "Max Depth":
-            # Ensure the Max Depth is stored as an integer
-            self.checkbox_values[key] = int(value) if value.isdigit() else 0
-        else:
-            self.checkbox_values[key] = value
+        self.checkbox_values[key] = value
+        if key == "Number of Computers":
+            self.validate_number_input(value)
+        elif key == "Display":
+            self.validate_display_type()
 
         if key in self.label_values:
             self.label_values[key].setText(f"{key}: {value}")
@@ -193,16 +193,23 @@ class MenuWindow(QMainWindow):
         """
         if value.isdigit():
             number = int(value)
-            if number > 100:
-                QMessageBox.warning(self, 'Error', 'The number of computers cannot exceed 100.', QMessageBox.Ok)
-                self.submit_button.setEnabled(False)
-            else:
-                self.update_value("Number of Computers", value)
-                self.submit_button.setEnabled(True)
+            self.checkbox_values["Number of Computers"] = number
+            self.validate_display_type()
         else:
-            # Disable the button if the input is not a valid number
             self.submit_button.setEnabled(False)
     
+    def validate_display_type(self):
+        """
+        Validate the display type based on the number of computers selected.
+        """
+        number_of_computers = int(self.checkbox_values.get("Number of Computers", 0))
+        display_type = self.checkbox_values.get("Display", "")
+        
+        if number_of_computers > 100 and display_type != "Text":
+            QMessageBox.warning(self, 'Error', 'The number of computers cannot exceed 100 unless the display is set to Text. You will be able to submit only if you choose Text output!', QMessageBox.Ok)
+            self.submit_button.setEnabled(False)
+        else:
+            self.submit_button.setEnabled(True)
     
     def add_combo_box(self, layout, label_text, options):
         """

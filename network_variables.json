@@ -1,5 +1,5 @@
 {
-    "Number of Computers": "50",
+    "Number of Computers": 15,
     "Topology": "Random",
     "ID Type": "Random",
     "Delay": "Random",
@@ -7,6 +7,5 @@
     "Root": "Min ID",
     "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/algorithms/someAlgorithm.py",
     "Logging": "Long",
-    "Branching Factor": 6,
     "Max Depth": 0
 }
