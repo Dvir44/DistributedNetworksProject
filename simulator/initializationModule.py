@@ -193,13 +193,22 @@ class Initialization:
             str: The string representation of the network.
         """
         result = [
-            f"Number of Computers: {self.computer_number}",
-            f"Topology: {self.topologyType}",
-            f"ID Type: {self.id_type}",
-             f"Display Type: {self.display_type}",
-            "\nComputers:"
+        f"Number of Computers: {self.computer_number}",
+        f"Topology: {self.topologyType}",
+        f"ID Type: {self.id_type}",
+        f"Display Type: {self.display_type}",
+        f"Root Type: {self.root_type}",
+        f"Delay Type: {self.delay_type}",
+        f"Algorithm Path: {self.algorithm_path}",
+        f"Logging Type: {self.logging_type}",
         ]
+        
+        if self.topologyType == "Tree":
+            result.append(f"Max Depth: {self.max_depth}")
+            
+        result.append("\nComputers:")
         result.extend(str(comp) for comp in self.connected_computers)
+        
         return "\n".join(result)
             
     # used for creating delays for edges, not used in current version     
@@ -253,7 +262,7 @@ class Initialization:
     
         if self.topologyType == "Tree":
             # Call the tree function with the Max Depth
-            topology_function(self.max_depth)
+            topology_function(int(self.max_depth))
         else:
             # Call other topology functions without additional parameters
             topology_function()

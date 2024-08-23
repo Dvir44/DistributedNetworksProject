@@ -10,8 +10,8 @@ from PyQt5.QtWidgets import *
 import simulator.runModule as runModule
 import simulator.communication as communication
 import simulator.initializationModule as initializationModule
-import simulator.MainMenu as MainMenu
-from simulator.MainMenu import NETWORK_VARIABLES
+import simulator.mainMenu as mainMenu
+from simulator.mainMenu import NETWORK_VARIABLES
 import visualizations.graphVisualization as graphVisualization
 
 OUTPUT_FILE = './output.txt'
@@ -41,7 +41,7 @@ def initializeSimulator():
         tuple: A tuple containing the initialized network, communication instance, and the loaded network variables.
     """
     network_variables = load_network_variables()
-    MainMenu.menu(network_variables)
+    mainMenu.menu(network_variables)
     
     network= initializationModule.Initialization(network_variables)
     if network.logging_type!="Short":

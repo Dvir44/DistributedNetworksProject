@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import *
 import sys
 import os
 
+
 # Constants
 NETWORK_VARIABLES = 'network_variables.json'
 CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 600)
