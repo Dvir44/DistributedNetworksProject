@@ -6,14 +6,12 @@ choosing a topology, specifying the number of computers, uploading algorithms, a
 """
 
 import json
-from PyQt5 import QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import os
 
-
-# Constants
+# Constants 
 NETWORK_VARIABLES = 'network_variables.json'
 CHECKBOX_LAYOUT_GEOMETRY = (800, 100, 500, 600)
 COMBOBOX_OPTIONS = {
@@ -182,8 +180,7 @@ class MenuWindow(QMainWindow):
         self.submit_button.setEnabled(False)
 
         # Connect textChanged signal to validation logic
-        self.number_input.textChanged.connect(self.validate_number_input)
-
+        self.number_input.textChanged.connect(lambda value: self.update_value("Number of Computers", value))
 
     def validate_number_input(self, value):
         """
@@ -206,8 +203,8 @@ class MenuWindow(QMainWindow):
         number_of_computers = int(self.checkbox_values.get("Number of Computers", 0))
         display_type = self.checkbox_values.get("Display", "")
         
-        if number_of_computers > 100 and display_type != "Text":
-            QMessageBox.warning(self, 'Error', 'The number of computers cannot exceed 100 unless the display is set to Text. You will be able to submit only if you choose Text output!', QMessageBox.Ok)
+        if number_of_computers > 500 and display_type != "Text":
+            QMessageBox.warning(self, 'Error', 'The number of computers cannot exceed 500 unless the display is set to Text. You will be able to submit only if you choose Text output!', QMessageBox.Ok)
             self.submit_button.setEnabled(False)
         else:
             self.submit_button.setEnabled(True)

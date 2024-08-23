@@ -6,22 +6,15 @@ using PyQt5 and NetworkX. It includes methods for adding nodes and edges, settin
 user interactions such as zooming and undoing changes.
 """
 
-import math
 import os
-import random
-import sys
-import numpy as np
 import networkx as nx
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
 
 import simulator.initializationModule as initializationModule
 from visualizations.node import Node
 from visualizations.edge import Edge
-
 import visualizations.functions as gf
 import visualizations.layout_creation as glc
 

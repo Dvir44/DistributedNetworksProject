@@ -4,19 +4,10 @@ Edge module for graphical representation of network connections.
 This module defines the `Edge` class, which represents an edge between two nodes in a graphical network visualization using PyQt5.
 """
 
-import math
-import os
-import random
-import sys
-import numpy as np
-
-import networkx as nx
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
+from PyQt5.QtCore import QRectF, QLineF, Qt
 
-import simulator.initializationModule as initializationModule
 from visualizations.node import Node
 
 class Edge(QGraphicsItem):

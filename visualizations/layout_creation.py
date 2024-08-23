@@ -11,7 +11,6 @@ import random
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QTimer, QPointF
 
 from visualizations.edge import Edge

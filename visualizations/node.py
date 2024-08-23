@@ -7,19 +7,12 @@ a network and display their information in a graphical interface using PyQt5.
 
 import math
 import os
-import random
-import sys
 
-import numpy as np
 import simulator.initializationModule as initializationModule
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-
-from PyQt5.QtCore import QPointF, QRectF, QLineF, Qt, QTimer, QTime
-import networkx as nx
-
+from PyQt5.QtCore import QRectF, Qt
 
 class NodeInfoWindow(QWidget):
     """
@@ -144,12 +137,52 @@ class Node(QGraphicsObject):
         painter.setBrush(QBrush(QColor(self.color)))
         painter.drawEllipse(self.boundingRect())
         
-        # Only paint the name if the number of nodes is 1000 or less
-        if self.num_nodes <= 1000:
-            painter.setPen(QPen(QColor(self.TEXT_COLOR)))
-            painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)
         
         
+        #painter.setPen(QPen(QColor(self.TEXT_COLOR)))
+        #painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)
+        
+        
+        rect = self.boundingRect()
+        font_size = self._calculate_text_size(painter, rect, self.name)
+        
+        # Set the calculated font size
+        font = painter.font()
+        font.setPointSize(font_size)
+        painter.setFont(font)
+        
+        painter.setPen(QPen(QColor(self.TEXT_COLOR)))
+        painter.drawText(rect, Qt.AlignCenter, self.name)
+        
+    
+    def _calculate_text_size(self, painter: QPainter, rect: QRectF, text: str) -> int:
+        """
+        Calculate the maximum font size that fits the given text within the bounding rectangle.
+
+        Args:
+            painter (QPainter): The painter object used to calculate the font size.
+            rect (QRectF): The bounding rectangle where the text needs to fit.
+            text (str): The text that needs to be drawn.
+
+        Returns:
+            int: The font size that fits the text within the bounding rectangle.
+        """
+        font = painter.font()
+        font_size = int(rect.height() / 2)  # Initial font size, can be adjusted
+        font.setPointSize(font_size)
+        painter.setFont(font)
+        
+        while True:
+            text_rect = painter.boundingRect(rect, Qt.AlignCenter, text)
+            if text_rect.width() <= rect.width() and text_rect.height() <= rect.height():
+                return font_size
+            font_size -= 1
+            if font_size <= 1:  # Prevent the font size from becoming too small
+                return 1
+            font.setPointSize(font_size)
+            painter.setFont(font)
+    
+    
     def _calculate_radius(self) -> int:
         """
         Calculate the radius of the node based on the number of nodes.

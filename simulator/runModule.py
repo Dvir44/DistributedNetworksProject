@@ -4,13 +4,8 @@ Main module to run the network simulation.
 This module initializes the network, runs the algorithms on each computer, and manages the message queue for the simulation.
 """
 
-import queue
-import sys
-import numpy
-from visualizations.graphVisualization import visualize_network
 import simulator.initializationModule as initializationModule
 import simulator.communication as communication
-
 
 def initiateRun(network: initializationModule.Initialization, comm : communication.Communication):
     """

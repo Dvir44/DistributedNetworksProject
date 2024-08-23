@@ -3,12 +3,8 @@ Communication module for handling message passing between computers in a simulat
 
 This module handles the sending and receiving of messages between computers in the network, including broadcasting messages and running algorithms.
 """
-import json
-import os
+
 import random
-import re
-import time
-import numpy
 from simulator.computer import Computer
 import simulator.initializationModule as initializationModule
 
