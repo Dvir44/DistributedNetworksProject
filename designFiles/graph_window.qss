@@ -4,7 +4,6 @@
     font-family: Georgia;
 }          
 
-
 QLabel{
     color: #2e8d93;
     font-size: 19px;
@@ -27,26 +26,23 @@ QPushButton:hover {
     background: #267288;
 }
 
-
 QComboBox {
     font-size: 14px;
 }
 
-
 QSlider::groove:horizontal {
     border: 1px solid #999999;
-    height: 10px; /* Increased height */
+    height: 10px;
 }
 
 QSlider::handle:horizontal {
     background: #2e8d93;
-    width: 20px; /* Increased width */
-    height: 20px; /* Added height */
-    margin: -5px 0; /* Adjusted margin to center the handle */
-    border-radius: 10px; /* Increased border-radius for a rounder handle */
+    width: 20px;
+    height: 20px;
+    margin: -5px 0;
+    border-radius: 10px;
     border: 1px solid #000000;
 }
-
 
 QSlider::add-page:horizontal {
     background: #ffffff;

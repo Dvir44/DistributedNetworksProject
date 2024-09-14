@@ -1,11 +1,10 @@
 {
-    "Number of Computers": 15,
+    "Number of Computers": 10,
     "Topology": "Random",
-    "ID Type": "Random",
+    "ID Type": "Sequential",
     "Delay": "Random",
     "Display": "Graph",
-    "Root": "Min ID",
-    "Algorithm": "C:/Users/dvi44/Documents/github/DistributedNetworksProject/algorithms/someAlgorithm.py",
-    "Logging": "Long",
-    "Max Depth": 0
+    "Root": "Random",
+    "Algorithm": "./algorithms/broadcastAlgorithm.py",
+    "Logging": "Long"
 }

@@ -496,15 +496,8 @@ class Initialization:
         """
         if algorithm_module_path == 'no_alg_provided':
             print("No algorithm was provided")
-            #exit()
+            exit()
 
-            directory, file_name = os.path.split("./algorithms/someAlgorithm.py")
-            base_file_name, _ = os.path.splitext(file_name)
-            sys.path.insert(0,directory)
-
-            algorithm_module = importlib.import_module(base_file_name)
-            for comp in self.connected_computers:
-                comp.algorithm_file = algorithm_module
         try:
             directory, file_name = os.path.split(algorithm_module_path)
             base_file_name, _ = os.path.splitext(file_name)
