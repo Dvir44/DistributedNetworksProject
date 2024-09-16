@@ -40,7 +40,7 @@ class Computer:
         Returns:
             str: The string representation of the computer.
         """
-        return f"id = {self.id}\nconnected edges = {self.connectedEdges}\ndelays = {self.delays}\n"
+        return f"id = {self.id}\nconnected edges = {self.connectedEdges}\n"
     
     def __setattr__(self, name, value):
         """

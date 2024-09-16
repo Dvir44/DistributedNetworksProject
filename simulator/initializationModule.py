@@ -198,7 +198,6 @@ class Initialization:
         f"ID Type: {self.id_type}",
         f"Display Type: {self.display_type}",
         f"Root Type: {self.root_type}",
-        f"Delay Type: {self.delay_type}",
         f"Algorithm Path: {self.algorithm_path}",
         f"Logging Type: {self.logging_type}",
         ]
