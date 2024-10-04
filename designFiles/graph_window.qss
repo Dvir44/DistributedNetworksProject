@@ -1,0 +1,58 @@
+* {
+    background-color: #d7d6d5 ;
+    color: #000000;
+    font-family: Georgia;
+}          
+
+QLabel{
+    color: #2e8d93;
+    font-size: 19px;
+}
+
+QPushButton {
+    background-color: #2e8d93;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    font: 14px;
+    min-width: 5em;
+}
+
+QPushButton:pressed {
+    font: 11px;
+}
+
+QPushButton:hover {
+    background: #267288;
+}
+
+QComboBox {
+    font-size: 14px;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 10px;
+}
+
+QSlider::handle:horizontal {
+    background: #2e8d93;
+    width: 20px;
+    height: 20px;
+    margin: -5px 0;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+QSlider::add-page:horizontal {
+    background: #ffffff;
+}
+
+QSlider::sub-page:horizontal {
+    background: #2e8d93;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #267288;
+}
+

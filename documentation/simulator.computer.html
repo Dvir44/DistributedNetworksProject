@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module simulator.computer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="simulator.html"><font color="#ffffff">simulator</font></a>.computer</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cdvi44%5Cdocuments%5Cgithub%5Cdistributednetworksproject%5Csimulator%5Ccomputer.py">c:\users\dvi44\documents\github\distributednetworksproject\simulator\computer.py</a></font></td></tr></table>
+    <p><tt><a href="#Computer">Computer</a>&nbsp;module&nbsp;representing&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;distributed&nbsp;network&nbsp;simulation.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;defines&nbsp;the&nbsp;`<a href="#Computer">Computer</a>`&nbsp;class,&nbsp;which&nbsp;is&nbsp;used&nbsp;to&nbsp;represent&nbsp;a&nbsp;computer&nbsp;node&nbsp;in&nbsp;the&nbsp;network,&nbsp;including&nbsp;its&nbsp;connections,&nbsp;delays,&nbsp;and&nbsp;other&nbsp;properties.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="simulator.computer.html#Computer">Computer</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Computer">class <strong>Computer</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;class&nbsp;representing&nbsp;a&nbsp;computer&nbsp;in&nbsp;the&nbsp;network.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;(int):&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;computer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;connectedEdges&nbsp;(list&nbsp;of&nbsp;int):&nbsp;List&nbsp;of&nbsp;computer&nbsp;IDs&nbsp;to&nbsp;which&nbsp;this&nbsp;computer&nbsp;is&nbsp;connected.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;delays&nbsp;(list&nbsp;of&nbsp;float):&nbsp;The&nbsp;delay&nbsp;values&nbsp;for&nbsp;each&nbsp;edge&nbsp;in&nbsp;the&nbsp;same&nbsp;order&nbsp;as&nbsp;`connectedEdges`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;algorithm_file&nbsp;(module):&nbsp;The&nbsp;algorithm&nbsp;file&nbsp;associated&nbsp;with&nbsp;this&nbsp;computer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;state&nbsp;(str):&nbsp;The&nbsp;state&nbsp;of&nbsp;the&nbsp;computer&nbsp;(e.g.,&nbsp;active,&nbsp;idle,&nbsp;terminated).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is_root&nbsp;(bool):&nbsp;Whether&nbsp;this&nbsp;computer&nbsp;is&nbsp;designated&nbsp;as&nbsp;the&nbsp;root&nbsp;node&nbsp;in&nbsp;the&nbsp;network.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;(str):&nbsp;The&nbsp;color&nbsp;associated&nbsp;with&nbsp;this&nbsp;computer,&nbsp;used&nbsp;in&nbsp;visualization.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_has_changed&nbsp;(bool):&nbsp;A&nbsp;private&nbsp;flag&nbsp;indicating&nbsp;whether&nbsp;the&nbsp;computer's&nbsp;state&nbsp;has&nbsp;changed.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Computer-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initializes&nbsp;a&nbsp;<a href="#Computer">Computer</a>&nbsp;<a href="builtins.html#object">object</a>&nbsp;with&nbsp;default&nbsp;values&nbsp;for&nbsp;attributes.</tt></dd></dl>
+
+<dl><dt><a name="Computer-__setattr__"><strong>__setattr__</strong></a>(self, name, value)</dt><dd><tt>Overrides&nbsp;the&nbsp;default&nbsp;setattr&nbsp;method&nbsp;to&nbsp;set&nbsp;the&nbsp;`_has_changed`&nbsp;flag&nbsp;when&nbsp;non-private&nbsp;attributes&nbsp;change.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;(str):&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;attribute&nbsp;being&nbsp;set.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;(Any):&nbsp;The&nbsp;value&nbsp;to&nbsp;set&nbsp;the&nbsp;attribute&nbsp;to.</tt></dd></dl>
+
+<dl><dt><a name="Computer-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Provides&nbsp;a&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;computer's&nbsp;ID,&nbsp;connections,&nbsp;and&nbsp;delays.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;The&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;computer.</tt></dd></dl>
+
+<dl><dt><a name="Computer-getConnectedEdges"><strong>getConnectedEdges</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;list&nbsp;of&nbsp;IDs&nbsp;of&nbsp;connected&nbsp;computers&nbsp;(edges).<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;of&nbsp;int:&nbsp;The&nbsp;connected&nbsp;edges&nbsp;for&nbsp;this&nbsp;computer.</tt></dd></dl>
+
+<dl><dt><a name="Computer-getDelays"><strong>getDelays</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;list&nbsp;of&nbsp;delays&nbsp;for&nbsp;the&nbsp;connected&nbsp;edges.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;of&nbsp;float:&nbsp;The&nbsp;delays&nbsp;associated&nbsp;with&nbsp;the&nbsp;connected&nbsp;edges.</tt></dd></dl>
+
+<dl><dt><a name="Computer-has_changed"><strong>has_changed</strong></a>(self)</dt><dd><tt>Returns&nbsp;whether&nbsp;the&nbsp;computer's&nbsp;state&nbsp;has&nbsp;changed.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;the&nbsp;state&nbsp;has&nbsp;changed,&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="Computer-reset_flag"><strong>reset_flag</strong></a>(self)</dt><dd><tt>Resets&nbsp;the&nbsp;`_has_changed`&nbsp;flag&nbsp;to&nbsp;False.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

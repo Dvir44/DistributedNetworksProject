@@ -1,9 +1,10 @@
 {
-    "Number of Computers": "11",
+    "Number of Computers": 10,
     "Topology": "Random",
-    "ID Type": "Random",
-    "Delay": "0",
+    "ID Type": "Sequential",
+    "Delay": "Random",
     "Display": "Graph",
     "Root": "Random",
-    "Algorithm": "C:/Users/danie/Desktop/project/proj/New folder/DistributedNetworksProject/someAlgorithm.py"
+    "Algorithm": "./algorithms/broadcastAlgorithm.py",
+    "Logging": "Long"
 }
