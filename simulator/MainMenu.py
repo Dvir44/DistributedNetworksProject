@@ -139,23 +139,6 @@ class MenuWindow(QMainWindow):
         for key, options in COMBOBOX_OPTIONS.items():
             self.add_combo_box(checkbox_layout, key, options)
 
-        # Create Max Depth input (initially hidden)
-        self.max_depth_label = QLabel("Max Depth:", self)
-        self.max_depth_input = QSpinBox(self)
-        self.max_depth_input.setRange(1, 100)  # Set min and max value as needed
-        self.max_depth_input.setValue(2)  # Default value
-
-        # Initially hide the Max Depth input
-        self.max_depth_label.hide()
-        self.max_depth_input.hide()
-
-        # Connect the Max Depth input to update_value
-        self.max_depth_input.valueChanged.connect(lambda value: self.update_value("Max Depth", str(value)))
-
-        # Add to the layout
-        checkbox_layout.addWidget(self.max_depth_label)
-        checkbox_layout.addWidget(self.max_depth_input)
-
         checkbox_layout.setSpacing(20)
         checkbox_widget = QWidget(self)
         checkbox_widget.setLayout(checkbox_layout)
@@ -230,25 +213,7 @@ class MenuWindow(QMainWindow):
 
         combo_box.currentTextChanged.connect(lambda value: self.update_value(label_text, value))
 
-        # Connect the topology combo box to show/hide the Max Depth input
-        if label_text == "Topology":
-            combo_box.currentTextChanged.connect(self.handle_topology_selection)
-            
-    def handle_topology_selection(self, value):
-        """
-        Show or hide the Max Depth input depending on the selected topology.
 
-        Args:
-            value (str): The selected topology option.
-        """
-        if value == "Tree":
-            self.max_depth_label.show()
-            self.max_depth_input.show()
-        else:
-            self.max_depth_label.hide()
-            self.max_depth_input.hide()
-            # If it's not "Tree", set Max Depth to 0
-            self.update_value("Max Depth", "0")
     
     
     def on_upload_algorithm(self):

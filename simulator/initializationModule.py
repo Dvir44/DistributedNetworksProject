@@ -183,7 +183,6 @@ class Initialization:
         self.delay_type = network_variables_data.get('Delay', 'Random')
         self.algorithm_path = network_variables_data.get('Algorithm', 'no_alg_provided')
         self.logging_type = network_variables_data.get('Logging', 'Short')
-        self.max_depth = network_variables_data.get('Max Depth', 2)
     
     def __str__(self) -> list:
         """
@@ -201,9 +200,6 @@ class Initialization:
         f"Algorithm Path: {self.algorithm_path}",
         f"Logging Type: {self.logging_type}",
         ]
-        
-        if self.topologyType == "Tree":
-            result.append(f"Max Depth: {self.max_depth}")
             
         result.append("\nComputers:")
         result.extend(str(comp) for comp in self.connected_computers)
@@ -244,7 +240,6 @@ class Initialization:
                 
                 comp.delays[i] = self.edges_delays[edge_tuple] """
 
-    #Creates network topology
     def create_connected_computers(self):
         """
         Creates the network topology based on the specified topology type and configuration.
@@ -258,16 +253,10 @@ class Initialization:
             }
         
         topology_function = topology_functions[self.topologyType]
-    
-        if self.topologyType == "Tree":
-            # Call the tree function with the Max Depth
-            topology_function(int(self.max_depth))
-        else:
-            # Call other topology functions without additional parameters
-            topology_function()
         
-        connected = self.is_connected()
-        while (not connected):
+        # check network connectivity
+        connected = False
+        while not connected:
             topology_function()
             connected = self.is_connected()
 
@@ -282,12 +271,11 @@ class Initialization:
 
         for node in self.connected_computers:
             for neighbor in node.connectedEdges:
-                uf.union(self.connected_computers.index(node), self.connected_computers.index(self.network_dict[neighbor]))
+                uf.union(self.connected_computers.index(node), self.connected_computers.index(self.find_computer(neighbor)))
 
         root = uf.find(0)
         return all(uf.find(i) == root for i in range(len(self.connected_computers)))
 
-    # Create computer IDs based on the IdType
     def create_computer_ids(self):
         """
         Creates IDs for the computers in the network based on the selected ID type.
@@ -301,7 +289,6 @@ class Initialization:
         id_function()
 
 
-    # Create random computer IDs (ensuring uniqueness)
     def create_random_ids(self):
         """
         Creates random, unique IDs for the computers.
@@ -317,7 +304,6 @@ class Initialization:
         # Sort the connected_computers list by their ids after assigning them
         self.connected_computers.sort(key=lambda x: x.id)
 
-    # Create sequential computer IDs
     def create_sequential_ids(self):
         """
         Creates sequential IDs for the computers.
@@ -326,7 +312,6 @@ class Initialization:
             comp.id = i
             
 
-    # Create a random topology for the network
     def create_random_topology(self):
         """
         Creates a random topology for the network.
@@ -379,7 +364,6 @@ class Initialization:
         # Sort the connected_computers list by their ids (optional, if needed)
         self.connected_computers.sort(key=lambda x: x.id)
 
-    # Create line topology for the network
     def create_line_topology(self):
         """
         Creates a line topology for the network, where each computer is connected to the next one in sequence.
@@ -390,7 +374,6 @@ class Initialization:
             self.connected_computers[i + 1].connectedEdges.append(self.connected_computers[i].id)  # Ensure bi-directional connection
 
 
-    # Create clique topology for the network
     def create_clique_topology(self):     
         """
         Creates a clique topology for the network, where each computer is connected to every other computer.
@@ -406,68 +389,55 @@ class Initialization:
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
 
-    def create_tree_topology(self, max_height=None):
+    def create_tree_topology(self):
         """
-        Creates a tree topology for the network based on a maximum height.
-
-        Args:
-            max_height (int, optional): The maximum height of the tree. If None, it will be calculated based on the number of computers.
+        Creates a tree topology for the network using a randomly generated Prüfer sequence.
         """
-        if max_height is None:
-            max_height = int(np.log2(self.computer_number)) + 1
+        computer_number = self.computer_number
+        
+        # Generate a random Prüfer sequence of length n - 2
+        prufer_sequence = [random.randint(0, computer_number - 1) for _ in range(computer_number - 2)]
 
-        # Find the root node based on the is_root field
-        root = None
-        for comp in self.connected_computers:
-            if getattr(comp, 'is_root', False):
-                root = comp
-                break
+        degree = [1] * computer_number
+        for node in prufer_sequence: # Increment degrees for the computersbased on the Prüfer sequence
+            degree[node] += 1
 
-        if root is None:
-            raise ValueError("No root node found")
+        # List to store the edges between computers
+        edges = []
 
-        # Initialize a queue with the root node and track their heights
-        queue = [(root, 0)]
-        used_computers = set([root.id])
+        # Find first node with degree 1 (leaf)
+        ptr = 0
+        while degree[ptr] != 1:
+            ptr += 1
+        leaf = ptr
 
-        next_computer_index = 0
+        # Connect computers using Prüfer sequence
+        for comp in prufer_sequence:
+            # Connect the leaf with the current computer from the Prüfer sequence, mapping from the Prüfer sequence to the ids in case of random ids
+            edges.append((self.connected_computers[leaf].id, self.connected_computers[comp].id))
 
-        # While there are still computers to connect
-        while len(used_computers) < self.computer_number:
-            if not queue:
-                break
+            # Update degrees
+            degree[leaf] -= 1
+            degree[comp] -= 1
 
-            # Take the next node and its height from the queue
-            parent, height = queue.pop(0)
+            # If the computer becomes a leaf (degree 1), use it as leaf in the next iteration
+            if degree[comp] == 1 and comp < ptr:
+                leaf = comp
+            else:
+                ptr += 1
+                while degree[ptr] != 1:
+                    ptr += 1
+                leaf = ptr
 
-            if height >= max_height:
-                continue
+        # finished, connect the two remaining computers that have degree 1
+        remaining_computers = [i for i in range(computer_number) if degree[i] == 1]
+        edges.append((self.connected_computers[remaining_computers[0]].id, self.connected_computers[remaining_computers[1]].id))
 
-            # Determine the number of children for the current parent
-            children_count = min(self.computer_number - len(used_computers), 2)  # Binary tree
-
-            for _ in range(children_count):
-                # Find the next available computer to connect
-                while next_computer_index in used_computers or next_computer_index >= self.computer_number:
-                    next_computer_index += 1
-
-                if next_computer_index >= self.computer_number:
-                    break
-
-                # Connect the parent to the child
-                child = self.connected_computers[next_computer_index]
-                parent.connectedEdges.append(child.id)
-                child.connectedEdges.append(parent.id)  # Ensure bi-directional connection
-
-                # Add the child to the queue with its height
-                queue.append((child, height + 1))
-                used_computers.add(child.id)
-                next_computer_index += 1
-
-        # Ensure no duplicate connections
-        for comp in self.connected_computers:
-            comp.connectedEdges = list(set(comp.connectedEdges))
-
+        # Connect the computers
+        for edge in edges:
+            parent_id, child_id = edge
+            self.find_computer(parent_id).connectedEdges.append(child_id)
+            self.find_computer(child_id).connectedEdges.append(parent_id)
 
     def create_star_topology(self):
         """
@@ -478,7 +448,7 @@ class Initialization:
             if getattr(comp, 'is_root', False):
                 root = comp
                 break
-        if root == None:
+        if root is None:
             root = self.connected_computers[0]
             
         # Connect all other nodes to the hub

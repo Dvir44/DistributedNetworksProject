@@ -1,10 +1,10 @@
 {
-    "Number of Computers": 10,
-    "Topology": "Random",
+    "Number of Computers": 8,
+    "Topology": "Tree",
     "ID Type": "Sequential",
-    "Delay": "Random",
+    "Delay": "Constant",
     "Display": "Graph",
-    "Root": "Random",
-    "Algorithm": "./algorithms/broadcastAlgorithm.py",
+    "Root": "Min ID",
+    "Algorithm": "C:/Users/User/Desktop/DistributedNetworksProject-2/algorithms/BFSalgorithm.py",
     "Logging": "Long"
 }
