@@ -339,12 +339,12 @@ class Initialization:
             self.connected_computers[1].connectedEdges.append(self.connected_computers[0].id)
 
         elif len(self.connected_computers) == 3:
-            # Generate all possible connected graphs for 3 nodes
-            possible_edges = list(combinations(ids_list, 2))  # All pairs of nodes
+            # All possible connected graphs for 3 nodes
             connected_graphs = [
-                [(0, 1), (1, 2)],  # Line: 0-1-2
-                [(0, 1), (0, 2)],  # Star: 0-1, 0-2
-                [(0, 1), (1, 2), (0, 2)]  # Triangle: 0-1-2-0
+                [(0, 1), (1, 2)],
+                [(0, 1), (0, 2)],
+                [(0, 2), (1, 2)],
+                [(0, 1), (1, 2), (0, 2)]
             ]
 
             # Choose one random connected graph
