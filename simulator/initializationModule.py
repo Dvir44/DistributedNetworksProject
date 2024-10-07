@@ -478,7 +478,9 @@ class Initialization:
             if getattr(comp, 'is_root', False):
                 root = comp
                 break
-
+        if root == None:
+            root = self.connected_computers[0]
+            
         # Connect all other nodes to the hub
         for comp in self.connected_computers:
             if comp.id != root.id:

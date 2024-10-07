@@ -27,7 +27,6 @@ class Computer:
                 
         self.id = None
         self.connectedEdges = []
-        self.delays = []
         self.algorithm_file=None
         self.state = None
         self.is_root = False
