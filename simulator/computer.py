@@ -11,7 +11,6 @@ class Computer:
     Attributes:
         id (int): The ID of the computer.
         connectedEdges (list of int): List of computer IDs to which this computer is connected.
-        delays (list of float): The delay values for each edge in the same order as `connectedEdges`.
         algorithm_file (module): The algorithm file associated with this computer.
         state (str): The state of the computer (e.g., active, idle, terminated).
         is_root (bool): Whether this computer is designated as the root node in the network.

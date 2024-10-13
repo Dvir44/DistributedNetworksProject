@@ -48,8 +48,6 @@ class NodeInfoWindow(QWidget):
             if key == "algorithm_file":
                 filename = os.path.basename(str(value))
                 text_content += f"{key} : {filename}\n"
-            elif key not in ["delays",]:
-                text_content += f"{key} : {value}\n"
 
         # Setup layout and text edit
         layout = QVBoxLayout(self)
@@ -136,12 +134,6 @@ class Node(QGraphicsObject):
         painter.setPen(QPen(QColor(self.color).darker(), 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         painter.setBrush(QBrush(QColor(self.color)))
         painter.drawEllipse(self.boundingRect())
-        
-        
-        
-        #painter.setPen(QPen(QColor(self.TEXT_COLOR)))
-        #painter.drawText(self.boundingRect(), Qt.AlignCenter, self.name)
-        
         
         rect = self.boundingRect()
         font_size = self._calculate_text_size(painter, rect, self.name)

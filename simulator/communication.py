@@ -27,7 +27,7 @@ class Communication:
         self.network = network
         
     # Send a message from the source computer to the destination computer
-    def send_message(self, source, dest, message_info, arrival_time = None):
+    def send_message(self, source, dest, message_info, sent_time = None):
         """
         Sends a message from the source computer to the destination computer, with optional arrival time.
         
@@ -35,14 +35,14 @@ class Communication:
             source (int): The ID of the source computer sending the message.
             dest (int): The ID of the destination computer receiving the message.
             message_info (str): The content of the message being sent.
-            arrival_time (float, optional): The time at which the message should arrive. If None, it defaults to 0.
+            sent_time (float, optional): The time at which the message was sent. If None, defaults to 0.
         """
         current_computer =  self.network.network_dict.get(source)
 
         if not current_computer.state == "terminated":
             # creating a new message which will be put into the queue
-            if arrival_time is None:
-                arrival_time = 0
+            if sent_time is None:
+                sent_time = 0
                   
             if self.network.delay_type == 'Random':
                 delay = random.random()
@@ -52,24 +52,24 @@ class Communication:
             message = {
             'source_id': source,
             'dest_id': dest,
-            'arrival_time': arrival_time + delay,
+            'arrival_time': sent_time + delay,
             'content': message_info,
             }
             self.network.message_queue.push(message)
     
     
-    def send_to_all(self, source_id, message_info, arrival_time = None):
+    def send_to_all(self, source_id, message_info, sent_time = None):
         """
         Sends a message from the source computer to all connected computers.
         
         Args:
             source_id (int): The ID of the source computer sending the message.
             message_info (str): The content of the message being sent.
-            arrival_time (float, optional): The time at which the message should arrive. If None, it defaults to 0.
+            sent_time (float, optional): The time at which the message was sent. If None, defaults to 0.
         """
         source_computer = self.network.network_dict.get(source_id)
         for index, connected_computer_id in enumerate(source_computer.connectedEdges):
-            self.send_message(source_id, connected_computer_id, message_info, arrival_time)
+            self.send_message(source_id, connected_computer_id, message_info, sent_time)
 
             
     def receive_message(self, message : dict, comm):
