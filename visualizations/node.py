@@ -48,6 +48,8 @@ class NodeInfoWindow(QWidget):
             if key == "algorithm_file":
                 filename = os.path.basename(str(value))
                 text_content += f"{key} : {filename}\n"
+            else:
+                text_content += f"{key} : {value}\n"
 
         # Setup layout and text edit
         layout = QVBoxLayout(self)

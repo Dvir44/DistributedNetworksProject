@@ -389,56 +389,37 @@ class Initialization:
         for comp in self.connected_computers:
             comp.connectedEdges = list(set(comp.connectedEdges)) 
 
+
     def create_tree_topology(self):
         """
         Creates a tree topology for the network using a randomly generated Prüfer sequence.
         """
-        computer_number = self.computer_number
+        # Generate a Prüfer sequence
+        S = [random.choice(self.connected_computers) for _ in range(self.computer_number - 2)]
         
-        # Generate a random Prüfer sequence of length n - 2
-        prufer_sequence = [random.randint(0, computer_number - 1) for _ in range(computer_number - 2)]
+        # sort the connected computers by id
+        L = sorted(self.connected_computers, key=lambda comp: comp.id)
 
-        degree = [1] * computer_number
-        for node in prufer_sequence: # Increment degrees for the computersbased on the Prüfer sequence
-            degree[node] += 1
 
-        # List to store the edges between computers
-        edges = []
+        # Connect nodes in L with nodes in S
+        while len(L) > 2:
+            for i in L:
+                if len(L) <= 2:
+                    break
+                
+                if i not in S:
+                    j = S[0]  # Always connect to the first node in S
+                    i.connectedEdges.append(j.id)
+                    j.connectedEdges.append(i.id)
+                    S.remove(j)
+                    L.remove(i)
 
-        # Find first node with degree 1 (leaf)
-        ptr = 0
-        while degree[ptr] != 1:
-            ptr += 1
-        leaf = ptr
+        # Connect the last two nodes in L
+        if len(L) == 2:
+            L[0].connectedEdges.append(L[1].id)
+            L[1].connectedEdges.append(L[0].id)
 
-        # Connect computers using Prüfer sequence
-        for comp in prufer_sequence:
-            # Connect the leaf with the current computer from the Prüfer sequence, mapping from the Prüfer sequence to the ids in case of random ids
-            edges.append((self.connected_computers[leaf].id, self.connected_computers[comp].id))
-
-            # Update degrees
-            degree[leaf] -= 1
-            degree[comp] -= 1
-
-            # If the computer becomes a leaf (degree 1), use it as leaf in the next iteration
-            if degree[comp] == 1 and comp < ptr:
-                leaf = comp
-            else:
-                ptr += 1
-                while degree[ptr] != 1:
-                    ptr += 1
-                leaf = ptr
-
-        # finished, connect the two remaining computers that have degree 1
-        remaining_computers = [i for i in range(computer_number) if degree[i] == 1]
-        edges.append((self.connected_computers[remaining_computers[0]].id, self.connected_computers[remaining_computers[1]].id))
-
-        # Connect the computers
-        for edge in edges:
-            parent_id, child_id = edge
-            self.find_computer(parent_id).connectedEdges.append(child_id)
-            self.find_computer(child_id).connectedEdges.append(parent_id)
-
+      
     def create_star_topology(self):
         """
         Creates a star topology for the network, where all computers are connected to a central hub (root node).
