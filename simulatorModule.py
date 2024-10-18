@@ -90,7 +90,7 @@ if __name__=="__main__":
     Main entry point for the simulator. Redirects standard output to a log file and runs the simulator.
     """
     sys.stdout = open(OUTPUT_FILE, "w")
+    start_time = time.time()
     network, comm, network_variables = initializeSimulator()
     
-    #start_time = time.time()
     runSimulator(network, comm, network_variables, start_time)
