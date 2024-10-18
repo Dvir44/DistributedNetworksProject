@@ -15,7 +15,6 @@ import numpy as np
 from simulator.computer import Computer
 import heapq
 import math
-from itertools import combinations
 
 class UnionFind:
     """
@@ -395,29 +394,28 @@ class Initialization:
         Creates a tree topology for the network using a randomly generated Prüfer sequence.
         """
         # Generate a Prüfer sequence
-        S = [random.choice(self.connected_computers) for _ in range(self.computer_number - 2)]
+        prufer_sequence = [random.choice(self.connected_computers) for _ in range(self.computer_number - 2)]
         
         # sort the connected computers by id
-        L = sorted(self.connected_computers, key=lambda comp: comp.id)
-
+        extra_list = sorted(self.connected_computers, key=lambda comp: comp.id)
 
         # Connect nodes in L with nodes in S
-        while len(L) > 2:
-            for i in L:
-                if len(L) <= 2:
+        while len(extra_list) > 2:
+            for i in extra_list:
+                if len(extra_list) <= 2:
                     break
                 
-                if i not in S:
-                    j = S[0]  # Always connect to the first node in S
+                if i not in prufer_sequence:
+                    j = prufer_sequence[0]  # Always connect to the first node in S
                     i.connectedEdges.append(j.id)
                     j.connectedEdges.append(i.id)
-                    S.remove(j)
-                    L.remove(i)
+                    prufer_sequence.remove(j)
+                    extra_list.remove(i)
 
         # Connect the last two nodes in L
-        if len(L) == 2:
-            L[0].connectedEdges.append(L[1].id)
-            L[1].connectedEdges.append(L[0].id)
+        if len(extra_list) == 2:
+            extra_list[0].connectedEdges.append(extra_list[1].id)
+            extra_list[1].connectedEdges.append(extra_list[0].id)
 
       
     def create_star_topology(self):

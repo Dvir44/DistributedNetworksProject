@@ -64,26 +64,33 @@ def runSimulator(network: initializationModule.Initialization, comm:communicatio
     Returns:
         None
     """
+    net_creation_time = time.time() - start_time
+
     if network_variables['Display'] == "Graph":
         app = QApplication(sys.argv)
         graphVisualization.visualize_network(network, comm)
         thread = threading.Thread(target=runModule.initiateRun, args=(network, comm))
         thread.start()
         thread.join()
-        print("--- %s seconds ---" % (time.time() - start_time))
+        print("--- total simulation time : %s seconds ---" % (time.time() - start_time))
         sys.exit(app.exec_())
     else:
         runModule.initiateRun(network, comm)
-        print("--- %s seconds ---" % (time.time() - start_time))
+        algorithm_run_time = time.time() - start_time - net_creation_time
+        print("--- Total Simulation Time : %s seconds ---" % (time.time() - start_time))
+        print("--- Net Creation Time : %s seconds ---" % (net_creation_time))
+        print("--- Algorithm Run Time : %s seconds ---" % (algorithm_run_time))
+        
 
 
 
 if __name__=="__main__":
+    start_time = time.time()
     """
     Main entry point for the simulator. Redirects standard output to a log file and runs the simulator.
     """
     sys.stdout = open(OUTPUT_FILE, "w")
     network, comm, network_variables = initializeSimulator()
     
-    start_time = time.time()
+    #start_time = time.time()
     runSimulator(network, comm, network_variables, start_time)

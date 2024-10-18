@@ -5,10 +5,9 @@ import numpy as np
 ''' 
 user implemented code that runs a BFS algorithm
 
-we have the following data for each computer:
-- state - activated / diactivated (every computer starts at deactivated and changes to terminated when he finishes)
+The following data exists for every computer:
 - parent - the parents id
-- distance - the distance that they change during the algorithm 
+- distance - the distance of the computer from the root computer.
 '''
 
 colors = ["blue", "red", "green", "yellow", "purple", "pink", "orange", "cyan", "magenta", "lime", "teal", "lavender",
@@ -37,6 +36,9 @@ def init(self: computer.Computer, communication : Communication):
     else:
         self.parent = None
         self.distance = np.inf
+        
+        
+        
         
         
         
