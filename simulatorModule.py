@@ -85,7 +85,6 @@ def runSimulator(network: initializationModule.Initialization, comm:communicatio
 
 
 if __name__=="__main__":
-    start_time = time.time()
     """
     Main entry point for the simulator. Redirects standard output to a log file and runs the simulator.
     """
